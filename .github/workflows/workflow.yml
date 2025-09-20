@@ -1,0 +1,44 @@
+name: Deploy React Frontend to Railway
+
+on:
+  push:
+    branches:
+      - main  # 每次 push 到 main 分支触发
+  pull_request:
+    branches:
+      - main  # 每次 PR 到 main 分支触发
+jobs:
+  deploy-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 检出代码
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. 设置 Node.js 环境
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # 3. 安装前端依赖
+      - name: Install frontend dependencies
+        run: |
+          cd frontend
+          npm install
+
+      # 4. 构建 React 应用
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm run build
+
+      # 5. 部署到 Railway 前端服务
+      - name: Deploy frontend to Railway
+        uses: railwayapp/railway-action@v2
+        with:
+          railwayToken: ${{ secrets.RAILWAY_TOKEN }}
+          projectId: ${{ secrets.RAILWAY_PROJECT_ID }}
+          serviceId: ${{ secrets.RAILWAY_FRONTEND_SERVICE_ID }}
+          environment: dev
