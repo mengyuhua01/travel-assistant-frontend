@@ -38,7 +38,11 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
 
-      # 6. 部署到 Railway
+      # 6. 调试 Secret
+      - name: Debug Secrets
+        run: echo "Service ID is: ${{ secrets.RAILWAY_SERVICE_ID }}"
+
+      # 7. 部署到 Railway
       - name: Deploy to Railway
         run: railway up --service ${{ secrets.RAILWAY_SERVICE_ID }}
         env:
