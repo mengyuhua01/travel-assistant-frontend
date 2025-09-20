@@ -41,13 +41,13 @@ jobs:
       # 6. 调试 Secret
       - name: Debug Secrets
         run: |
-          echo "Service ID is: ${RAILWAY_SERVICE_ID}"
+          echo "Service ID is: ${RAILWAY_FRONTEND_SERVICE_ID}"
         env:
-          RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
+          RAILWAY_FRONTEND_SERVICE_ID: ${{ secrets.RAILWAY_FRONTEND_SERVICE_ID }}
 
       # 7. 部署到 Railway
       - name: Deploy to Railway
-        run: railway up --service "${{ secrets.RAILWAY_SERVICE_ID }}"
+        run: railway up --service "${{ secrets.RAILWAY_FRONTEND_SERVICE_ID }}"
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
           RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
