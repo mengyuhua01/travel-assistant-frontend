@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Card,
   Typography,
@@ -18,10 +18,27 @@ import './TripDetailsPage.css';
 const { Title } = Typography;
 const { TabPane } = Tabs;
 
-const TripDetailsPage = ({ tripData }) => {
+const TripDetailsPage = ({ tripData: initialTripData }) => {
+  const [tripData, setTripData] = useState(initialTripData);
+
   const handleBackClick = () => {
     // For now, just show an alert. In a real app, this would navigate back
     alert('返回方案列表');
+  };
+
+  const handleRegenerateSuccess = (updatedDayData, updatedTripData) => {
+    // 更新整个行程数据
+    if (updatedTripData) {
+      setTripData(updatedTripData);
+    } else {
+      // 如果只返回了单天数据，则只更新对应的天
+      setTripData(prevData => ({
+        ...prevData,
+        dailyPlan: prevData.dailyPlan.map(day => 
+          day.day === updatedDayData.day ? updatedDayData : day
+        )
+      }));
+    }
   };
 
   if (!tripData) {
@@ -58,7 +75,11 @@ const TripDetailsPage = ({ tripData }) => {
               <Tabs defaultActiveKey="0" className="trip-tabs">
                 {tripData.dailyPlan.map((day, index) => (
                   <TabPane tab={`第${day.day}天`} key={index}>
-                    <DayDetails dayData={day} />
+                    <DayDetails 
+                      dayData={day} 
+                      originalTrip={tripData}
+                      onRegenerateSuccess={handleRegenerateSuccess}
+                    />
                   </TabPane>
                 ))}
               </Tabs>
