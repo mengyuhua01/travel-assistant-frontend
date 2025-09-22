@@ -1,6 +1,8 @@
-import {NavLink, Outlet, useLocation} from "react-router-dom";
-import {Layout, Menu, theme, Button, Space } from 'antd';
-import {HomeOutlined, LoginOutlined, UserAddOutlined} from '@ant-design/icons';
+import React from 'react';
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { Layout, Menu, theme, Button, Space, Dropdown } from 'antd';
+import { HomeOutlined, UserOutlined, LogoutOutlined, SettingOutlined } from '@ant-design/icons';
+import { useAuth } from '../contexts/AuthContext';
 
 const { Header, Content, Footer } = Layout;
 
@@ -8,15 +10,36 @@ const items = [
     { label: (<NavLink to="/">首页</NavLink>), key: 'home', icon: <HomeOutlined /> },
 ];
 
-// 根据路径获取对应的菜单key
-const getSelectedKey = (pathname) => {
-    if (pathname === '/') return 'home';
-    return 'home'; // 默认选中home
-};
-
 export function TravelLayout() {
-    const location = useLocation();
-    const selectedKey = getSelectedKey(location.pathname);
+    const { user, logout } = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/start');
+    };
+
+    const userMenuItems = [
+        {
+            key: 'profile',
+            icon: <UserOutlined />,
+            label: '个人资料',
+        },
+        {
+            key: 'settings',
+            icon: <SettingOutlined />,
+            label: '设置',
+        },
+        {
+            type: 'divider',
+        },
+        {
+            key: 'logout',
+            icon: <LogoutOutlined />,
+            label: '退出登录',
+            onClick: handleLogout,
+        },
+    ];
 
     const {
         token: { colorBgContainer, borderRadiusLG },
@@ -37,58 +60,35 @@ export function TravelLayout() {
                     <Menu
                         theme="dark"
                         mode="horizontal"
-                        selectedKeys={[selectedKey]}
+                        selectedKeys={['home']}
                         items={items}
                         style={{ flex: 1, minWidth: 0, border: 'none' }}
                     />
                 </div>
                 
-                {/* 登录注册按钮区域 */}
+                {/* 用户信息区域 */}
                 <div style={{ marginLeft: '20px' }}>
-                    <Space size="small">
-                        <NavLink to="/login">
+                    <Space size="medium">
+                        <span style={{ marginRight:'16px' , color: 'rgba(255,255,255,0.8)' }}>
+                            欢迎回来，{user?.username || user?.email || '旅行者'}
+                        </span>
+                        <Dropdown
+                            menu={{ items: userMenuItems }}
+                            placement="bottomRight"
+                            trigger={['click']}
+                        >
                             <Button 
-                                type="ghost" 
-                                icon={<LoginOutlined />}
+                                type="text"
+                                icon={<UserOutlined />}
                                 style={{
-                                    borderColor: '#22c55e',
-                                    color: '#22c55e',
-                                    fontWeight: '500',
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.target.style.borderColor = '#16a34a';
-                                    e.target.style.color = '#16a34a';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.target.style.borderColor = '#22c55e';
-                                    e.target.style.color = '#22c55e';
+                                    color: 'white',
+                                    borderColor: 'rgba(255,255,255,0.3)',
+                                    background: 'rgba(255,255,255,0.1)',
                                 }}
                             >
-                                登录
+                                {user?.username || user?.email?.split('@')[0] || '用户'}
                             </Button>
-                        </NavLink>
-                        <NavLink to="/register">
-                            <Button 
-                                type="primary" 
-                                icon={<UserAddOutlined />}
-                                style={{
-                                    background: 'linear-gradient(135deg, #22c55e, #10b981)',
-                                    border: '0',
-                                    fontWeight: '500',
-                                    boxShadow: '0 2px 8px rgba(34, 197, 94, 0.3)',
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.target.style.background = 'linear-gradient(135deg, #16a34a, #059669)';
-                                    e.target.style.boxShadow = '0 4px 12px rgba(34, 197, 94, 0.4)';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.target.style.background = 'linear-gradient(135deg, #22c55e, #10b981)';
-                                    e.target.style.boxShadow = '0 2px 8px rgba(34, 197, 94, 0.3)';
-                                }}
-                            >
-                                注册
-                            </Button>
-                        </NavLink>
+                        </Dropdown>
                     </Space>
                 </div>
             </Header>
@@ -105,7 +105,7 @@ export function TravelLayout() {
                 </div>
             </Content>
             <Footer style={{ textAlign: 'center' }}>
-                智能旅行助手 ©{new Date().getFullYear()} 为您的每一次出行提供贴心服务
+                
             </Footer>
         </Layout>
     );
