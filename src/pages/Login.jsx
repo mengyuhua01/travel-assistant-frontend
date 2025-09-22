@@ -18,33 +18,59 @@ function Login() {
     setLoading(true);
     setError('');
     
+    console.log('开始登录，用户名/邮箱:', values.usernameOrEmail);
+    
     try {
+      console.log('发送登录请求到后端...');
       const response = await loginUser({
         usernameOrEmail: values.usernameOrEmail,
         password: values.password
       });
       
-      // 使用Auth上下文的login方法
+      console.log('登录响应:', response);
+      
+      // 检查响应是否包含必要字段
+      if (!response || !response.token) {
+        throw new Error('登录响应格式错误：缺少token');
+      }
+      
+      // 使用Auth上下文的login方法，包含token
       const userData = {
         id: response.id,
         username: response.username,
-        email: response.email
+        email: response.email,
+        token: response.token
       };
       
+      console.log('准备保存用户数据:', userData);
       login(userData);
       
+      console.log('登录成功，准备跳转到首页');
       // 成功后跳转到首页
       navigate('/');
     } catch (error) {
       console.error('Login error:', error);
+      console.error('Error response:', error.response);
+      console.error('Error message:', error.message);
+      console.error('Error status:', error.response?.status);
+      console.error('Error data:', error.response?.data);
       
-      // 处理特定错误信息
-      if (error.message.includes('用户不存在') || error.message.includes('UserNotFoundException')) {
+      // 处理特定错误信息 - 优先检查后端返回的具体错误信息
+      const errorMessage = error.response?.data?.message || error.message || '';
+      
+      if (errorMessage.includes('用户不存在') || errorMessage.includes('UserNotFoundException')) {
         setError('用户不存在，请检查用户名/邮箱或先注册账号');
-      } else if (error.message.includes('账号或密码错误') || error.message.includes('PasswordErrorException')) {
+      } else if (errorMessage.includes('账号或密码错误') || errorMessage.includes('PasswordErrorException')) {
+        setError('账号或密码错误');
+      } else if (error.response?.status === 401) {
+        // 401状态码但没有具体错误信息时，显示通用认证失败信息
         setError('用户名/邮箱或密码错误');
+      } else if (error.response?.status === 500) {
+        setError('服务器错误，请稍后重试');
+      } else if (error.code === 'NETWORK_ERROR' || error.message.includes('Network Error')) {
+        setError('网络连接失败，请检查后端服务是否启动');
       } else {
-        setError('登录失败，请稍后重试');
+        setError(`登录失败：${errorMessage || '请稍后重试'}`);
       }
     } finally {
       setLoading(false);

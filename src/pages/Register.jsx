@@ -58,18 +58,30 @@ function Register() {
       }, 800);
     } catch (error) {
       console.error('Registration error:', error);
+      console.error('Error response:', error.response);
+      console.error('Error message:', error.message);
+      console.error('Error status:', error.response?.status);
+      console.error('Error data:', error.response?.data);
       
-      // 处理特定错误信息
-      if (error.message.includes('用户名已存在') || error.message.includes('UsernameExistsException')) {
+      // 处理特定错误信息 - 优先检查后端返回的具体错误信息
+      const errorMessage = error.response?.data?.message || error.message || '';
+      
+      if (errorMessage.includes('用户名已存在') || errorMessage.includes('UsernameExistsException')) {
         setError('用户名已存在，请选择其他用户名');
-      } else if (error.message.includes('邮箱已存在') || error.message.includes('EmailExistsException')) {
+      } else if (errorMessage.includes('邮箱已存在') || errorMessage.includes('EmailExistsException')) {
         setError('邮箱已被注册，请使用其他邮箱');
-      } else if (error.message.includes('密码不能为空')) {
+      } else if (errorMessage.includes('密码不能为空')) {
         setError('密码不能为空');
-      } else if (error.message.includes('注册必须提供用户名或邮箱之一')) {
+      } else if (errorMessage.includes('注册必须提供用户名或邮箱之一')) {
         setError('用户名或邮箱为必填项');
+      } else if (error.response?.status === 409) {
+        // 409状态码表示冲突，通常是用户名或邮箱已存在
+        setError('用户名或邮箱已存在，请选择其他信息');
+      } else if (error.response?.status === 400) {
+        // 400状态码表示请求参数错误
+        setError(`请求参数错误：${errorMessage || '请检查输入信息'}`);
       } else {
-        setError('注册失败，请稍后重试');
+        setError(`注册失败：${errorMessage || '请稍后重试'}`);
       }
     } finally {
       setLoading(false);

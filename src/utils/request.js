@@ -30,11 +30,17 @@ apiClient.interceptors.response.use(
     return response.data;
   },
   (error) => {
-    // if (error.response?.status === 401) {
-    //   localStorage.removeItem('token');
-    //   localStorage.removeItem('user');
-    //   window.location.href = '/login';
-    // }
+    if (error.response?.status === 401) {
+      // 清除本地存储的认证信息
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.removeItem('isAuthenticated');
+      
+      // 只有在不是登录页面时才重定向，避免无限循环
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login';
+      }
+    }
     return Promise.reject(error);
   }
 );

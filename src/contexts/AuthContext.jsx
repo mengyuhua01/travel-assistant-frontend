@@ -21,27 +21,32 @@ export const AuthProvider = ({ children }) => {
     // 检查本地存储中的认证状态
     const authStatus = localStorage.getItem('isAuthenticated');
     const userData = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
     
-    if (authStatus === 'true' && userData) {
+    if (authStatus === 'true' && userData && token) {
       setIsAuthenticated(true);
       setUser(JSON.parse(userData));
     }
     setLoading(false);
   }, []);
 
-  const login = async (credentials) => {
+  const login = (userData) => {
     try {
-      setLoading(true);
       setError(null);
-      const response = await loginUser(credentials);
-      setUser(response.user);
+      
+      // 直接使用传入的用户数据（包含token）
+      setUser(userData);
       setIsAuthenticated(true);
-      return response;
+      
+      // 保存到localStorage
+      localStorage.setItem('isAuthenticated', 'true');
+      localStorage.setItem('user', JSON.stringify(userData));
+      localStorage.setItem('token', userData.token);
+      
+      return userData;
     } catch (error) {
-      setError(error.response?.data?.message || '登录失败');
+      setError(error.message || '登录失败');
       throw error;
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -50,6 +55,7 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
   };
 
   const value = {
