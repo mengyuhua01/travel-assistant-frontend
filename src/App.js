@@ -5,6 +5,7 @@ import router from './router/router';
 import 'antd/dist/reset.css';
 import './App.css';
 import TripDetailsPage from './pages/TripDetailsPage';
+import EnvTest from './components/EnvTest';
 
 const sampleTripData = {
   title: "珠海 - 上海 - 北京 - 苏州经济型三地游",
@@ -66,6 +67,19 @@ const sampleTripData = {
       },
       dailyCost: 741
     }
+  ],
+  budgetBreakdown: {
+    transportation: 1221,
+    accommodation: 190,
+    meals: 210,
+    attractions: 100,
+    others: 259
+  },
+  tips: [
+    "提前预订高铁票可获得更好的价格",
+    "青年旅舍通常提供免费WiFi和简单早餐",
+    "使用支付宝或微信支付在大部分地方都很方便",
+    "下载地图APP离线包，避免网络问题"
   ]
 };
 
@@ -73,7 +87,8 @@ function App() {
   return (
     <AuthProvider>
       <div className="App">
-        <RouterProvider router={router} />
+        <EnvTest />
+        <TripDetailsPage tripData={sampleTripData} />
       </div>
     </AuthProvider>
   );

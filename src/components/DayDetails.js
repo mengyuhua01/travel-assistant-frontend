@@ -2,11 +2,12 @@ import React from 'react';
 import { Typography } from 'antd';
 import './DayDetails.css';
 import DetailItem from './DetailItem';
+import TagSelector from './TagSelector';
 import { FaSun, FaCloudSun, FaMoon, FaBed, FaBus } from 'react-icons/fa';
 
 const { Title, Text } = Typography;
 
-const DayDetails = ({ dayData }) => {
+const DayDetails = ({ dayData, originalTrip, onRegenerateSuccess }) => {
   return (
     <div className="day-details-modern">
       <div style={{ paddingBottom: 20 }}>
@@ -59,6 +60,13 @@ const DayDetails = ({ dayData }) => {
             💰 每日费用：¥{dayData.dailyCost}
           </Text>
         </div>
+
+        {/* 添加TagSelector用于重新生成该天行程 */}
+        <TagSelector 
+          dayData={dayData}
+          originalTrip={originalTrip}
+          onRegenerateSuccess={onRegenerateSuccess}
+        />
       </div>
     </div>
   );
