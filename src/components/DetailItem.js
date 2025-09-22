@@ -1,18 +1,15 @@
 import React from 'react';
-import { Card } from 'antd';
 import './DetailItem.css';
 
 const DetailItem = ({ label, content, icon }) => {
   return (
-    <Card className="detail-item-card fancy-card" bordered={true} hoverable>
-      <div className="detail-item">
-        <div className="detail-header">
-          {icon && <span className="detail-icon">{icon}</span>}
-          <strong className="detail-label">{label}:</strong>
-        </div>
-        <span className="detail-content">{content}</span>
+    <div className="detail-item-container">
+      <div className="detail-item-icon">{icon}</div>
+      <div className="detail-item-content">
+        <h5 className="detail-item-label">{label}</h5>
+        <p className="detail-item-description">{content}</p>
       </div>
-    </Card>
+    </div>
   );
 };
 
