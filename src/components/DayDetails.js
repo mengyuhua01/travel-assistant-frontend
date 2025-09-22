@@ -1,24 +1,39 @@
 import React from 'react';
-import DetailItem from './DetailItem';
-import { FaSun, FaCloudSun, FaMoon, FaUtensils, FaBed, FaBus } from 'react-icons/fa';
 import './DayDetails.css';
+import DetailItem from './DetailItem';
 
 const DayDetails = ({ dayData }) => {
   return (
     <div className="day-details">
       <h2 className="day-theme">{dayData.theme}</h2>
 
-      <DetailItem label="Morning" content={dayData.morning} icon={<FaSun />} />
-      <DetailItem label="Afternoon" content={dayData.afternoon} icon={<FaCloudSun />} />
-      <DetailItem label="Evening" content={dayData.evening} icon={<FaMoon />} />
+      <div className="session">
+        <h3 className="session-title">Morning</h3>
+        <DetailItem label="Activities" content={dayData.morning} />
+        <DetailItem label="Breakfast" content={dayData.meals.breakfast} />
+      </div>
 
-      <h3>Meals</h3>
-      <DetailItem label="Breakfast" content={dayData.meals.breakfast} icon={<FaUtensils />} />
-      <DetailItem label="Lunch" content={dayData.meals.lunch} icon={<FaUtensils />} />
-      <DetailItem label="Dinner" content={dayData.meals.dinner} icon={<FaUtensils />} />
+      <div className="session">
+        <h3 className="session-title">Afternoon</h3>
+        <DetailItem label="Activities" content={dayData.afternoon} />
+        <DetailItem label="Lunch" content={dayData.meals.lunch} />
+      </div>
 
-      <DetailItem label="Accommodation" content={dayData.accommodation} icon={<FaBed />} />
-      <DetailItem label="Transportation" content={dayData.transportation.details} icon={<FaBus />} />
+      <div className="session">
+        <h3 className="session-title">Evening</h3>
+        <DetailItem label="Activities" content={dayData.evening} />
+        <DetailItem label="Dinner" content={dayData.meals.dinner} />
+      </div>
+
+      <div className="session">
+        <h3 className="session-title">Accommodation</h3>
+        <DetailItem label="Accommodation" content={dayData.accommodation} />
+      </div>
+
+      <div className="session">
+        <h3 className="session-title">Transportation</h3>
+        <DetailItem label="Transportation" content={dayData.transportation.details} />
+      </div>
 
       <h3 className="daily-cost">Daily Cost: {dayData.dailyCost} 元</h3>
     </div>
