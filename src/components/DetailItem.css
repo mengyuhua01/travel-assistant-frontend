@@ -37,15 +37,15 @@
 .detail-item-label {
   font-weight: bold;
   color: #1b5e20;
-  font-size: 1.5rem;
+  font-size: 1.2rem; /* Reduced font size for keywords */
   margin-top: 4px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   text-align: top;
 }
 
 .detail-item-description {
   color: #4caf50;
-  font-size: 1.1rem;
-  line-height: 1.6;
+  font-size: 1.3rem; /* Increased font size for clarity */
+  line-height: 1.8; /* Improved readability */
   margin: 0;
 }
