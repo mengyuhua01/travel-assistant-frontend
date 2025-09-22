@@ -1,5 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom';
 import TravelLayout from '../layout/TravelLayout';
+import Login from '../pages/Login.jsx';
+import Register from '../pages/Register.jsx';
+import HomePage from '../pages/HomePage.jsx';
 
 
 const router = createBrowserRouter([
@@ -7,8 +10,20 @@ const router = createBrowserRouter([
     path: '/',
     element: <TravelLayout />,
     children: [
-
+      {
+        index: true,
+        element: <HomePage />
+      }
+      // 在这里可以添加其他受保护的页面路由
     ]
+  },
+  {
+    path: '/login',
+    element: <Login />
+  },
+  {
+    path: '/register',
+    element: <Register />
   }
 ]);
 
