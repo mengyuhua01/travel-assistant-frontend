@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Form, Input, Button, Card, Alert, Typography, Divider } from 'antd';
 import { UserOutlined, LockOutlined, LoginOutlined } from '@ant-design/icons';
 import { useAuth } from '../contexts/AuthContext';
-import ApiService from '../services/api';
+import { loginUser } from '../apis/user';
 
 const { Title, Text } = Typography;
 
@@ -19,7 +19,7 @@ function Login() {
     setError('');
     
     try {
-      const response = await ApiService.login({
+      const response = await loginUser({
         usernameOrEmail: values.usernameOrEmail,
         password: values.password
       });

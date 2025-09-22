@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Form, Input, Button, Card, Alert, Typography, Radio, Divider, message } from 'antd';
 import { UserOutlined, MailOutlined, LockOutlined, UserAddOutlined } from '@ant-design/icons';
 import { useAuth } from '../contexts/AuthContext';
-import ApiService from '../services/api';
+import { registerUser } from '../apis/user';
 
 const { Title, Text } = Typography;
 
@@ -47,7 +47,7 @@ function Register() {
         registerData.username = null;
       }
 
-      const response = await ApiService.register(registerData);
+      const response = await registerUser(registerData);
       
       // 显示注册成功提示
       setSuccess('注册成功！正在跳转到登录页面...');
