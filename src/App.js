@@ -4,7 +4,6 @@ import { AuthProvider } from './contexts/AuthContext';
 import router from './router/router';
 import 'antd/dist/reset.css';
 import './App.css';
-import React from 'react';
 import TripDetailsPage from './pages/TripDetailsPage';
 
 const sampleTripData = {
