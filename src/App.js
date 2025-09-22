@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import React from 'react';
-import TripDetailsPage from './components/TripDetailsPage';
+import TripDetailsPage from './pages/TripDetailsPage';
 
 const sampleTripData = {
   title: "珠海 - 上海 - 北京 - 苏州经济型三地游",

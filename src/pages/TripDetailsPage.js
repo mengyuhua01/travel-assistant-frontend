@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Tabs } from 'antd';
-import DayDetails from './DayDetails';
+import DayDetails from '../components/DayDetails';
 import './TripDetailsPage.css';
 
 const { TabPane } = Tabs;
