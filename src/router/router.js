@@ -1,10 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom';
 import TravelLayout from '../layout/TravelLayout';
-import ProtectedRoute from '../components/ProtectedRoute';
-import StartPage from '../pages/StartPage';
+import HomePage from '../pages/HomePage.js';
 import Login from '../pages/Login.jsx';
 import Register from '../pages/Register.jsx';
-import HomePage from '../pages/HomePage.jsx';
+import StartPage from '../pages/StartPage';
 
 
 const router = createBrowserRouter([
@@ -15,9 +14,9 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <ProtectedRoute>
+      // <ProtectedRoute>
         <TravelLayout />
-      </ProtectedRoute>
+      // </ProtectedRoute>
     ),
     children: [
       {
