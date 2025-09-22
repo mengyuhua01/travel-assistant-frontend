@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { loginUser } from '../apis/user';
 
 const AuthContext = createContext();
 
@@ -14,6 +15,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     // 检查本地存储中的认证状态
@@ -27,11 +29,20 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const login = (userData) => {
-    setIsAuthenticated(true);
-    setUser(userData);
-    localStorage.setItem('isAuthenticated', 'true');
-    localStorage.setItem('user', JSON.stringify(userData));
+  const login = async (credentials) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await loginUser(credentials);
+      setUser(response.user);
+      setIsAuthenticated(true);
+      return response;
+    } catch (error) {
+      setError(error.response?.data?.message || '登录失败');
+      throw error;
+    } finally {
+      setLoading(false);
+    }
   };
 
   const logout = () => {
