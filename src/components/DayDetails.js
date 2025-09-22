@@ -1,42 +1,65 @@
 import React from 'react';
+import { Typography } from 'antd';
 import './DayDetails.css';
 import DetailItem from './DetailItem';
-import { FaSun, FaCoffee, FaCloudSun, FaUtensils, FaMoon, FaWineGlassAlt, FaBed, FaBus } from 'react-icons/fa';
+import { FaSun, FaCloudSun, FaMoon, FaBed, FaBus } from 'react-icons/fa';
+
+const { Title, Text } = Typography;
 
 const DayDetails = ({ dayData }) => {
   return (
-    <div className="day-details">
-      <h2 className="day-theme">{dayData.theme}</h2>
-
-      <div className="session">
-        <h3 className="session-title">Morning</h3>
-        <DetailItem label="Activities" content={dayData.morning} icon={<FaSun />} />
-        <DetailItem label="Breakfast" content={dayData.meals.breakfast} icon={<FaCoffee />} />
+    <div className="day-details-modern">
+      <div style={{ paddingBottom: 20 }}>
+        <Title level={4} style={{ marginBottom: 12, color: '#2e7d32' }}>
+          {dayData.theme}
+        </Title>
+        
+        <div className="day-activities">
+          <DetailItem
+            title="上午"
+            activity={dayData.morning}
+            meal={dayData.meals.breakfast}
+            icon={<FaSun />}
+            number="1"
+          />
+          
+          <DetailItem
+            title="下午"
+            activity={dayData.afternoon}
+            meal={dayData.meals.lunch}
+            icon={<FaCloudSun />}
+            number="2"
+          />
+          
+          <DetailItem
+            title="晚上"
+            activity={dayData.evening}
+            meal={dayData.meals.dinner}
+            icon={<FaMoon />}
+            number="3"
+          />
+          
+          <DetailItem
+            title="住宿"
+            description={dayData.accommodation}
+            icon={<FaBed />}
+            number="4"
+          />
+          
+          <DetailItem
+            title="交通"
+            description={dayData.transportation.details}
+            icon={<FaBus />}
+            number="5"
+          />
+        </div>
+        
+        <div className="day-cost-section">
+          <Text strong style={{ fontSize: 16, color: '#2e7d32' }}>
+            💰 每日费用：¥{dayData.dailyCost}
+          </Text>
+        </div>
       </div>
-
-      <div className="session">
-        <h3 className="session-title">Afternoon</h3>
-        <DetailItem label="Activities" content={dayData.afternoon} icon={<FaCloudSun />} />
-        <DetailItem label="Lunch" content={dayData.meals.lunch} icon={<FaUtensils />} />
-      </div>
-
-      <div className="session">
-        <h3 className="session-title">Evening</h3>
-        <DetailItem label="Activities" content={dayData.evening} icon={<FaMoon />} />
-        <DetailItem label="Dinner" content={dayData.meals.dinner} icon={<FaWineGlassAlt />} />
-      </div>
-
-      <div className="session">
-        <h3 className="session-title">Accommodation</h3>
-        <DetailItem content={dayData.accommodation} icon={<FaBed />} />
-      </div>
-
-      <div className="session">
-        <h3 className="session-title">Transportation</h3>
-        <DetailItem content={dayData.transportation.details} icon={<FaBus />} />
-      </div>
-
-      <h3 className="daily-cost">Daily Cost: {dayData.dailyCost} 元</h3>
     </div>
   );
 };
