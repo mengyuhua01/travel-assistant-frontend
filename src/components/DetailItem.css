@@ -1,0 +1,43 @@
+.detail-item-card {
+  margin-bottom: 15px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: linear-gradient(135deg, #f0fff4, #c8e6c9);
+  border: 1px solid #a5d6a7;
+}
+
+.detail-item-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+}
+
+.detail-icon {
+  margin-right: 10px;
+  color: #388e3c;
+  font-size: 1.2rem;
+}
+
+.detail-label {
+  font-weight: bold;
+  color: #2e7d32;
+  font-size: 1.1rem;
+}
+
+.detail-content {
+  color: #4caf50;
+  font-size: 1rem;
+  text-align: right;
+  flex: 1;
+}

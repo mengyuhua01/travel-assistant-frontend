@@ -1,0 +1,32 @@
+.day-details {
+  margin-bottom: 25px;
+  padding: 25px;
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  border-radius: 15px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.day-details:hover {
+  transform: translateY(-5px);
+}
+
+.day-theme {
+  color: #1b5e20;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.daily-cost {
+  color: #388e3c;
+  font-weight: bold;
+  font-size: 1.3rem;
+  margin-top: 25px;
+  text-align: right;
+  background: linear-gradient(135deg, #a5d6a7, #81c784);
+  padding: 10px 15px;
+  border-radius: 10px;
+  display: inline-block;
+}
