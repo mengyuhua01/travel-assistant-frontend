@@ -62,14 +62,18 @@ body {
 }
 
 .trip-tabs {
-  background: transparent;
+  margin-top: 20px;
 }
 
 .trip-tabs .ant-tabs-tab {
   font-weight: bold;
   color: #2e7d32;
+  font-size: 1.2rem;
+  padding: 10px 20px;
 }
 
 .trip-tabs .ant-tabs-tab-active {
   color: #1b5e20;
+  background-color: #c8e6c9;
+  border-radius: 5px;
 }
