@@ -57,11 +57,10 @@ export function TravelLayout() {
         <Navigation />
       </Header>
       <Content
-        style={{ padding: "0 48px", minHeight: "calc(100vh - 64px - 70px)" }}
+        style={{ padding: "0 0", minHeight: "calc(100vh - 64px - 70px)" }}
       >
         <div
           style={{
-            padding: 24,
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
             minHeight: 280,

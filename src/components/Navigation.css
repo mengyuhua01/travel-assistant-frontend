@@ -1,7 +1,22 @@
 .navigation {
-  background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+  background-color: #08782f74;
+  color: #fff;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 0;
+}
+
+.navigation .nav-link,
+.navigation .nav-brand,
+.navigation .login-btn,
+.navigation .brand-link {
+  color: #fff !important;
+}
+
+.navigation .nav-link:hover,
+.navigation .nav-brand:hover,
+.navigation .login-btn:hover,
+.navigation .brand-link:hover {
+  color: #fff !important;
 }
 
 .nav-container {
@@ -20,7 +35,7 @@
 
 .brand-link {
   text-decoration: none;
-  color: white;
+  color: #2A6F6B;
   font-size: 1.5rem;
   font-weight: bold;
   display: flex;
@@ -29,7 +44,7 @@
 }
 
 .brand-link:hover {
-  color: white; /* Ensure the color remains white on hover */
+  color: #17605C;
   text-decoration: none; /* Prevent any underline on hover */
 }
 
@@ -41,12 +56,13 @@
   display: flex;
   gap: 2rem;
   flex: 1;
-  justify-content: center;
+  justify-content: flex-end;
+  padding-right: 20px;
 }
 
 .nav-link {
   text-decoration: none;
-  color: white;
+  color: #2A6F6B;
   font-weight: 500;
   padding: 0.5rem 1rem;
   border-radius: 25px;
@@ -58,7 +74,7 @@
 
 .nav-link:hover {
   background: rgba(255, 255, 255, 0.2);
-  color: white; /* Prevent text from turning blue on hover */
+  color: #17605C;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Increased shadow radius */
 }
 
@@ -67,12 +83,12 @@
 }
 
 .nav-auth {
-  margin-left: auto;
+  margin-left: 0;
 }
 
 .login-btn {
-  background: white;
-  color: #22c55e;
+  background: #087830;
+  color: #17605C;
   text-decoration: none;
   padding: 0.5rem;
   border-radius: 50%;
@@ -87,10 +103,10 @@
 }
 
 .login-btn:hover {
-  background: #f8fafc;
+  background: #087830;
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25); /* Increased shadow radius and opacity */
-  color: #22c55e; /* Ensure color remains green on hover */
+  color: #17605C;
 }
 
 /* Responsive Design */

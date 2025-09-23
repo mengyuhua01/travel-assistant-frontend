@@ -1,6 +1,12 @@
 .homepage {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #f0fdf4, #ffffff);
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background: linear-gradient(to bottom, #e8f5e9, #ffffff);
 }
 
 .container {
@@ -12,7 +18,7 @@
 /* Hero Section */
 .hero {
   padding: 3rem 0 5rem 0;
-  background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
+  background: linear-gradient(135deg, #e8f5e9);
 }
 
 .hero-content {
@@ -118,7 +124,7 @@
 /* CTA Section */
 .cta-section {
   padding: 5rem 0;
-  background: linear-gradient(135deg, #22c55e, #16a34a);
+  background: linear-gradient(135deg, #08782f91, #16a34a);
   color: white;
   text-align: center;
 }

@@ -354,7 +354,7 @@ function Login() {
                 立即注册
               </Link>
             </div>
-            <Link to="/start">
+            <Link to="/">
               <Button 
                 type="link" 
                 style={{ 

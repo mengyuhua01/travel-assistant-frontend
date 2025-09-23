@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Tag, Space, message } from 'antd';
-import { FaChild, FaMapMarkerAlt, FaUtensils, FaHiking, FaExchangeAlt, FaSpinner } from 'react-icons/fa';
+import { FaChild, FaMapMarkerAlt, FaUtensils, FaHiking, FaExchangeAlt, FaSpinner, FaDollarSign } from 'react-icons/fa';
 import './TagSelector.css';
 
 const tagOptions = [
@@ -8,7 +8,8 @@ const tagOptions = [
   { key: 'local', label: '本地化体验', icon: <FaMapMarkerAlt />, color: '#40a9ff' },
   { key: 'food', label: '美食探索', icon: <FaUtensils />, color: '#73d13d' },
   { key: 'outdoor', label: '户外活动', icon: <FaHiking />, color: '#fadb14' },
-  { key: 'alternative', label: '替换景点', icon: <FaExchangeAlt />, color: '#b37feb' }
+  { key: 'alternative', label: '替换景点', icon: <FaExchangeAlt />, color: '#b37feb' },
+  { key: 'economical', label: '更经济化', icon: <FaDollarSign />, color: '#52c41a' }
 ];
 
 const TagSelector = ({ dayData, originalTrip, onRegenerateSuccess }) => {
@@ -54,12 +55,16 @@ const TagSelector = ({ dayData, originalTrip, onRegenerateSuccess }) => {
       // 找到更新后的当天数据并回调父组件以重新渲染
       const updatedDayData = updatedTrip.dailyPlan?.find(day => day.day === dayData.day);
 
+      console.log('regenerateDayAsync 完成:', { updatedTrip, updatedDayData });
+
       if (updatedDayData && onRegenerateSuccess) {
+        console.log('调用 onRegenerateSuccess');
         onRegenerateSuccess(updatedDayData, updatedTrip);
         message.success('行程重新生成成功！');
         setSelectedTags([]); // 清空选择
         setRegeneratingProgress('重新生成完成！');
       } else {
+        console.error('未找到更新后的当天数据:', { updatedTrip, dayData: dayData.day });
         throw new Error('未找到更新后的当天数据');
       }
 

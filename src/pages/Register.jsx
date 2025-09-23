@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Form, Input, Button, Card, Alert, Typography, Radio, Divider } from 'antd';
 import { UserOutlined, MailOutlined, LockOutlined, UserAddOutlined } from '@ant-design/icons';
 import { registerUser } from '../apis/user';
+import { useAuth } from '../contexts/AuthContext';
 
 const { Title, Text } = Typography;
 
@@ -13,6 +14,7 @@ function Register() {
   const [success, setSuccess] = useState('');
   const [registrationMode, setRegistrationMode] = useState('username');
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleModeChange = (e) => {
     setRegistrationMode(e.target.value);
@@ -45,15 +47,26 @@ function Register() {
         registerData.username = null;
       }
 
-      await registerUser(registerData);
+      const response = await registerUser(registerData);
       
       // 显示注册成功提示
-      setSuccess('注册成功！正在跳转到登录页面...');
+      setSuccess('注册成功！');
       
-      // 0.8秒后跳转到登录页面
+      // 使用返回的用户数据直接登录
+      const userData = {
+        id: response.id,
+        username: response.username,
+        email: response.email,
+        token: response.token
+      };
+      
+      // 调用AuthContext的login方法
+      await login(userData);
+      
+      // 确保token已保存后再跳转
       setTimeout(() => {
-        navigate('/login');
-      }, 800);
+        navigate('/interests');
+      }, 1000);
     } catch (error) {
       console.error('Registration error:', error);
       console.error('Error response:', error.response);
@@ -509,7 +522,7 @@ function Register() {
                 立即登录
               </Link>
             </div>
-            <Link to="/start" style={{
+            <Link to="/" style={{
               color: '#9ca3af',
               textDecoration: 'none',
               fontSize: '14px',

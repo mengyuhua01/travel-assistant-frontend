@@ -19,7 +19,7 @@ const DayDetails = ({ dayData, originalTrip, onRegenerateSuccess }) => {
           <DetailItem
             title="上午"
             activity={dayData.morning}
-            meal={dayData.meals.breakfast}
+            meal={dayData.meals?.breakfast}
             icon={<FaSun />}
             number="1"
           />
@@ -27,7 +27,7 @@ const DayDetails = ({ dayData, originalTrip, onRegenerateSuccess }) => {
           <DetailItem
             title="下午"
             activity={dayData.afternoon}
-            meal={dayData.meals.lunch}
+            meal={dayData.meals?.lunch}
             icon={<FaCloudSun />}
             number="2"
           />
@@ -35,21 +35,21 @@ const DayDetails = ({ dayData, originalTrip, onRegenerateSuccess }) => {
           <DetailItem
             title="晚上"
             activity={dayData.evening}
-            meal={dayData.meals.dinner}
+            meal={dayData.meals?.dinner}
             icon={<FaMoon />}
             number="3"
           />
           
           <DetailItem
             title="住宿"
-            description={dayData.accommodation}
+            description={dayData.accommodation?.name}
             icon={<FaBed />}
             number="4"
           />
           
           <DetailItem
             title="交通"
-            description={dayData.transportation.details}
+            description={dayData.transportation?.details || '地铁+步行'}
             icon={<FaBus />}
             number="5"
           />

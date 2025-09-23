@@ -111,12 +111,32 @@ const mergeParsedResponse = (originalTrip, parsedResponse, dayNumber) => {
 export const regenerateDayAsync = async (originalTrip, dayNumber, selectedTags, onProgress) => {
   const tagsText = selectedTags.join(' / ');
   
-  const prompt = `请根据以下原始行程 JSON，对 Day${dayNumber} 进行优化重排，重排原因是：希望加入更多【${tagsText}】
+  const prompt = `请根据以下原始行程，对第${dayNumber}天进行优化重排，重排原因是：希望加入更多【${tagsText}】
 
-原始Json：
+原始行程：
 ${JSON.stringify(originalTrip, null, 2)}
 
-请返回完整的更新后的JSON格式数据，保持原有的数据结构不变。`;
+请只返回修改后的第${dayNumber}天的数据以及受影响的预算信息，格式如下：
+{
+  "day": ${dayNumber},
+  "theme": "...",
+  "morning": "...",
+  "afternoon": "...", 
+  "evening": "...",
+  "meals": {...},
+  "accommodation": "...",
+  "transportation": {...},
+  "dailyCost": 数字,
+  "budgetBreakdown": {
+    "transportation": 数字,
+    "accommodation": 数字,
+    "meals": 数字,
+    "attractions": 数字,
+    "others": 数字
+  }
+}
+
+注意：只返回修改的那一天和预算分解，不要返回整个行程。`;
 
   try {
     if (onProgress) {
