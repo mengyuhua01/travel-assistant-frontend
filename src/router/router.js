@@ -7,7 +7,6 @@ import StartPage from '../pages/StartPage.jsx';
 import TravelPlanPage from '../pages/TravelPlanPage.jsx';
 // 导入其他页面组件（当需要时取消注释）
 import TripDetailsPage from '../pages/TripDetailsPage';
-import sampleTripData from '../data/sampleTripData';
 // import UserProfile from '../pages/UserProfile';
 // import UserSettings from '../pages/UserSettings';
 // import AboutPage from '../pages/AboutPage';
@@ -50,8 +49,8 @@ const router = createBrowserRouter([
             //   element: <TripDetailsPage />
             // }
             {
-                path: 'trip',  // 访问路径：/trip/123
-                element: <TripDetailsPage tripData={sampleTripData}/>
+              path: 'trip/:id',  // 访问路径：/trip/123
+              element: <TripDetailsPage />
             },
             {
                 path: 'plan',  // 访问路径：/trip/123
