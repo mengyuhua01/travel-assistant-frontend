@@ -9,3 +9,13 @@ export const registerUser = async (userData) => {
 export const loginUser = async (credentials) => {
   return apiClient.post('/login', credentials);
 };
+
+// 获取所有标签
+export const getTags = async () => {
+  return apiClient.get('/tags');
+};
+
+// 设置用户标签
+export const setUserTags = async (tagIds) => {
+  return apiClient.put('/user/tags', { tagIds });
+};

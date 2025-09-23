@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const login = (userData) => {
+  const login = async (userData) => {
     // 直接使用传入的用户数据（包含token）
     setUser(userData);
     setIsAuthenticated(true);
@@ -38,7 +38,12 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('user', JSON.stringify(userData));
     localStorage.setItem('token', userData.token);
     
-    return userData;
+    // 确保状态更新完成
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(userData);
+      }, 100);
+    });
   };
 
   const logout = () => {

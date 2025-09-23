@@ -50,7 +50,7 @@ function Register() {
       const response = await registerUser(registerData);
       
       // 显示注册成功提示
-      setSuccess('注册成功！正在自动登录...');
+      setSuccess('注册成功！');
       
       // 使用返回的用户数据直接登录
       const userData = {
@@ -61,12 +61,12 @@ function Register() {
       };
       
       // 调用AuthContext的login方法
-      login(userData);
+      await login(userData);
       
-      // 0.8秒后跳转到首页
+      // 确保token已保存后再跳转
       setTimeout(() => {
-        navigate('/');
-      }, 800);
+        navigate('/interests');
+      }, 1000);
     } catch (error) {
       console.error('Registration error:', error);
       console.error('Error response:', error.response);

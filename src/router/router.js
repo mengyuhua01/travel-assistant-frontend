@@ -3,6 +3,7 @@ import TravelLayout from '../layout/TravelLayout';
 import Login from '../pages/Login.jsx';
 import Register from '../pages/Register.jsx';
 import HomePage from '../pages/HomePage.js';
+import InterestSelection from '../pages/InterestSelection.jsx';
 // 导入其他页面组件（当需要时取消注释）
 // import TripDetailsPage from '../pages/TripDetailsPage';
 // import UserProfile from '../pages/UserProfile';
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
   {
     path: '/register',
     element: <Register />
+  },
+  {
+    path: '/interests',
+    element: <InterestSelection />
   }
   
   // 其他公开页面示例（当需要时取消注释）：
