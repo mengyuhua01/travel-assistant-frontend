@@ -14,7 +14,6 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     // 检查本地存储中的认证状态
@@ -30,23 +29,16 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (userData) => {
-    try {
-      setError(null);
-      
-      // 直接使用传入的用户数据（包含token）
-      setUser(userData);
-      setIsAuthenticated(true);
-      
-      // 保存到localStorage
-      localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('user', JSON.stringify(userData));
-      localStorage.setItem('token', userData.token);
-      
-      return userData;
-    } catch (error) {
-      setError(error.message || '登录失败');
-      throw error;
-    }
+    // 直接使用传入的用户数据（包含token）
+    setUser(userData);
+    setIsAuthenticated(true);
+    
+    // 保存到localStorage
+    localStorage.setItem('isAuthenticated', 'true');
+    localStorage.setItem('user', JSON.stringify(userData));
+    localStorage.setItem('token', userData.token);
+    
+    return userData;
   };
 
   const logout = () => {
