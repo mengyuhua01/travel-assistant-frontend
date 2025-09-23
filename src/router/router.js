@@ -1,12 +1,11 @@
 import { createBrowserRouter } from 'react-router-dom';
 import TravelLayout from '../layout/TravelLayout';
-import ProtectedRoute from '../components/ProtectedRoute';
+// import ProtectedRoute from '../components/ProtectedRoute';
 import StartPage from '../pages/StartPage';
 import Login from '../pages/Login.jsx';
 import Register from '../pages/Register.jsx';
-import HomePage from '../pages/HomePage.jsx';
-import ProtectedRoute from '../components/ProtectedRoute.jsx';
-import TripDetailsDev from '../components/TripDetailsDev';
+import HomePage from '../pages/HomePage.js';
+// import TripDetailsDev from '../components/TripDetailsDev';
 // 导入其他页面组件（当需要时取消注释）
 // import TripDetailsPage from '../pages/TripDetailsPage';
 // import UserProfile from '../pages/UserProfile';
