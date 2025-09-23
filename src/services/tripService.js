@@ -52,9 +52,11 @@ export const getTripById = async (tripId) => {
           bookingLink: ''
         },
         dailyCost: day.dailyCost || 0,
-        // 保留其他字段，但确保day字段被正确覆盖
+        // 保留其他字段，但day字段会被上面的覆盖
+        ...day
+      })).map((day, index) => ({
         ...day,
-        day: index + 1 // 再次确保day字段是正确的
+        day: index + 1 // 确保day字段是正确的
       }));
     }
     
@@ -235,10 +237,12 @@ const calculateBudgetBreakdown = (dailyPlan) => {
   return breakdown;
 };
 
-export default {
+const tripService = {
   getTripById,
   updateTrip,
   partialUpdateTrip,
   updateDayPlan,
   reorderDayPlan
 };
+
+export default tripService;
