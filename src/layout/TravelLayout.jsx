@@ -1,50 +1,51 @@
-import { HomeOutlined, LogoutOutlined, SettingOutlined, UserOutlined } from "@ant-design/icons";
+// import { HomeOutlined, LogoutOutlined, SettingOutlined, UserOutlined } from "@ant-design/icons";
 import { Layout, theme } from "antd";
-import { NavLink, useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+// import { useNavigate } from "react-router-dom";
+// import { useAuth } from "../contexts/AuthContext";
 import { Outlet } from "react-router-dom";
 import Navigation from "../components/Navigation";
 
 const { Header, Content, Footer } = Layout;
 
-const items = [
-  {
-    label: <NavLink to="/">首页</NavLink>,
-    key: "home",
-    icon: <HomeOutlined />,
-  },
-];
+// const items = [
+//   {
+//     label: <NavLink to="/">首页</NavLink>,
+//     key: "home",
+//     icon: <HomeOutlined />,
+//   },
+// ];
 
 export function TravelLayout() {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
+  // const { user, logout } = useAuth();
+  // const {logout} = useAuth();
+  // const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
-    navigate("/start");
-  };
+  // const handleLogout = () => {
+  //   logout();
+  //   navigate("/start");
+  // };
 
-  const userMenuItems = [
-    {
-      key: "profile",
-      icon: <UserOutlined />,
-      label: "个人资料",
-    },
-    {
-      key: "settings",
-      icon: <SettingOutlined />,
-      label: "设置",
-    },
-    {
-      type: "divider",
-    },
-    {
-      key: "logout",
-      icon: <LogoutOutlined />,
-      label: "退出登录",
-      onClick: handleLogout,
-    },
-  ];
+  // const userMenuItems = [
+  //   {
+  //     key: "profile",
+  //     icon: <UserOutlined />,
+  //     label: "个人资料",
+  //   },
+  //   {
+  //     key: "settings",
+  //     icon: <SettingOutlined />,
+  //     label: "设置",
+  //   },
+  //   {
+  //     type: "divider",
+  //   },
+  //   {
+  //     key: "logout",
+  //     icon: <LogoutOutlined />,
+  //     label: "退出登录",
+  //     onClick: handleLogout,
+  //   },
+  // ];
 
   const {
     token: { colorBgContainer, borderRadiusLG },
