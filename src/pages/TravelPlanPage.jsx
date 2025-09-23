@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Button, Card, Col, Divider, message, Progress, Row, Space, Tag, Typography} from 'antd';
-import {ClockCircleOutlined, DollarOutlined, EyeOutlined, StarOutlined, UserOutlined} from '@ant-design/icons';
+import {ClockCircleOutlined, DollarOutlined, EyeOutlined, UserOutlined} from '@ant-design/icons';
 import TravelForm from '../components/TravelForm';
 import {generateTravelPlan, getChatMessageList, getChatStatus} from '../apis/cozeApi';
 import {insertTravelPlan} from '../apis/travelPlanApi';
 import './TravelPlanPage.css';
 
-const {Title, Text, Paragraph} = Typography;
+const {Title, Text} = Typography;
 
 /**
  * 旅行方案主页面
@@ -20,6 +20,54 @@ const TravelPlanPage = () => {
     const [plans, setPlans] = useState([]);
     const [formData, setFormData] = useState(null);
 
+    // SessionStorage键名
+    const STORAGE_KEY = 'travel_plans_session';
+
+    // 保存方案到SessionStorage
+    const savePlansToCache = (plansData, formValues) => {
+        try {
+            const cacheData = {
+                plans: plansData,
+                formData: formValues
+            };
+            sessionStorage.setItem(STORAGE_KEY, JSON.stringify(cacheData));
+        } catch (error) {
+            console.error('保存方案缓存失败:', error);
+        }
+    };
+
+    // 从SessionStorage加载方案
+    const loadPlansFromCache = () => {
+        try {
+            const cached = sessionStorage.getItem(STORAGE_KEY);
+            if (!cached) return null;
+            return JSON.parse(cached);
+        } catch (error) {
+            console.error('加载方案缓存失败:', error);
+            return null;
+        }
+    };
+
+    // 清除方案缓存
+    const clearPlansCache = () => {
+        try {
+            sessionStorage.removeItem(STORAGE_KEY);
+        } catch (error) {
+            console.error('清除方案缓存失败:', error);
+        }
+    };
+
+    // 组件加载时恢复缓存的方案
+    useEffect(() => {
+        const cached = loadPlansFromCache();
+        if (cached && cached.plans && cached.plans.length > 0) {
+            setPlans(cached.plans);
+            setFormData(cached.formData);
+            message.info(`已恢复 ${cached.plans.length} 个旅行方案`);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     /**
      * 完整的AI方案生成流程
      * 包含：发起对话 -> 轮询状态 -> 获取消息详情
@@ -28,7 +76,7 @@ const TravelPlanPage = () => {
         setFormData(travelData);
         setIsGenerating(true);
         setProgress(0);
-        setPlans([]);
+     
 
         try {
             // 第1步：发起对话请求
@@ -67,7 +115,13 @@ const TravelPlanPage = () => {
             setProgress(100);
             const aiGeneratedPlans = await parseAIResponseToPlans(messageList);
 
-            setPlans(aiGeneratedPlans);
+            // 将新方案添加到现有方案列表中（累加，不替换）
+            const updatedPlans = [...plans, ...aiGeneratedPlans];
+            setPlans(updatedPlans);
+            
+            // 保存所有方案到缓存（包含新旧方案）
+            savePlansToCache(updatedPlans, travelData);
+            
             message.success('🎉 AI旅行方案生成成功！');
 
         } catch (error) {
@@ -75,7 +129,11 @@ const TravelPlanPage = () => {
 
             // 发生错误时显示备用方案
             const fallbackPlans = generateFallbackPlans(travelData);
-            setPlans(fallbackPlans);
+            const updatedPlans = [...plans, ...fallbackPlans];
+            setPlans(updatedPlans);
+            
+            // 保存包含备用方案的所有方案到缓存
+            savePlansToCache(updatedPlans, travelData);
             message.warning('已为您提供备用方案');
         } finally {
             setIsGenerating(false);
@@ -92,11 +150,8 @@ const TravelPlanPage = () => {
         const aiContent = JSON.parse(jsonString);
         
         try {
-            // 直接插入AI解析出来的aiContent对象到数据库
             const insertResult = await insertTravelPlan(aiContent);
             const planId = insertResult.data?.id || insertResult.id;
-            
-            // 返回前端显示格式，包含数据库返回的真实ID
             return [
                 {
                     id: planId, // 使用数据库返回的真实ID
@@ -106,14 +161,11 @@ const TravelPlanPage = () => {
                     description: aiContent.overview || '为您定制的专属旅行方案',
                     image: '🤖',
                     type: 'ai-generated',
-                    rating: 4.8,
-                    dailyPlan: aiContent.dailyPlan || [],
-                    tips: aiContent.tips || []
+                    dailyPlan: aiContent.dailyPlan || []
                 }
             ];
         } catch (error) {
             console.error('插入旅行方案到数据库失败:', error);
-            // 即使插入失败，也返回方案数据（使用临时ID）
             return [
                 {
                     id: 'ai-generated-temp-' + Date.now(),
@@ -123,9 +175,7 @@ const TravelPlanPage = () => {
                     description: aiContent.overview || '为您定制的专属旅行方案',
                     image: '🤖',
                     type: 'ai-generated',
-                    rating: 4.8,
-                    dailyPlan: aiContent.dailyPlan || [],
-                    tips: aiContent.tips || []
+                    dailyPlan: aiContent.dailyPlan || []
                 }
             ];
         }
@@ -141,9 +191,7 @@ const TravelPlanPage = () => {
                 title: `${travelData.destination}经典之旅`,
                 duration: `${travelData.travelDays}天${travelData.travelDays - 1}夜`,
                 budget: `¥${travelData.budget}/人`,
-                rating: 4.6,
-                highlights: ['经典路线', '热门景点', '性价比高', '安全可靠'],
-                description: `为您精心规划的${travelData.destination}${travelData.travelDays}日游，包含热门景点和特色体验。`,
+                description: `为您精心规划的${travelData.destination}${travelData.travelDays}日游，包含热门景点和特色体验，让您深度感受当地文化魅力与自然风光。`,
                 image: '🏛️',
                 type: 'classic'
             }
@@ -248,6 +296,21 @@ const TravelPlanPage = () => {
                                 <Text type="secondary" style={{fontSize: 16}}>
                                     根据您的需求，我们为您精选了最适合的旅行方案
                                 </Text>
+                                <div style={{marginTop: 16}}>
+                                    <Button 
+                                        type="link" 
+                                        onClick={() => {
+                                            const planCount = plans.length;
+                                            clearPlansCache();
+                                            setPlans([]);
+                                            setFormData(null);
+                                            message.success(`已清除 ${planCount} 个方案`);
+                                        }}
+                                        style={{color: '#8c8c8c', fontSize: 14}}
+                                    >
+                                        🗑️ 清除所有方案
+                                    </Button>
+                                </div>
                             </div>
 
                             <Row gutter={[24, 24]}>
@@ -295,20 +358,14 @@ const TravelPlanPage = () => {
                                             <Title level={3} style={{marginBottom: 12, color: '#1f1f1f'}}>
                                                 {plan.title}
                                             </Title>
-                                            <Space size="middle">
-                                                <Tag color={getTypeColor(plan.type)}
-                                                     style={{fontSize: 12, padding: '2px 8px'}}>
-                                                    {plan.type === 'ai-generated' && 'AI定制'}
-                                                    {plan.type === 'cultural' && '文化旅游'}
-                                                    {plan.type === 'leisure' && '休闲度假'}
-                                                    {plan.type === 'adventure' && '户外探险'}
-                                                    {plan.type === 'classic' && '经典路线'}
-                                                </Tag>
-                                                <Text type="secondary">
-                                                    <StarOutlined style={{color: '#faad14', marginRight: 4}}/>
-                                                    {plan.rating}
-                                                </Text>
-                                            </Space>
+                                            <Tag color={getTypeColor(plan.type)}
+                                                 style={{fontSize: 12, padding: '4px 12px', borderRadius: 16}}>
+                                                {plan.type === 'ai-generated' && '✨ AI定制'}
+                                                {plan.type === 'cultural' && '🏛️ 文化旅游'}
+                                                {plan.type === 'leisure' && '🏖️ 休闲度假'}
+                                                {plan.type === 'adventure' && '🏔️ 户外探险'}
+                                                {plan.type === 'classic' && '🌟 经典路线'}
+                                            </Tag>
                                         </div>
 
                                         <Divider style={{margin: '20px 0'}}/>
@@ -330,31 +387,65 @@ const TravelPlanPage = () => {
 
                                         <Divider style={{margin: '20px 0'}}/>
 
-                                        <div>
-                                            <Text strong style={{display: 'block', marginBottom: 12}}>
-                                                行程Tips：
-                                            </Text>
-                                            <Space wrap>
-                                                {Array.isArray(plan.tips) && plan.tips.length > 0 ? (
-                                                    plan.tips.map((tip, index) => (
-                                                        <Tag key={index} color="blue-inverse" style={{marginBottom: 4}}>
-                                                            {tip}
-                                                        </Tag>
-                                                    ))
-                                                ) : (
-                                                    <Tag color="blue-inverse">暂无贴士信息</Tag>
-                                                )}
-                                            </Space>
+                                        <div style={{
+                                            background: 'linear-gradient(135deg, #f8fffe 0%, #f0faf9 100%)',
+                                            borderRadius: 12,
+                                            padding: '20px',
+                                            border: '1px solid #054d2e',
+                                            position: 'relative',
+                                            overflow: 'hidden',
+                                            boxShadow: '0 2px 8px rgba(5, 77, 46, 0.05)'
+                                        }}>
+                                            {/* 优雅的装饰线条 */}
+                                            <div style={{
+                                                position: 'absolute',
+                                                top: 0,
+                                                right: 0,
+                                                width: '80px',
+                                                height: '2px',
+                                                background: 'linear-gradient(90deg, transparent, rgba(5, 77, 46, 0.2))',
+                                                zIndex: 0
+                                            }} />
+                                            <div style={{
+                                                position: 'absolute',
+                                                bottom: 0,
+                                                left: 0,
+                                                width: '60px',
+                                                height: '2px',
+                                                background: 'linear-gradient(90deg, rgba(5, 77, 46, 0.15), transparent)',
+                                                zIndex: 0
+                                            }} />
+                                            
+                                            <div style={{position: 'relative', zIndex: 1}}>
+                                                <div style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    marginBottom: 12
+                                                }}>
+                                                    <div style={{
+                                                        fontSize: 18,
+                                                        marginRight: 8
+                                                    }}>
+                                                        📖
+                                                    </div>
+                                                    <Text strong style={{
+                                                        color: '#054d2e',
+                                                        fontSize: 16
+                                                    }}>
+                                                        方案预览
+                                                    </Text>
+                                                </div>
+                                                <Text style={{
+                                                    fontSize: 15,
+                                                    lineHeight: '1.6',
+                                                    color: '#434343',
+                                                    fontWeight: 400,
+                                                    display: 'block'
+                                                }}>
+                                                    {plan.description}
+                                                </Text>
+                                            </div>
                                         </div>
-
-                                        <Paragraph
-                                            className="plan-description"
-                                            ellipsis={{rows: 2}}
-                                            style={{marginTop: 16, marginBottom: 0}}
-                                            type="secondary"
-                                        >
-                                            {plan.description}
-                                        </Paragraph>
                                     </Card>
                                 </Col>
                             ))}
