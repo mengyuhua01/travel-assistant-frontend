@@ -84,7 +84,7 @@ const HomePage = () => {
             </p>
             <div className="hero-buttons">
               <Link 
-                to={isAuthenticated ? '/travel-plan' : '/login'}
+                to={isAuthenticated ? '/plan' : '/login'}
                 onClick={(e) => { if (!isAuthenticated) { e.preventDefault(); setModalVisible(true); } }}
               >
                 <Button type="primary" size="large" className="cta-primary">
