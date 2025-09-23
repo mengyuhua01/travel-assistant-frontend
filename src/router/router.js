@@ -5,6 +5,7 @@ import StartPage from '../pages/StartPage';
 import Login from '../pages/Login.jsx';
 import Register from '../pages/Register.jsx';
 import HomePage from '../pages/HomePage.jsx';
+import ProtectedRoute from '../components/ProtectedRoute.jsx';
 import TripDetailsDev from '../components/TripDetailsDev';
 // 导入其他页面组件（当需要时取消注释）
 // import TripDetailsPage from '../pages/TripDetailsPage';
@@ -17,35 +18,40 @@ import TripDetailsDev from '../components/TripDetailsDev';
 const router = createBrowserRouter([
   // 公开页面（不需要登录）
   {
-    path: '/start',
+    path: '/',
+    element: (
+        <TravelLayout />
+    ),
+    children: [
+      {
+    path: '',
+    element: <HomePage />
+  },
+  {
+    path: 'start',
     element: <StartPage />
   },
   {
-    path: '/login',
+    path: 'login',
     element: <Login />
   },
   {
-    path: '/register',
+    path: 'register',
     element: <Register />
-  },
-  {
-    path: '/dev-trip',
-    element: <TripDetailsDev />
+  } 
+    ]
   },
   
   // 受保护的页面（需要登录）- 根路径作为应用入口
   {
     path: '/',
     element: (
-      <ProtectedRoute>
-        <TravelLayout />
-      </ProtectedRoute>
+      // <ProtectedRoute>
+      //   <TravelLayout />
+      // </ProtectedRoute>
+      <TravelLayout />
     ),
     children: [
-      {
-        index: true,
-        element: <HomePage />
-      },
       // 在这里添加其他受保护的页面路由
       // 示例：
       // {
