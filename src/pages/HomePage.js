@@ -105,7 +105,7 @@ const HomePage = () => {
       <Section
         title="Hot Places for Family Adventures"
         cards={hotPlacesData}
-        backgroundColor="#f0fdf4"
+        backgroundColor="#e8f5e9"
       />
 
       {/* Family Friendly Hotels Section */}
@@ -119,7 +119,7 @@ const HomePage = () => {
       <Section
         title="What Other Moms Say"
         cards={testimonialsData}
-        backgroundColor="#f0fdf4"
+        backgroundColor="#e8f5e9"
       />
 
       {/* CTA Section */}
