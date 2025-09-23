@@ -56,14 +56,13 @@ apiClient.interceptors.response.use(
  */
 export const request = async (config) => {
   try {
-    const response = await apiClient({
+    return await apiClient({
       ...config,
       headers: {
         ...apiClient.defaults.headers,
         ...config.headers
       }
     });
-    return response;
   } catch (error) {
     throw error;
   }

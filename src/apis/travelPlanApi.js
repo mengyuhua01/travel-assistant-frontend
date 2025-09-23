@@ -14,7 +14,7 @@ const TRAVEL_PLAN_API_BASE = '/travel-plans';
  */
 export const insertTravelPlan = async (aiContent) => {
   try {
-    const response = await request({
+    return await request({
       url: TRAVEL_PLAN_API_BASE,
       method: 'POST',
       headers: {
@@ -22,8 +22,6 @@ export const insertTravelPlan = async (aiContent) => {
       },
       data: aiContent 
     });
-    
-    return response;
   } catch (error) {
     console.error('插入旅行方案失败:', error);
     throw new Error(error.message || '插入旅行方案失败');
@@ -37,12 +35,10 @@ export const insertTravelPlan = async (aiContent) => {
  */
 export const getTravelPlanById = async (planId) => {
   try {
-    const response = await request({
+    return await request({
       url: `${TRAVEL_PLAN_API_BASE}?id=${planId}`,
       method: 'GET'
     });
-    
-    return response;
   } catch (error) {
     console.error('获取旅行方案详情失败:', error);
     throw new Error(error.message || '获取旅行方案详情失败');
@@ -57,12 +53,10 @@ export const getTravelPlanById = async (planId) => {
  */
 export const deleteTravelPlan = async (planId) => {
   try {
-    const response = await request({
+    return await request({
       url: `${TRAVEL_PLAN_API_BASE}/${planId}`,
       method: 'DELETE'
     });
-    
-    return response;
   } catch (error) {
     console.error('删除旅行方案失败:', error);
     throw new Error(error.message || '删除旅行方案失败');
