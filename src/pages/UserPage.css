@@ -1,0 +1,73 @@
+.user-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #e8f5e9, #ffffff);
+  padding: 2rem 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.page-title {
+  text-align: center;
+  color: #1f2937;
+  margin-bottom: 2rem;
+}
+
+.profile-card,
+.history-card,
+.tags-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  height: 100%;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.profile-info h4 {
+  margin-bottom: 0.25rem;
+}
+
+.bio {
+  margin-top: 1rem;
+  color: #6b7280;
+}
+
+.user-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.interest-tag {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  background: #e8f5e9;
+  border: 1px solid #22c55e;
+  color: #16a34a;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+}

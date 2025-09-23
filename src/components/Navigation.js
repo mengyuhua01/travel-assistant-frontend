@@ -22,15 +22,15 @@ const Navigation = () => {
             <>
               <Link to="/" className="nav-link">
                 <HomeOutlined className="nav-icon" />
-                Home
+                首页
               </Link>
               <Link to="/plan" className="nav-link">
                 <PlusOutlined className="nav-icon" />
-                Start Plan
+                开始规划
               </Link>
-              <Link to="/" className="nav-link">
+              <Link to="/user" className="nav-link">
                 <UserOutlined className="nav-icon" />
-                User Page
+                我的
               </Link>
             </>
           )}

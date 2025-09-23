@@ -91,9 +91,9 @@ const HomePage = () => {
                   开始规划
                 </Button>
               </Link>
-              <Button size="large" className="cta-secondary">
+              {/* <Button size="large" className="cta-secondary">
                 观看演示
-              </Button>
+              </Button> */}
             </div>
             <Modal
         title="请先登录"
