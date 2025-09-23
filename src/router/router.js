@@ -5,7 +5,8 @@ import Register from '../pages/Register.jsx';
 import HomePage from '../pages/HomePage.js';
 import InterestSelection from '../pages/InterestSelection.jsx';
 // 导入其他页面组件（当需要时取消注释）
-// import TripDetailsPage from '../pages/TripDetailsPage';
+import TripDetailsPage from '../pages/TripDetailsPage';
+import TravelPlanPage from '../pages/TravelPlanPage.jsx';
 // import UserProfile from '../pages/UserProfile';
 // import UserSettings from '../pages/UserSettings';
 // import AboutPage from '../pages/AboutPage';
@@ -26,7 +27,15 @@ const router = createBrowserRouter([
       // {
       //   path: 'trip/:id',  // 访问路径：/trip/123
       //   element: <TripDetailsPage />
-      // },
+      // }
+      {
+        path: 'trip/:id',  // 访问路径：/trip/123
+        element: <TripDetailsPage />
+      },
+      {
+        path: 'plan',  // 访问路径：/plan
+        element: <TravelPlanPage />
+      }
       // {
       //   path: 'profile',   // 访问路径：/profile
       //   element: <UserProfile />

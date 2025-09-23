@@ -9,13 +9,15 @@ import './TripSummary.css';
 
 const TripSummary = ({ tripData, budgetBreakdown, tips }) => {
   // Use tips as highlights if provided, otherwise fallback
-  const highlights = Array.isArray(tips) && tips.length > 0 ? tips : [
-    '经济实惠',
-    '文化体验',
-    '美食品鉴',
-    '交通便利',
-    '住宿舒适'
-  ];
+  const highlights = Array.isArray(tips) && tips.length > 0 
+    ? tips 
+    : [
+        '经济实惠',
+        '文化体验',
+        '美食品鉴',
+        '交通便利',
+        '住宿舒适'
+      ];
 
   return (
     <div className="trip-summary">
@@ -34,13 +36,16 @@ const TripSummary = ({ tripData, budgetBreakdown, tips }) => {
               <span style={{ color: '#2e7d32' }}>¥{budgetBreakdown.accommodation}</span>
             </Descriptions.Item>
             <Descriptions.Item label={<span style={{ color: '#2e7d32' }}>餐饮</span>}>
-              <span style={{ color: '#2e7d32' }}>¥{budgetBreakdown.meals}</span>
+              <span style={{ color: '#2e7d32' }}>¥{budgetBreakdown.food}</span>
             </Descriptions.Item>
-            <Descriptions.Item label={<span style={{ color: '#2e7d32' }}>景点门票</span>}>
-              <span style={{ color: '#2e7d32' }}>¥{budgetBreakdown.attractions}</span>
+            <Descriptions.Item label={<span style={{ color: '#2e7d32' }}>活动</span>}>
+              <span style={{ color: '#2e7d32' }}>¥{budgetBreakdown.activities}</span>
+            </Descriptions.Item>
+            <Descriptions.Item label={<span style={{ color: '#2e7d32' }}>购物</span>}>
+              <span style={{ color: '#2e7d32' }}>¥{budgetBreakdown.shopping}</span>
             </Descriptions.Item>
             <Descriptions.Item label={<span style={{ color: '#2e7d32' }}>其他</span>}>
-              <span style={{ color: '#2e7d32' }}>¥{budgetBreakdown.others}</span>
+              <span style={{ color: '#2e7d32' }}>¥{budgetBreakdown.other}</span>
             </Descriptions.Item>
           </Descriptions>
         )}

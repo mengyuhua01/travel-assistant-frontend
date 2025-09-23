@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import {
   Card,
   Typography,
@@ -10,16 +11,34 @@ import {
 import {
   ArrowLeftOutlined
 } from '@ant-design/icons';
+import { getTravelPlanById } from '../apis/travel-plans';
 import DayDetails from '../components/DayDetails';
 import TripHeader from '../components/TripHeader';
 import TripSummary from '../components/TripSummary';
 import './TripDetailsPage.css';
 
 const { Title } = Typography;
-// const { TabPane } = Tabs;
 
-const TripDetailsPage = ({ tripData: initialTripData }) => {
-  const [tripData, setTripData] = useState(initialTripData);
+const TripDetailsPage = () => {
+  const { id } = useParams();
+  const [tripData, setTripData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTripData = async () => {
+      try {
+        const data = await getTravelPlanById(id);
+        console.log('Fetched trip data:', data);
+        setTripData(data);
+      } catch (error) {
+        console.error('Error fetching trip data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTripData();
+  }, [id]);
 
   const handleBackClick = () => {
     // For now, just show an alert. In a real app, this would navigate back
@@ -39,15 +58,19 @@ const TripDetailsPage = ({ tripData: initialTripData }) => {
       setTripData(prevData => {
         const newData = {
           ...prevData,
-          dailyPlan: prevData.dailyPlan.map(day => 
+          dailyPlan: prevData.dailyPlan?.map(day => 
             day.day === updatedDayData.day ? updatedDayData : day
-          )
+          ) || []
         };
         console.log('新的 tripData:', newData);
         return newData;
       });
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   if (!tripData) {
     return (
@@ -83,7 +106,7 @@ const TripDetailsPage = ({ tripData: initialTripData }) => {
               <Tabs
                 defaultActiveKey="0"
                 className="trip-tabs"
-                items={tripData.dailyPlan.map((day, index) => ({
+                items={tripData.dailyPlan?.map((day, index) => ({
                   key: String(index),
                   label: `第${day.day}天`,
                   children: (
@@ -93,7 +116,7 @@ const TripDetailsPage = ({ tripData: initialTripData }) => {
                       onRegenerateSuccess={handleRegenerateSuccess}
                     />
                   )
-                }))}
+                })) || []}
               />
             </Card>
           </Col>
