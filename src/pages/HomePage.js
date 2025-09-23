@@ -96,7 +96,7 @@ const HomePage = () => {
               </Button>
             </div>
             <Modal
-        title="Login Required"
+        title="请先登录"
         visible={modalVisible}
         onOk={() => { setModalVisible(false); navigate('/login'); }}
         onCancel={() => setModalVisible(false)}

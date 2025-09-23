@@ -1,9 +1,12 @@
-import { HomeOutlined, LoginOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
+import { HomeOutlined, LogoutOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import './Navigation.css';
 
 
 const Navigation = () => {
+  const { isAuthenticated, logout } = useAuth();
+
   return (
     <nav className="navigation">
       <div className="nav-container">
@@ -15,24 +18,34 @@ const Navigation = () => {
         </div>
 
         <div className="nav-menu">
-          <Link to="/" className="nav-link">
-            <HomeOutlined className="nav-icon" />
-            Home
-          </Link>
-          <Link to="/plan" className="nav-link">
-            <PlusOutlined className="nav-icon" />
-            Start Plan
-          </Link>
-          <Link to="/" className="nav-link">
-            <UserOutlined className="nav-icon" />
-            User Page
-          </Link>
+          {isAuthenticated && (
+            <>
+              <Link to="/" className="nav-link">
+                <HomeOutlined className="nav-icon" />
+                Home
+              </Link>
+              <Link to="/plan" className="nav-link">
+                <PlusOutlined className="nav-icon" />
+                Start Plan
+              </Link>
+              <Link to="/" className="nav-link">
+                <UserOutlined className="nav-icon" />
+                User Page
+              </Link>
+            </>
+          )}
         </div>
 
         <div className="nav-auth">
-          <Link to="/login" className="login-btn">
-            <LoginOutlined />
-          </Link>
+          {isAuthenticated ? (
+            <button onClick={logout} className="login-btn">
+              <LogoutOutlined />
+            </button>
+          ) : (
+            <Link to="/login" className="login-btn">
+              <UserOutlined />
+            </Link>
+          )}
         </div>
       </div>
     </nav>
