@@ -4,8 +4,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import router from './router/router';
 import 'antd/dist/reset.css';
 import './App.css';
-import TripDetailsPage from './pages/TripDetailsPage';
-import EnvTest from './components/EnvTest';
+
 
 // const sampleTripData = {
 //   title: "珠海 - 上海 - 北京 - 苏州经济型三地游",

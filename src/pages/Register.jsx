@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Form, Input, Button, Card, Alert, Typography, Radio, Divider, message } from 'antd';
+import { Form, Input, Button, Card, Alert, Typography, Radio, Divider } from 'antd';
 import { UserOutlined, MailOutlined, LockOutlined, UserAddOutlined } from '@ant-design/icons';
-import { useAuth } from '../contexts/AuthContext';
 import { registerUser } from '../apis/user';
 
 const { Title, Text } = Typography;
@@ -14,7 +13,6 @@ function Register() {
   const [success, setSuccess] = useState('');
   const [registrationMode, setRegistrationMode] = useState('username');
   const navigate = useNavigate();
-  const { login } = useAuth();
 
   const handleModeChange = (e) => {
     setRegistrationMode(e.target.value);
@@ -47,7 +45,7 @@ function Register() {
         registerData.username = null;
       }
 
-      const response = await registerUser(registerData);
+      await registerUser(registerData);
       
       // 显示注册成功提示
       setSuccess('注册成功！正在跳转到登录页面...');
