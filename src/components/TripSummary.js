@@ -8,7 +8,7 @@ import {
 } from 'antd';
 import './TripSummary.css';
 
-const TripSummary = ({ tripData }) => {
+const TripSummary = ({ tripData, budgetBreakdown, tips }) => {
   const inclusions = [
     `${tripData.duration-1}晚住宿`,
     '全程用餐',
@@ -24,7 +24,8 @@ const TripSummary = ({ tripData }) => {
     '额外餐饮'
   ];
 
-  const highlights = [
+  // Use tips as highlights if provided, otherwise fallback
+  const highlights = Array.isArray(tips) && tips.length > 0 ? tips : [
     '经济实惠',
     '文化体验',
     '美食品鉴',
@@ -40,9 +41,28 @@ const TripSummary = ({ tripData }) => {
           <Descriptions.Item label="出行人数">单人</Descriptions.Item>
           <Descriptions.Item label="出行天数">{tripData.duration}天</Descriptions.Item>
         </Descriptions>
+        {budgetBreakdown && (
+          <Descriptions column={1} size="small" style={{ marginTop: 16 }}>
+            <Descriptions.Item label={<span style={{ color: '#2e7d32' }}>交通</span>}>
+              <span style={{ color: '#2e7d32' }}>¥{budgetBreakdown.transportation}</span>
+            </Descriptions.Item>
+            <Descriptions.Item label={<span style={{ color: '#2e7d32' }}>住宿</span>}>
+              <span style={{ color: '#2e7d32' }}>¥{budgetBreakdown.accommodation}</span>
+            </Descriptions.Item>
+            <Descriptions.Item label={<span style={{ color: '#2e7d32' }}>餐饮</span>}>
+              <span style={{ color: '#2e7d32' }}>¥{budgetBreakdown.meals}</span>
+            </Descriptions.Item>
+            <Descriptions.Item label={<span style={{ color: '#2e7d32' }}>景点门票</span>}>
+              <span style={{ color: '#2e7d32' }}>¥{budgetBreakdown.attractions}</span>
+            </Descriptions.Item>
+            <Descriptions.Item label={<span style={{ color: '#2e7d32' }}>其他</span>}>
+              <span style={{ color: '#2e7d32' }}>¥{budgetBreakdown.others}</span>
+            </Descriptions.Item>
+          </Descriptions>
+        )}
       </Card>
 
-      <Card title="✨ 行程亮点" style={{ marginBottom: 24 }}>
+      <Card title="✨ 行程提示" style={{ marginBottom: 24 }}>
         <Space wrap size="middle">
           {highlights.map((highlight, index) => (
             <Tag key={index} color="green" style={{ padding: '6px 12px', fontSize: 14 }}>
@@ -52,7 +72,7 @@ const TripSummary = ({ tripData }) => {
         </Space>
       </Card>
 
-      <Card title="✅ 费用包含" style={{ marginBottom: 24 }}>
+      {/* <Card title="✅ 费用包含" style={{ marginBottom: 24 }}>
         <ul style={{ paddingLeft: 20, margin: 0 }}>
           {inclusions.map((item, index) => (
             <li key={index} style={{ marginBottom: 8, color: '#52c41a' }}>
@@ -84,7 +104,7 @@ const TripSummary = ({ tripData }) => {
             分享方案
           </Button>
         </Space>
-      </Card>
+      </Card> */}
     </div>
   );
 };

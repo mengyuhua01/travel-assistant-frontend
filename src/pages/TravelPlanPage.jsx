@@ -284,7 +284,7 @@ const TravelPlanPage = () => {
 
                     <div>
                       <Text strong style={{ display: 'block', marginBottom: 12 }}>
-                        行程亮点：
+                        行程提示：
                       </Text>
                       <Space wrap>
                         {Array.isArray(plan.highlights) && plan.highlights.length > 0 ? (
