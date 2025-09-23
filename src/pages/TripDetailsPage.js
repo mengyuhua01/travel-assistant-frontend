@@ -61,7 +61,7 @@ const TripDetailsPage = ({ tripData: initialTripData }) => {
   }
 
   return (
-    <div style={{ background: '#f5f5f5', minHeight: '100vh', padding: '24px' }}>
+    <div style={{ background: 'linear-gradient(135deg, #e8f5e9, #f0fff4)', minHeight: '100vh', padding: '24px' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         {/* 返回按钮 */}
         <Button

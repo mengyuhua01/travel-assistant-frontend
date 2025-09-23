@@ -30,7 +30,7 @@ const TripHeader = ({ tripData }) => {
   };
 
   return (
-    <Card style={{ marginBottom: 24 }} className="trip-header-card">
+    <Card style={{ marginBottom: 24, backgroundColor: '#ffffff' }} className="trip-header-card">
       <Row gutter={24} align="middle">
         <Col flex="auto">
           <div style={{ textAlign: 'center', marginBottom: 16 }}>
