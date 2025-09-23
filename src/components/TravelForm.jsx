@@ -123,7 +123,7 @@ const TravelForm = ({ onSubmit, loading: externalLoading }) => {
 
         <Card
           className="travel-form-card"
-          bodyStyle={{ padding: '32px' }}
+          styles={{ body: { padding: '32px' } }}
         >
           <Form
             form={form}

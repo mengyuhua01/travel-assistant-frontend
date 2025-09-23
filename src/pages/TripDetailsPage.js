@@ -27,17 +27,25 @@ const TripDetailsPage = ({ tripData: initialTripData }) => {
   };
 
   const handleRegenerateSuccess = (updatedDayData, updatedTripData) => {
+    console.log('handleRegenerateSuccess 被调用:', { updatedDayData, updatedTripData });
+    
     // 更新整个行程数据
     if (updatedTripData) {
+      console.log('更新整个行程数据');
       setTripData(updatedTripData);
     } else {
+      console.log('只更新单天数据, day:', updatedDayData?.day);
       // 如果只返回了单天数据，则只更新对应的天
-      setTripData(prevData => ({
-        ...prevData,
-        dailyPlan: prevData.dailyPlan.map(day => 
-          day.day === updatedDayData.day ? updatedDayData : day
-        )
-      }));
+      setTripData(prevData => {
+        const newData = {
+          ...prevData,
+          dailyPlan: prevData.dailyPlan.map(day => 
+            day.day === updatedDayData.day ? updatedDayData : day
+          )
+        };
+        console.log('新的 tripData:', newData);
+        return newData;
+      });
     }
   };
 
@@ -72,17 +80,21 @@ const TripDetailsPage = ({ tripData: initialTripData }) => {
           {/* 行程安排 */}
           <Col xs={24} lg={16}>
             <Card title="📅 详细行程安排" style={{ marginBottom: 24 }}>
-              <Tabs defaultActiveKey="0" className="trip-tabs">
-                {tripData.dailyPlan.map((day, index) => (
-                  <TabPane tab={`第${day.day}天`} key={index}>
-                    <DayDetails 
-                      dayData={day} 
+              <Tabs
+                defaultActiveKey="0"
+                className="trip-tabs"
+                items={tripData.dailyPlan.map((day, index) => ({
+                  key: String(index),
+                  label: `第${day.day}天`,
+                  children: (
+                    <DayDetails
+                      dayData={day}
                       originalTrip={tripData}
                       onRegenerateSuccess={handleRegenerateSuccess}
                     />
-                  </TabPane>
-                ))}
-              </Tabs>
+                  )
+                }))}
+              />
             </Card>
           </Col>
 

@@ -1,12 +1,13 @@
 import { createBrowserRouter } from 'react-router-dom';
 import TravelLayout from '../layout/TravelLayout';
-import HomePage from '../pages/HomePage.js';
+import ProtectedRoute from '../components/ProtectedRoute';
+import StartPage from '../pages/StartPage';
 import Login from '../pages/Login.jsx';
 import Register from '../pages/Register.jsx';
-import StartPage from '../pages/StartPage.jsx';
+import HomePage from '../pages/HomePage.jsx';
+import TripDetailsDev from '../components/TripDetailsDev';
 // 导入其他页面组件（当需要时取消注释）
-import TripDetailsPage from '../pages/TripDetailsPage';
-import sampleTripData from '../data/sampleTripData';
+// import TripDetailsPage from '../pages/TripDetailsPage';
 // import UserProfile from '../pages/UserProfile';
 // import UserSettings from '../pages/UserSettings';
 // import AboutPage from '../pages/AboutPage';
@@ -27,15 +28,18 @@ const router = createBrowserRouter([
     path: '/register',
     element: <Register />
   },
+  {
+    path: '/dev-trip',
+    element: <TripDetailsDev />
+  },
   
   // 受保护的页面（需要登录）- 根路径作为应用入口
   {
     path: '/',
     element: (
-      // <ProtectedRoute>
-      //   <TravelLayout />
-      // </ProtectedRoute>
-      <TravelLayout />
+      <ProtectedRoute>
+        <TravelLayout />
+      </ProtectedRoute>
     ),
     children: [
       {
@@ -47,11 +51,7 @@ const router = createBrowserRouter([
       // {
       //   path: 'trip/:id',  // 访问路径：/trip/123
       //   element: <TripDetailsPage />
-      // }
-      {
-        path: 'trip',  // 访问路径：/trip/123
-        element: <TripDetailsPage tripData={sampleTripData} />
-      }
+      // },
       // {
       //   path: 'profile',   // 访问路径：/profile
       //   element: <UserProfile />

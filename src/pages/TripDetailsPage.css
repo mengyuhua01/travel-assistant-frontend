@@ -89,8 +89,11 @@
   padding: 10px 20px;
 }
 
-.trip-tabs .ant-tabs-tab-active {
-  color: #1b5e20;
-  background-color: #c8e6c9;
-  border-radius: 5px;
+/* 强制选中标签文字为白色，并使用绿色渐变背景，覆盖 Ant Design 的蓝色样式 */
+.trip-tabs .ant-tabs-tab.ant-tabs-tab-active,
+.trip-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #4caf50, #2e7d32) !important;
+  border-color: #2e7d32 !important;
+  border-radius: 8px 8px 0 0 !important;
 }
