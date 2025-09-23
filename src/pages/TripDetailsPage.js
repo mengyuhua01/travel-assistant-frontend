@@ -11,7 +11,7 @@ import {
 import {
   ArrowLeftOutlined
 } from '@ant-design/icons';
-import { getTravelPlanById } from '../apis/travel-plans';
+import { getTravelPlanById } from '../apis/travelPlanApi';
 import DayDetails from '../components/DayDetails';
 import TripHeader from '../components/TripHeader';
 import TripSummary from '../components/TripSummary';

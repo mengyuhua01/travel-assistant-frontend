@@ -36,7 +36,7 @@ export const insertTravelPlan = async (aiContent) => {
 export const getTravelPlanById = async (planId) => {
   try {
     return await request({
-      url: `${TRAVEL_PLAN_API_BASE}?id=${planId}`,
+      url: `${TRAVEL_PLAN_API_BASE}/${planId}`,
       method: 'GET'
     });
   } catch (error) {
