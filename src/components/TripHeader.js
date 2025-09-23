@@ -11,7 +11,6 @@ import {
 import {
   ClockCircleOutlined,
   DollarOutlined,
-  UserOutlined,
   StarOutlined
 } from '@ant-design/icons';
 import './TripHeader.css';
@@ -67,12 +66,6 @@ const TripHeader = ({ tripData }) => {
               <Space>
                 <DollarOutlined style={{ color: '#388e3c', fontSize: 18 }} />
                 <Text strong style={{ fontSize: 16, color: '#2e7d32' }}>¥{tripData.totalBudget}</Text>
-              </Space>
-            </Col>
-            <Col>
-              <Space>
-                <UserOutlined style={{ color: '#66bb6a', fontSize: 18 }} />
-                <Text strong style={{ fontSize: 16, color: '#2e7d32' }}>适合单人</Text>
               </Space>
             </Col>
           </Row>

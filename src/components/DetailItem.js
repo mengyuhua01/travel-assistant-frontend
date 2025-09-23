@@ -1,7 +1,7 @@
 import React from 'react';
 import './DetailItem.css';
 
-const DetailItem = ({ title, activity, meal, description, icon, number }) => {
+const DetailItem = ({ title, activity, meal, description, icon, number, bookingLink, cost }) => {
   return (
     <div className="detail-item-modern">
       <div className="detail-item-number">{number}</div>
@@ -35,6 +35,34 @@ const DetailItem = ({ title, activity, meal, description, icon, number }) => {
         {description && !activity && !meal && (
           <div className="detail-item-section description-section">
             <div className="detail-item-description">{description}</div>
+            
+            {/* Cost information */}
+            {cost && (
+              <div className="detail-item-cost" style={{ marginTop: 8, color: '#2e7d32', fontWeight: 'bold' }}>
+                💰 费用：¥{cost}
+              </div>
+            )}
+            
+            {/* Booking link */}
+            {bookingLink && (
+              <div className="detail-item-booking" style={{ marginTop: 8 }}>
+                <a 
+                  href={bookingLink} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  style={{ 
+                    color: '#1890ff', 
+                    textDecoration: 'none',
+                    fontSize: '14px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}
+                >
+                  🔗 预订链接
+                </a>
+              </div>
+            )}
           </div>
         )}
       </div>

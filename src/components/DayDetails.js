@@ -43,6 +43,8 @@ const DayDetails = ({ dayData, originalTrip, onRegenerateSuccess }) => {
           <DetailItem
             title="住宿"
             description={dayData.accommodation?.name}
+            bookingLink={dayData.accommodation?.bookingLink}
+            cost={dayData.accommodation?.price}
             icon={<FaBed />}
             number="4"
           />
@@ -50,6 +52,8 @@ const DayDetails = ({ dayData, originalTrip, onRegenerateSuccess }) => {
           <DetailItem
             title="交通"
             description={dayData.transportation?.details || '地铁+步行'}
+            bookingLink={dayData.transportation?.bookingLink}
+            cost={dayData.transportation?.cost}
             icon={<FaBus />}
             number="5"
           />

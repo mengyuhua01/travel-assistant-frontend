@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   Card,
   Typography,
@@ -21,6 +21,7 @@ const { Title } = Typography;
 
 const TripDetailsPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [tripData, setTripData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -41,8 +42,8 @@ const TripDetailsPage = () => {
   }, [id]);
 
   const handleBackClick = () => {
-    // For now, just show an alert. In a real app, this would navigate back
-    alert('返回方案列表');
+    // Navigate back to the travel plan page
+    navigate('/plan');
   };
 
   const handleRegenerateSuccess = (updatedDayData, updatedTripData) => {
@@ -93,7 +94,7 @@ const TripDetailsPage = () => {
           style={{ marginBottom: 24, color: '#2e7d32', borderColor: '#81c784' }}
           size="large"
         >
-          返回方案列表
+          返回生成方案頁面
         </Button>
 
         {/* 方案头部信息 */}
