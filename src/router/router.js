@@ -1,11 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom';
 import TravelLayout from '../layout/TravelLayout';
-// import ProtectedRoute from '../components/ProtectedRoute';
-import StartPage from '../pages/StartPage';
 import Login from '../pages/Login.jsx';
 import Register from '../pages/Register.jsx';
 import HomePage from '../pages/HomePage.js';
-// import TripDetailsDev from '../components/TripDetailsDev';
 // 导入其他页面组件（当需要时取消注释）
 // import TripDetailsPage from '../pages/TripDetailsPage';
 // import UserProfile from '../pages/UserProfile';
@@ -13,45 +10,17 @@ import HomePage from '../pages/HomePage.js';
 // import AboutPage from '../pages/AboutPage';
 // import HelpPage from '../pages/HelpPage';
 
-
 const router = createBrowserRouter([
-  // 公开页面（不需要登录）
+  // 根路径 - 所有用户都看到HomePage
   {
     path: '/',
-    element: (
-        <TravelLayout />
-    ),
+    element: <TravelLayout />,
     children: [
       {
-    path: '',
-    element: <HomePage />
-  },
-  {
-    path: 'start',
-    element: <StartPage />
-  },
-  {
-    path: 'login',
-    element: <Login />
-  },
-  {
-    path: 'register',
-    element: <Register />
-  } 
-    ]
-  },
-  
-  // 受保护的页面（需要登录）- 根路径作为应用入口
-  {
-    path: '/',
-    element: (
-      // <ProtectedRoute>
-      //   <TravelLayout />
-      // </ProtectedRoute>
-      <TravelLayout />
-    ),
-    children: [
-      // 在这里添加其他受保护的页面路由
+        index: true,
+        element: <HomePage />
+      },
+      // 在这里添加其他页面路由
       // 示例：
       // {
       //   path: 'trip/:id',  // 访问路径：/trip/123
@@ -70,6 +39,16 @@ const router = createBrowserRouter([
       //   element: <MyTrips />
       // }
     ]
+  },
+  
+  // 登录和注册页面
+  {
+    path: '/login',
+    element: <Login />
+  },
+  {
+    path: '/register',
+    element: <Register />
   }
   
   // 其他公开页面示例（当需要时取消注释）：
