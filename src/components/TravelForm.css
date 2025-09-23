@@ -1,0 +1,64 @@
+/* TravelForm组件样式 */
+.travel-form-container {
+  width: 100%;
+  background: #ffffff;
+  padding: 40px 24px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.travel-form-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.travel-form-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.travel-form-title {
+  color: #1890ff !important;
+  margin-bottom: 16px !important;
+  font-size: 36px !important;
+}
+
+.travel-form-subtitle {
+  color: #666 !important;
+  font-size: 18px !important;
+}
+
+.travel-form-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  border: 1px solid #f0f0f0;
+}
+
+.travel-form-submit-button {
+  width: 200px;
+  height: 48px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  background: #1890ff;
+  border: none;
+}
+
+.travel-form-submit-row {
+  margin-top: 24px;
+}
+
+.travel-duration-display {
+  background: #f6f8fa;
+  border: 1px solid #e1e8ed;
+  border-radius: 8px;
+  padding: 12px 16px;
+  text-align: center;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1890ff;
+  font-weight: 500;
+  font-size: 14px;
+}
