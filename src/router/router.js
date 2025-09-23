@@ -11,6 +11,7 @@ import TripDetailsPage from '../pages/TripDetailsPage';
 // import UserSettings from '../pages/UserSettings';
 // import AboutPage from '../pages/AboutPage';
 // import HelpPage from '../pages/HelpPage';
+import InterestSelection from '../pages/InterestSelection';
 
 
 const router = createBrowserRouter([
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
         path: '/register',
         element: <Register/>
     },
+
 
     // 受保护的页面（需要登录）- 根路径作为应用入口
     {
@@ -55,6 +57,10 @@ const router = createBrowserRouter([
             {
                 path: 'plan',  // 访问路径：/trip/123
                 element: <TravelPlanPage/>
+            },
+            {
+                path: 'interests',
+                element: <InterestSelection />
             }
             // {
             //   path: 'profile',   // 访问路径：/profile
