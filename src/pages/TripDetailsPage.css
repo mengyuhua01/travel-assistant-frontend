@@ -1,0 +1,96 @@
+.trip-details-page {
+  background: linear-gradient(135deg, #f0f8f0, #e8f5e8);
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.trip-tabs {
+  background: transparent;
+}
+
+.trip-tabs .ant-tabs-tab {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2e7d32;
+  padding: 12px 20px;
+  border-radius: 8px 8px 0 0;
+  margin-right: 8px;
+  background: linear-gradient(135deg, #e8f5e8, #d4e6d4);
+  border: 1px solid #81c784;
+}
+
+.trip-tabs .ant-tabs-tab-active {
+  background: linear-gradient(135deg, #4caf50, #388e3c);
+  color: white;
+  border-color: #2e7d32;
+}
+
+.trip-tabs .ant-tabs-tab:hover {
+  color: #1b5e20;
+  background: linear-gradient(135deg, #c8e6c8, #a5d6a7);
+}
+
+.trip-tabs .ant-tabs-tab-active:hover {
+  color: white;
+}
+
+.trip-tabs .ant-tabs-content-holder {
+  padding: 20px;
+  background: linear-gradient(135deg, #ffffff, #f8fdf8);
+  border-radius: 0 8px 8px 8px;
+  border: 1px solid #81c784;
+  border-top: none;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.1);
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  background-color: #a5d6a7;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.tab-button.active {
+  background-color: #2e7d32;
+  color: white;
+}
+
+.tab-content {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.trip-card {
+  margin-bottom: 30px;
+  background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
+  border-radius: 15px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+.trip-tabs {
+  margin-top: 20px;
+}
+
+.trip-tabs .ant-tabs-tab {
+  font-weight: bold;
+  color: #2e7d32;
+  font-size: 1.2rem;
+  padding: 10px 20px;
+}
+
+.trip-tabs .ant-tabs-tab-active {
+  color: #1b5e20;
+  background-color: #c8e6c9;
+  border-radius: 5px;
+}

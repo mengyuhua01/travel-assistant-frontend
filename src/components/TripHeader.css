@@ -1,0 +1,10 @@
+.trip-header-card {
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.15);
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ffffff, #f1f8e9);
+  border: 1px solid #a5d6a7;
+}
+
+.trip-header-card .ant-card-body {
+  padding: 32px;
+}
