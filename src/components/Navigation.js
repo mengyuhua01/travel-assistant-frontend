@@ -19,7 +19,7 @@ const Navigation = () => {
             <HomeOutlined className="nav-icon" />
             Home
           </Link>
-          <Link to="/" className="nav-link">
+          <Link to="/plan" className="nav-link">
             <PlusOutlined className="nav-icon" />
             Start Plan
           </Link>
