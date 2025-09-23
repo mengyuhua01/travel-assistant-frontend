@@ -16,7 +16,7 @@ import TripSummary from '../components/TripSummary';
 import './TripDetailsPage.css';
 
 const { Title } = Typography;
-const { TabPane } = Tabs;
+// const { TabPane } = Tabs;
 
 const TripDetailsPage = ({ tripData: initialTripData }) => {
   const [tripData, setTripData] = useState(initialTripData);
