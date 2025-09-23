@@ -45,5 +45,29 @@ apiClient.interceptors.response.use(
   }
 );
 
+/**
+ * 通用请求函数
+ * @param {Object} config - 请求配置
+ * @param {string} config.url - 请求URL
+ * @param {string} config.method - 请求方法
+ * @param {Object} config.data - 请求数据
+ * @param {Object} config.headers - 额外的请求头
+ * @returns {Promise} 请求结果
+ */
+export const request = async (config) => {
+  try {
+    const response = await apiClient({
+      ...config,
+      headers: {
+        ...apiClient.defaults.headers,
+        ...config.headers
+      }
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default apiClient;
 
