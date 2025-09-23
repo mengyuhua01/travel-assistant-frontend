@@ -1,0 +1,16 @@
+.trip-summary .ant-card {
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.1);
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ffffff, #f8fff8);
+  border: 1px solid #c8e6c9;
+}
+
+.trip-summary .ant-descriptions-item-label {
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+.trip-summary .ant-descriptions-item-content {
+  font-weight: 500;
+  color: #388e3c;
+}

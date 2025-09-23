@@ -1,29 +1,46 @@
-body {
-  font-family: 'Roboto', sans-serif;
-  background: linear-gradient(135deg, #e8f5e9, #f0fff4);
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-}
-
 .trip-details-page {
-  padding: 30px;
-  max-width: 900px;
-  margin: 30px auto;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 20px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #f0f8f0, #e8f5e8);
+  min-height: 100vh;
+  padding: 24px;
 }
 
-.trip-title {
+.trip-tabs {
+  background: transparent;
+}
+
+.trip-tabs .ant-tabs-tab {
+  font-size: 16px;
+  font-weight: 600;
   color: #2e7d32;
-  text-align: center;
+  padding: 12px 20px;
+  border-radius: 8px 8px 0 0;
+  margin-right: 8px;
+  background: linear-gradient(135deg, #e8f5e8, #d4e6d4);
+  border: 1px solid #81c784;
 }
 
-.trip-overview {
-  color: #4caf50;
-  text-align: center;
-  margin-bottom: 20px;
+.trip-tabs .ant-tabs-tab-active {
+  background: linear-gradient(135deg, #4caf50, #388e3c);
+  color: white;
+  border-color: #2e7d32;
+}
+
+.trip-tabs .ant-tabs-tab:hover {
+  color: #1b5e20;
+  background: linear-gradient(135deg, #c8e6c8, #a5d6a7);
+}
+
+.trip-tabs .ant-tabs-tab-active:hover {
+  color: white;
+}
+
+.trip-tabs .ant-tabs-content-holder {
+  padding: 20px;
+  background: linear-gradient(135deg, #ffffff, #f8fdf8);
+  border-radius: 0 8px 8px 8px;
+  border: 1px solid #81c784;
+  border-top: none;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.1);
 }
 
 .tabs {
