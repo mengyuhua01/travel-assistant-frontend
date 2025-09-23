@@ -12,7 +12,6 @@ import TripDetailsPage from '../pages/TripDetailsPage';
 // import UserSettings from '../pages/UserSettings';
 // import AboutPage from '../pages/AboutPage';
 // import HelpPage from '../pages/HelpPage';
-import InterestSelection from '../pages/InterestSelection';
 
 
 const router = createBrowserRouter([
@@ -28,10 +27,6 @@ const router = createBrowserRouter([
     {
         path: '/register',
         element: <Register/>
-    },
-    {
-        path: '/interests',
-        element: <InterestSelection/>
     },
 
 
