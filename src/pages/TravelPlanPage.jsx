@@ -41,7 +41,6 @@ const TravelPlanPage = () => {
    * 包含：发起对话 -> 轮询状态 -> 获取消息详情
    */
   const generateAITravelPlans = async (travelData) => {
-    console.log('开始生成AI旅行方案，输入数据:', travelData);
     setFormData(travelData);
     setIsGenerating(true);
     setProgress(0);
@@ -53,40 +52,30 @@ const TravelPlanPage = () => {
       message.info('🤖 正在向AI发起旅行规划请求...');
 
       const chatResponse = await generateTravelPlan(travelData);
-      console.log('完整的API响应:', chatResponse);
-
-      if (!chatResponse.conversation_id || !chatResponse.id) {
-        throw new Error('未能获取对话ID，请检查API响应格式');
-      }
 
       const conversationId = chatResponse.conversation_id;
       const chatId = chatResponse.id;
-      console.log('对话已发起：', { conversationId, chatId });
 
       // 第2步：轮询对话状态
       setProgress(40);
       message.info('⏳ AI正在思考中，请稍候...');
 
       const completedChat = await pollChatStatus(conversationId, chatId);
-      console.log('对话已完成：', completedChat);
 
       // 第3步：获取完整的消息列表
       setProgress(80);
       message.info('📄 正在获取AI生成的完整方案...');
 
       const messageList = await getChatMessageList(conversationId, chatId);
-      console.log('获取到消息列表：', messageList);
 
       // 第4步：解析AI回复并生成前端显示的方案
       setProgress(100);
       const aiGeneratedPlans = parseAIResponseToPlans(messageList);
-      console.log('解析后的方案:', aiGeneratedPlans);
 
       setPlans(aiGeneratedPlans);
       message.success('🎉 AI旅行方案生成成功！');
 
     } catch (error) {
-      console.error('AI方案生成失败:', error);
       message.error(`生成失败：${error.message}`);
 
       // 发生错误时显示备用方案
@@ -103,46 +92,24 @@ const TravelPlanPage = () => {
    * 解析AI消息列表，转换为前端显示的方案格式
    */
   const parseAIResponseToPlans = (messageList) => {
-    console.log('开始解析AI消息:', messageList);
-    console.log('messageList类型:', typeof messageList);
-    console.log('messageList是否为数组:', Array.isArray(messageList));
+    const aiMessage = messageList.find(msg => msg.type === 'answer');
+    const aiContent = JSON.parse(aiMessage.content);
 
-    try {
-      if (!Array.isArray(messageList)) {
-        throw new Error('消息列表格式错误');
+    return [
+      {
+        id: 'ai-generated-1',
+        title: aiContent.title || '定制旅行方案',
+        duration: `${aiContent.duration || 3}天`,
+        budget: `¥${aiContent.totalBudget || 2000}`,
+        description: aiContent.overview || '为您定制的专属旅行方案',
+        image: '🤖',
+        type: 'ai-generated',
+        highlights: aiContent.tips ? aiContent.tips.slice(0, 4) : ['AI定制', '个性化', '智能推荐'],
+        rating: 4.8,
+        dailyPlan: aiContent.dailyPlan || [],
+        tips: aiContent.tips || []
       }
-
-      const aiMessage = messageList.find(msg => msg.type === 'answer');
-      console.log('找到的AI消息:', aiMessage);
-
-      if (!aiMessage || !aiMessage.content) {
-        throw new Error('未找到AI回复内容');
-      }
-
-      console.log('AI消息内容:', aiMessage.content);
-
-      const aiContent = JSON.parse(aiMessage.content);
-      console.log('解析后的AI内容:', aiContent);
-
-      return [
-        {
-          id: 'ai-generated-1',
-          title: aiContent.title || '定制旅行方案',
-          duration: `${aiContent.duration || 3}天`,
-          budget: `¥${aiContent.totalBudget || 2000}`,
-          description: aiContent.overview || '为您定制的专属旅行方案',
-          image: '🤖',
-          type: 'ai-generated',
-          highlights: aiContent.tips ? aiContent.tips.slice(0, 4) : ['AI定制', '个性化', '智能推荐'],
-          rating: 4.8,
-          dailyPlan: aiContent.dailyPlan || [],
-          tips: aiContent.tips || []
-        }
-      ];
-    } catch (error) {
-      console.error('解析AI回复失败:', error);
-      throw new Error('解析AI回复失败: ' + error.message);
-    }
+    ];
   };
 
   /**
@@ -166,7 +133,6 @@ const TravelPlanPage = () => {
 
   // 处理表单提交 - 这是生成方案按钮的点击事件
   const handleFormSubmit = (values) => {
-    console.log('表单提交数据:', values);
     generateAITravelPlans(values);
   };
 
