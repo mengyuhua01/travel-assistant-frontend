@@ -12,7 +12,7 @@ const tagOptions = [
   { key: 'economical', label: '更经济化', icon: <FaDollarSign />, color: '#52c41a' }
 ];
 
-const TagSelector = ({ dayData, originalTrip, onRegenerateSuccess }) => {
+const TagSelector = ({ dayData, tripId, onRegenerateSuccess }) => {
   const [selectedTags, setSelectedTags] = useState([]);
   const [isRegenerating, setIsRegenerating] = useState(false);
   const [regeneratingProgress, setRegeneratingProgress] = useState('');
@@ -35,7 +35,7 @@ const TagSelector = ({ dayData, originalTrip, onRegenerateSuccess }) => {
     setRegeneratingProgress('正在准备重新生成...');
 
     try {
-      // 动态导入 cozeService 并使用异步接口
+      // 使用修改后的重排服务
       const { regenerateDayAsync } = await import('../services/cozeReplanService');
 
       const selectedTagLabels = selectedTags.map(key => 
@@ -43,7 +43,7 @@ const TagSelector = ({ dayData, originalTrip, onRegenerateSuccess }) => {
       ).filter(Boolean);
 
       const updatedTrip = await regenerateDayAsync(
-        originalTrip,
+        tripId,
         dayData.day,
         selectedTagLabels,
         (progress) => {
@@ -52,20 +52,18 @@ const TagSelector = ({ dayData, originalTrip, onRegenerateSuccess }) => {
         }
       );
 
-      // 找到更新后的当天数据并回调父组件以重新渲染
-      const updatedDayData = updatedTrip.dailyPlan?.find(day => day.day === dayData.day);
+      console.log('regenerateDayAsync 完成:', { updatedTrip });
 
-      console.log('regenerateDayAsync 完成:', { updatedTrip, updatedDayData });
-
-      if (updatedDayData && onRegenerateSuccess) {
+      if (updatedTrip && onRegenerateSuccess) {
         console.log('调用 onRegenerateSuccess');
-        onRegenerateSuccess(updatedDayData, updatedTrip);
+        // 传递 null 作为第一个参数（updatedDayData），完整的 updatedTrip 作为第二个参数
+        onRegenerateSuccess(null, updatedTrip);
         message.success('行程重新生成成功！');
         setSelectedTags([]); // 清空选择
         setRegeneratingProgress('重新生成完成！');
       } else {
-        console.error('未找到更新后的当天数据:', { updatedTrip, dayData: dayData.day });
-        throw new Error('未找到更新后的当天数据');
+        console.error('未获取到更新后的行程数据:', { updatedTrip });
+        throw new Error('未获取到更新后的行程数据');
       }
 
     } catch (error) {

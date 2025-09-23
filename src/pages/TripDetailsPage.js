@@ -11,7 +11,7 @@ import {
 import {
   ArrowLeftOutlined
 } from '@ant-design/icons';
-import { getTravelPlanById } from '../apis/travelPlanApi';
+import { getTripById } from '../services/tripService';
 import DayDetails from '../components/DayDetails';
 import TripHeader from '../components/TripHeader';
 import TripSummary from '../components/TripSummary';
@@ -28,7 +28,7 @@ const TripDetailsPage = () => {
   useEffect(() => {
     const fetchTripData = async () => {
       try {
-        const data = await getTravelPlanById(id);
+        const data = await getTripById(id);
         console.log('Fetched trip data:', data);
         setTripData(data);
       } catch (error) {
@@ -113,6 +113,7 @@ const TripDetailsPage = () => {
                   children: (
                     <DayDetails
                       dayData={day}
+                      tripId={id}
                       originalTrip={tripData}
                       onRegenerateSuccess={handleRegenerateSuccess}
                     />
