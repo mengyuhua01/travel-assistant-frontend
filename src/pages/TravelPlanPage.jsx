@@ -91,26 +91,11 @@ const TravelPlanPage = () => {
         const jsonString = aiMessage.content.substring(aiMessage.content.indexOf('{'));
         const aiContent = JSON.parse(jsonString);
         
-        // 构建要插入数据库的方案数据
-        const planData = {
-            title: aiContent.title || '定制旅行方案',
-            duration: aiContent.duration || '3天',
-            budget: aiContent.totalBudget || 2000,
-            description: aiContent.overview || '为您定制的专属旅行方案',
-            type: 'ai-generated',
-            rating: 4.8,
-            dailyPlan: aiContent.dailyPlan || [],
-            tips: aiContent.tips || [],
-            formData: formData, // 保存用户填写的表单数据
-            aiRawContent: aiContent, // 保存AI返回的原始内容
-            status: 'active'
-        };
-
         try {
-            // 插入数据库并获取返回的ID
-            const insertResult = await insertTravelPlan(planData);
+            // 直接插入AI解析出来的aiContent对象到数据库
+            const insertResult = await insertTravelPlan(aiContent);
             const planId = insertResult.data?.id || insertResult.id;
-
+            
             // 返回前端显示格式，包含数据库返回的真实ID
             return [
                 {
@@ -123,14 +108,11 @@ const TravelPlanPage = () => {
                     type: 'ai-generated',
                     rating: 4.8,
                     dailyPlan: aiContent.dailyPlan || [],
-                    tips: aiContent.tips || [],
-                    dbId: planId // 添加数据库ID字段
+                    tips: aiContent.tips || []
                 }
             ];
         } catch (error) {
             console.error('插入旅行方案到数据库失败:', error);
-            message.error('保存旅行方案失败，但方案依然可以查看');
-            
             // 即使插入失败，也返回方案数据（使用临时ID）
             return [
                 {
@@ -143,8 +125,7 @@ const TravelPlanPage = () => {
                     type: 'ai-generated',
                     rating: 4.8,
                     dailyPlan: aiContent.dailyPlan || [],
-                    tips: aiContent.tips || [],
-                    dbId: null // 标记未保存到数据库
+                    tips: aiContent.tips || []
                 }
             ];
         }
@@ -176,20 +157,8 @@ const TravelPlanPage = () => {
 
     // 跳转到方案详情
     const handleViewPlan = (planId) => {
-        // 查找对应的方案数据
-        const selectedPlan = plans.find(plan => plan.id === planId);
-        
-        // 使用数据库ID或临时ID进行跳转
-        const dbId = selectedPlan?.dbId || planId;
-        
-        navigate(`/trip/${dbId}`, {
-            state: {
-                formData,
-                planId: dbId,
-                planData: selectedPlan, // 传递完整的方案数据
-                hasDbId: !!selectedPlan?.dbId // 标记是否有数据库ID
-            }
-        });
+        // 直接使用数据库返回的ID进行跳转，不传递其他数据
+        navigate(`/trip/${planId}`);
     };
 
     // 获取方案类型对应的颜色
