@@ -30,8 +30,8 @@
 
 .travel-form-card {
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  border: 1px solid #f0f0f0;
+  box-shadow: 0 4px 20px rgba(42, 111, 107, 0.15);
+  border: 1px solid #2A6F6B;
 }
 
 .travel-form-submit-button {
@@ -40,8 +40,8 @@
   border-radius: 8px;
   font-size: 16px;
   font-weight: 500;
-  background: #1890ff;
-  border: none;
+  background: #2A6F6B !important;
+  border: none !important;
 }
 
 .travel-form-submit-row {
@@ -62,3 +62,5 @@
   font-weight: 500;
   font-size: 14px;
 }
+
+/* 输入框样式已恢复为默认 */

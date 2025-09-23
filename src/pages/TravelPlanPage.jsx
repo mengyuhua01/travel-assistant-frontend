@@ -4,6 +4,7 @@ import {Button, Card, Col, Divider, message, Progress, Row, Space, Tag, Typograp
 import {ClockCircleOutlined, DollarOutlined, EyeOutlined, StarOutlined, UserOutlined} from '@ant-design/icons';
 import TravelForm from '../components/TravelForm';
 import {generateTravelPlan, getChatMessageList, getChatStatus} from '../apis/cozeApi';
+import {insertTravelPlan} from '../apis/travelPlanApi';
 import './TravelPlanPage.css';
 
 const {Title, Text, Paragraph} = Typography;
@@ -64,7 +65,7 @@ const TravelPlanPage = () => {
 
             // 第4步：解析AI回复并生成前端显示的方案
             setProgress(100);
-            const aiGeneratedPlans = parseAIResponseToPlans(messageList);
+            const aiGeneratedPlans = await parseAIResponseToPlans(messageList);
 
             setPlans(aiGeneratedPlans);
             message.success('🎉 AI旅行方案生成成功！');
@@ -85,25 +86,68 @@ const TravelPlanPage = () => {
     /**
      * 解析AI消息列表，转换为前端显示的方案格式
      */
-    const parseAIResponseToPlans = (messageList) => {
+    const parseAIResponseToPlans = async (messageList) => {
         const aiMessage = messageList.find(msg => msg.type === 'answer');
-        console.log(aiMessage)
         const jsonString = aiMessage.content.substring(aiMessage.content.indexOf('{'));
         const aiContent = JSON.parse(jsonString);
-        return [
-            {
-                id: 'ai-generated-1',
-                title: aiContent.title || '定制旅行方案',
-                duration: aiContent.duration || '3天',
-                budget: `¥${aiContent.totalBudget || 2000}`,
-                description: aiContent.overview || '为您定制的专属旅行方案',
-                image: '🤖',
-                type: 'ai-generated',
-                rating: 4.8,
-                dailyPlan: aiContent.dailyPlan || [],
-                tips: aiContent.tips || []
-            }
-        ];
+        
+        // 构建要插入数据库的方案数据
+        const planData = {
+            title: aiContent.title || '定制旅行方案',
+            duration: aiContent.duration || '3天',
+            budget: aiContent.totalBudget || 2000,
+            description: aiContent.overview || '为您定制的专属旅行方案',
+            type: 'ai-generated',
+            rating: 4.8,
+            dailyPlan: aiContent.dailyPlan || [],
+            tips: aiContent.tips || [],
+            formData: formData, // 保存用户填写的表单数据
+            aiRawContent: aiContent, // 保存AI返回的原始内容
+            status: 'active'
+        };
+
+        try {
+            // 插入数据库并获取返回的ID
+            const insertResult = await insertTravelPlan(planData);
+            const planId = insertResult.data?.id || insertResult.id;
+
+            // 返回前端显示格式，包含数据库返回的真实ID
+            return [
+                {
+                    id: planId, // 使用数据库返回的真实ID
+                    title: aiContent.title || '定制旅行方案',
+                    duration: aiContent.duration || '3天',
+                    budget: `¥${aiContent.totalBudget || 2000}`,
+                    description: aiContent.overview || '为您定制的专属旅行方案',
+                    image: '🤖',
+                    type: 'ai-generated',
+                    rating: 4.8,
+                    dailyPlan: aiContent.dailyPlan || [],
+                    tips: aiContent.tips || [],
+                    dbId: planId // 添加数据库ID字段
+                }
+            ];
+        } catch (error) {
+            console.error('插入旅行方案到数据库失败:', error);
+            message.error('保存旅行方案失败，但方案依然可以查看');
+            
+            // 即使插入失败，也返回方案数据（使用临时ID）
+            return [
+                {
+                    id: 'ai-generated-temp-' + Date.now(),
+                    title: aiContent.title || '定制旅行方案',
+                    duration: aiContent.duration || '3天',
+                    budget: `¥${aiContent.totalBudget || 2000}`,
+                    description: aiContent.overview || '为您定制的专属旅行方案',
+                    image: '🤖',
+                    type: 'ai-generated',
+                    rating: 4.8,
+                    dailyPlan: aiContent.dailyPlan || [],
+                    tips: aiContent.tips || [],
+                    dbId: null // 标记未保存到数据库
+                }
+            ];
+        }
     };
 
     /**
@@ -132,10 +176,18 @@ const TravelPlanPage = () => {
 
     // 跳转到方案详情
     const handleViewPlan = (planId) => {
-        navigate(`/plan/${planId}`, {
+        // 查找对应的方案数据
+        const selectedPlan = plans.find(plan => plan.id === planId);
+        
+        // 使用数据库ID或临时ID进行跳转
+        const dbId = selectedPlan?.dbId || planId;
+        
+        navigate(`/trip/${dbId}`, {
             state: {
                 formData,
-                planId
+                planId: dbId,
+                planData: selectedPlan, // 传递完整的方案数据
+                hasDbId: !!selectedPlan?.dbId // 标记是否有数据库ID
             }
         });
     };
@@ -179,48 +231,57 @@ const TravelPlanPage = () => {
             <TravelForm onSubmit={handleFormSubmit} loading={isGenerating}/>
 
             {/* 方案生成区域 */}
-            <div style={{maxWidth: 1200, margin: '0 auto', padding: '0 24px', paddingBottom: '40px'}}>
+            <div style={{background: 'transparent', paddingBottom: '40px'}}>
                 {/* AI生成进度显示 */}
                 {isGenerating && (
-                    <Card style={{marginBottom: 24, borderRadius: 12}}>
-                        <div style={{textAlign: 'center', padding: '60px 20px'}}>
-                            <div style={{fontSize: 48, marginBottom: 20}}>🤖</div>
-                            <Title level={2} style={{marginBottom: 24, color: '#1890ff'}}>
-                                AI正在为您生成专属旅行方案
-                            </Title>
-                            <Progress
-                                percent={progress}
-                                status="active"
-                                strokeColor={{
-                                    from: '#667eea',
-                                    to: '#764ba2',
-                                }}
-                                strokeWidth={8}
-                                style={{marginBottom: 20}}
-                            />
-                            <Text type="secondary" style={{fontSize: 16}}>
-                                {progress === 20 && '🔍 正在分析您的需求...'}
-                                {progress === 40 && '⏳ AI正在思考中...'}
-                                {progress === 80 && '📄 正在获取完整方案...'}
-                                {progress === 100 && '✅ 生成个性化方案完成！'}
-                            </Text>
+                    <div className="travel-form-container" style={{background: '#ffffff', borderBottom: '1px solid #f0f0f0'}}>
+                        <div className="travel-form-content">
+                            <Card style={{
+                                borderRadius: 12,
+                                border: '1px solid #054d2e',
+                                boxShadow: '0 4px 16px rgba(5, 77, 46, 0.08)'
+                            }}>
+                                <div style={{textAlign: 'center', padding: '60px 20px'}}>
+                                    <div style={{fontSize: 48, marginBottom: 20}}>🤖</div>
+                                    <Title level={2} style={{marginBottom: 24, color: '#1890ff'}}>
+                                        AI正在为您生成专属旅行方案
+                                    </Title>
+                                    <Progress
+                                        percent={progress}
+                                        status="active"
+                                        strokeColor={{
+                                            from: '#667eea',
+                                            to: '#764ba2',
+                                        }}
+                                        strokeWidth={8}
+                                        style={{marginBottom: 20}}
+                                    />
+                                    <Text type="secondary" style={{fontSize: 16}}>
+                                        {progress === 20 && '🔍 正在分析您的需求...'}
+                                        {progress === 40 && '⏳ AI正在思考中...'}
+                                        {progress === 80 && '📄 正在获取完整方案...'}
+                                        {progress === 100 && '✅ 生成个性化方案完成！'}
+                                    </Text>
+                                </div>
+                            </Card>
                         </div>
-                    </Card>
+                    </div>
                 )}
 
                 {/* 方案预览区域 */}
                 {Array.isArray(plans) && plans.length > 0 && (
-                    <div>
-                        <div style={{textAlign: 'center', marginBottom: 40}}>
-                            <Title level={2} style={{marginBottom: 16}}>
-                                🎯 为您推荐以下旅行方案
-                            </Title>
-                            <Text type="secondary" style={{fontSize: 16}}>
-                                根据您的需求，我们为您精选了最适合的旅行方案
-                            </Text>
-                        </div>
+                    <div className="travel-form-container" style={{background: '#ffffff', borderBottom: '1px solid #f0f0f0'}}>
+                        <div className="travel-form-content">
+                            <div style={{textAlign: 'center', marginBottom: 40}}>
+                                <Title level={2} style={{marginBottom: 16}}>
+                                    🎯 为您推荐以下旅行方案
+                                </Title>
+                                <Text type="secondary" style={{fontSize: 16}}>
+                                    根据您的需求，我们为您精选了最适合的旅行方案
+                                </Text>
+                            </div>
 
-                        <Row gutter={[24, 24]}>
+                            <Row gutter={[24, 24]}>
                             {plans.map((plan) => (
                                 <Col xs={24} md={12} lg={8} key={plan.id}>
                                     <Card
@@ -229,7 +290,7 @@ const TravelPlanPage = () => {
                                             height: '100%',
                                             borderRadius: 16,
                                             overflow: 'hidden',
-                                            border: '1px solid #f0f0f0',
+                                            border: '1px solid #054d2e',
                                             transition: 'all 0.3s ease',
                                             cursor: 'pointer'
                                         }}
@@ -245,10 +306,12 @@ const TravelPlanPage = () => {
                                                 }}
                                                 style={{
                                                     borderRadius: 8,
-                                                    background: plan.type === 'ai-generated'
-                                                        ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-                                                        : '#1890ff',
-                                                    border: 'none'
+                                                    background: 'linear-gradient(135deg, #e8f5e9, #c8e6c9)',
+                                                    border: 'none',
+                                                    color: '#2d5a27',
+                                                    fontWeight: 500,
+                                                    boxShadow: '0 4px 12px rgba(200, 230, 201, 0.4)',
+                                                    transition: 'all 0.3s ease'
                                                 }}
                                                 key="view"
                                             >
@@ -326,26 +389,112 @@ const TravelPlanPage = () => {
                                     </Card>
                                 </Col>
                             ))}
-                        </Row>
+                            </Row>
+                        </div>
                     </div>
                 )}
 
                 {/* 空状态 */}
                 {!isGenerating && plans.length === 0 && (
-                    <Card style={{
-                        textAlign: 'center',
-                        padding: '80px 20px',
-                        borderRadius: 16,
-                        border: '2px dashed #d9d9d9'
-                    }}>
-                        <div style={{fontSize: 72, marginBottom: 24}}>🗺️</div>
-                        <Title level={3} style={{color: '#8c8c8c', marginBottom: 16}}>
-                            开始您的旅行规划
-                        </Title>
-                        <Text style={{fontSize: 16, color: '#999'}}>
-                            请填写上方表单，我们将为您生成个性化的旅行方案
-                        </Text>
-                    </Card>
+                    <div className="travel-form-container" style={{background: '#ffffff', borderBottom: '1px solid #f0f0f0'}}>
+                        <div className="travel-form-content">
+                            <Card 
+                                className="card-empty"
+                                style={{
+                                    textAlign: 'center',
+                                    padding: '80px 40px',
+                                    borderRadius: 16,
+                                    border: '1px solid #054d2e',
+                                    background: '#ffffff',
+                                    boxShadow: '0 4px 16px rgba(5, 77, 46, 0.08)',
+                                    width: '100%',
+                                    transition: 'all 0.3s ease',
+                                }}
+                            >
+                                <div style={{
+                                    width: 120,
+                                    height: 120,
+                                    margin: '0 auto 32px',
+                                    background: 'linear-gradient(135deg, #e8f4fd 0%, #d6eaff 100%)',
+                                    borderRadius: '50%',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    position: 'relative',
+                                    overflow: 'hidden'
+                                }}>
+                                    <div style={{
+                                        fontSize: 64,
+                                        color: '#1890ff',
+                                        zIndex: 2
+                                    }}>
+                                        🌍
+                                    </div>
+                                    <div style={{
+                                        position: 'absolute',
+                                        top: '20px',
+                                        right: '20px',
+                                        fontSize: 20,
+                                        opacity: 0.6
+                                    }}>
+                                        📍
+                                    </div>
+                                    <div style={{
+                                        position: 'absolute',
+                                        bottom: '25px',
+                                        left: '25px',
+                                        fontSize: 16,
+                                        opacity: 0.6
+                                    }}>
+                                        ✈️
+                                    </div>
+                                </div>
+                                <Title level={2} style={{
+                                    color: '#1f2937', 
+                                    marginBottom: 16,
+                                    fontWeight: 600
+                                }}>
+                                    开始您的旅行规划
+                                </Title>
+                                <Text style={{
+                                    fontSize: 16, 
+                                    color: '#6b7280',
+                                    lineHeight: '1.6'
+                                }}>
+                                    请填写上方表单，我们将为您生成个性化的旅行方案
+                                </Text>
+                                <div style={{
+                                    marginTop: 32,
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    gap: '12px',
+                                    alignItems: 'center'
+                                }}>
+                                    <div style={{
+                                        width: 6,
+                                        height: 6,
+                                        borderRadius: '50%',
+                                        background: '#1890ff',
+                                        animation: 'pulse 2s infinite'
+                                    }} />
+                                    <div style={{
+                                        width: 6,
+                                        height: 6,
+                                        borderRadius: '50%',
+                                        background: '#52c41a',
+                                        animation: 'pulse 2s infinite 0.5s'
+                                    }} />
+                                    <div style={{
+                                        width: 6,
+                                        height: 6,
+                                        borderRadius: '50%',
+                                        background: '#1890ff',
+                                        animation: 'pulse 2s infinite 1s'
+                                    }} />
+                                </div>
+                            </Card>
+                        </div>
+                    </div>
                 )}
             </div>
         </div>

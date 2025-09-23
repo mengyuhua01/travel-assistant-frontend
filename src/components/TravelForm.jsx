@@ -22,6 +22,8 @@ import dayjs from 'dayjs';
 import './TravelForm.css';
 
 const { Title, Text } = Typography;
+
+
 const { RangePicker } = DatePicker;
 
 /**
@@ -114,7 +116,7 @@ const TravelForm = ({ onSubmit, loading: externalLoading }) => {
       <div className="travel-form-content">
         <div className="travel-form-header">
           <Title level={1} className="travel-form-title">
-            ✈️ 智能旅行助手
+            ✈️ Family Travel Planner
           </Title>
           <Text className="travel-form-subtitle">
             填写您的出行需求，AI将为您生成专属的个性化旅行方案
