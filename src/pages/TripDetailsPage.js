@@ -88,7 +88,11 @@ const TripDetailsPage = ({ tripData: initialTripData }) => {
 
           {/* 费用说明 */}
           <Col xs={24} lg={8}>
-            <TripSummary tripData={tripData} />
+            <TripSummary 
+              tripData={tripData}
+              budgetBreakdown={tripData.budgetBreakdown}
+              tips={tripData.tips}
+            />
           </Col>
         </Row>
       </div>

@@ -19,16 +19,6 @@ import './TripHeader.css';
 const { Title, Text, Paragraph } = Typography;
 
 const TripHeader = ({ tripData }) => {
-  const getTypeColor = (type) => {
-    const colors = {
-      cultural: 'blue',
-      leisure: 'green',
-      adventure: 'orange',
-      economic: 'purple'
-    };
-    return colors[type] || 'default';
-  };
-
   const getTypeLabel = (type) => {
     const labels = {
       cultural: '文化旅游',
@@ -45,7 +35,7 @@ const TripHeader = ({ tripData }) => {
         <Col flex="auto">
           <div style={{ textAlign: 'center', marginBottom: 16 }}>
             <div style={{ fontSize: 72, marginBottom: 16 }}>
-              🗺️
+              🏖️
             </div>
             <Title level={2} style={{ marginBottom: 8, color: '#2e7d32' }}>
               {tripData.title}

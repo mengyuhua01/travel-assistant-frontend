@@ -169,17 +169,14 @@ ${JSON.stringify(originalTrip, null, 2)}
       onProgress('AI正在处理中，请稍候...');
     }
 
-    // 使用指数回退的轮询策略，总等待上限 90s
+    // 使用固定间隔轮询策略，每秒检查一次，总等待上限 90s
     let attempts = 0;
-    let delay = 1000; // 初始 1s
-    const maxTotalMs = 90 * 1000; // 90s
-    const maxDelay = 10 * 1000; // 单次最大延迟 10s
-    let elapsed = 0;
+    const delay = 1000; // 固定 1s 间隔
+    const maxAttempts = 90; // 最多90次，即90秒
 
-    while (elapsed < maxTotalMs) {
-      // 等待 delay 毫秒
+    while (attempts < maxAttempts) {
+      // 等待 1 秒
       await new Promise(resolve => setTimeout(resolve, delay));
-      elapsed += delay;
       attempts++;
 
       try {
@@ -189,14 +186,13 @@ ${JSON.stringify(originalTrip, null, 2)}
         if (statusResponse.data?.code !== 0) {
           console.warn(`状态查询失败: ${statusResponse.data?.msg || 'Unknown error'}, 重试中...`);
           // 继续重试而不是直接抛出错误
-          delay = Math.min(Math.floor(delay * 1.8), maxDelay);
           continue;
         }
 
         const status = statusResponse.data.data?.status;
         
         if (onProgress) {
-          onProgress(`AI处理中 (第${attempts}次检查, 状态: ${status}, 已耗时: ${Math.floor(elapsed/1000)}s)...`);
+          onProgress(`AI处理中 (第${attempts}次检查, 状态: ${status}, 已耗时: ${attempts}s)...`);
         }
 
         if (status === 'completed') {
@@ -265,9 +261,6 @@ ${JSON.stringify(originalTrip, null, 2)}
           throw statusError;
         }
       }
-
-      // 指数级增加下一次延迟，防止频繁轮询
-      delay = Math.min(Math.floor(delay * 1.8), maxDelay);
     }
 
     throw new Error('AI回复超时（>90s），请重试');
@@ -281,119 +274,5 @@ ${JSON.stringify(originalTrip, null, 2)}
     } else {
       throw error;
     }
-  }
-};
-
-// 兼容原接口的导出 - 全部指向异步非流式版本
-export const regenerateDay = regenerateDayAsync;
-export const regenerateDayStream = regenerateDayAsync; // 不再使用流式，统一使用异步版本
-
-// 从Coze生成或获取完整行程（异步版本）
-export const fetchFullTrip = async (userPromptText, onProgress) => {
-  const prompt = userPromptText || `请生成一个旅行行程的完整JSON，字段包括 title, overview, duration, totalBudget, dailyPlan (每项包含 day, theme, morning, afternoon, evening, meals, accommodation, transportation, dailyCost), budgetBreakdown 和 tips。`;
-
-  if (onProgress) {
-    onProgress('正在请求Coze生成完整行程...');
-  }
-
-  const payload = {
-    bot_id: String(botId),
-    user_id: `user_${Date.now()}`,
-    stream: false, // 强制使用非流式调用
-    auto_save_history: true,
-    additional_messages: [
-      {
-        role: 'user',
-        content: prompt,
-        content_type: 'text',
-      },
-    ],
-  };
-
-  // 发起请求并采用与 regenerateDayAsync 相同的轮询获取最终消息
-  try {
-    const resp = await cozeClient.post('/v3/chat', payload);
-    if (onProgress) {
-      onProgress('请求已发送，等待AI生成完整行程...');
-    }
-
-    const data = resp.data;
-    if (data.code !== 0) {
-      throw new Error(`API错误: ${data.msg || 'Unknown error'}`);
-    }
-
-    const chatId = data.data?.id;
-    const conversationId = data.data?.conversation_id;
-    if (!chatId) {
-      throw new Error('未获取到聊天ID');
-    }
-
-    // 指数回退轮询（与 regenerateDayAsync 相同）
-    let delay = 1000;
-    const maxTotalMs = 90 * 1000;
-    const maxDelay = 10 * 1000;
-    let elapsed = 0;
-    let attempts = 0;
-
-    while (elapsed < maxTotalMs) {
-      await new Promise(r => setTimeout(r, delay));
-      elapsed += delay;
-      attempts++;
-
-      const statusResp = await cozeClient.get(`/v3/chat/retrieve?chat_id=${chatId}&conversation_id=${conversationId}`);
-      if (statusResp.data?.code !== 0) {
-        console.warn(`状态查询失败: ${statusResp.data?.msg || 'Unknown error'}, 重试中...`);
-        delay = Math.min(Math.floor(delay * 1.8), maxDelay);
-        continue;
-      }
-
-      const status = statusResp.data.data?.status;
-      if (onProgress) {
-        onProgress(`生成中 (第${attempts}次检查, 状态: ${status}, 已耗时: ${Math.floor(elapsed/1000)}s)...`);
-      }
-
-      if (status === 'completed') {
-        const messagesResp = await cozeClient.get(`/v3/chat/message/list?chat_id=${chatId}&conversation_id=${conversationId}`);
-        if (messagesResp.data?.code !== 0) {
-          throw new Error(`消息获取失败: ${messagesResp.data?.msg || 'Unknown error'}`);
-        }
-
-        const messages = messagesResp.data.data || [];
-        const aiMessage = messages.find(msg => msg.role === 'assistant' && msg.type === 'answer');
-        
-        if (!aiMessage?.content) {
-          throw new Error('未找到AI的回复内容');
-        }
-
-        const fullResponse = extractTextFromMessage(aiMessage);
-        const jsonMatch = fullResponse.match(/\{[\s\S]*\}/);
-        
-        if (!jsonMatch) {
-          throw new Error('AI返回的数据中未包含JSON格式结果');
-        }
-
-        try {
-          const parsedTrip = JSON.parse(jsonMatch[0]);
-          if (onProgress) {
-            onProgress('完整行程生成成功！');
-          }
-          return parsedTrip;
-        } catch (e) {
-          throw new Error('解析AI返回的JSON失败');
-        }
-      }
-
-      if (status === 'failed') {
-        throw new Error('AI生成失败');
-      }
-
-      // 增加延迟
-      delay = Math.min(Math.floor(delay * 1.8), maxDelay);
-    }
-
-    throw new Error('等待AI生成超时 (>90s)');
-  } catch (e) {
-    console.error('fetchFullTrip 失败:', e);
-    throw e;
   }
 };
