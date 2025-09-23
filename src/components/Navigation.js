@@ -10,7 +10,7 @@ const Navigation = () => {
         <div className="nav-brand">
           <Link to="/" className="brand-link">
             <span className="brand-icon">✈️</span>
-            Family Travel Planner
+            Togother
           </Link>
         </div>
 

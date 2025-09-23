@@ -22,7 +22,7 @@
 }
 
 .hero-content {
-  max-width: 1200px;
+  max-width: 1250px;
   margin: 0 auto;
   padding: 0 2rem;
   display: grid;
@@ -139,6 +139,23 @@
   font-size: 1.2rem;
   margin-bottom: 2.5rem;
   opacity: 0.9;
+}
+
+.cta-primary {
+  background: linear-gradient(135deg, #08782f91, #16a34a) !important;
+  border: none;
+  color: white;
+
+}
+
+.cta-primary:hover {
+  transform: scale(1.05);
+}
+
+.cta-secondary:hover {
+  color: #08782fc6 !important;
+  border: #08782fc6 !important;
+  transform: scale(1.05);
 }
 
 
