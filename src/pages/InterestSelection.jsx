@@ -8,28 +8,30 @@ import {
   Space, 
   Spin, 
   message, 
-  Collapse,
 } from 'antd';
 import { 
   CheckOutlined, 
-  DownOutlined, 
-  UpOutlined,
   HeartOutlined,
-  StarOutlined
+  StarOutlined,
+  FireOutlined,
+  ThunderboltOutlined,
+  PictureOutlined,
+  BookOutlined,
+  EnvironmentOutlined,
+  TeamOutlined,
+  CompassOutlined
 } from '@ant-design/icons';
 import { getTags, setUserTags } from '../apis/user';
 import { useAuth } from '../contexts/AuthContext';
 import './InterestSelection.css';
 
 const { Title, Paragraph, Text } = Typography;
-const { Panel } = Collapse;
 
 function InterestSelection() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [tags, setTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
-  const [expandedCategories, setExpandedCategories] = useState([]);
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
 
@@ -60,10 +62,6 @@ function InterestSelection() {
         const response = await getTags();
         console.log('获取到的标签:', response);
         setTags(response);
-        
-        // 动态设置展开的分类（获取所有唯一的分类名称）
-        const categories = [...new Set(response.map(tag => tag.category))];
-        setExpandedCategories(categories);
       } catch (error) {
         console.error('获取标签失败:', error);
         
@@ -99,6 +97,22 @@ function InterestSelection() {
     return categories;
   };
 
+  // 获取分类图标
+  const getCategoryIcon = (categoryName) => {
+    const iconMap = {
+      '美食': <FireOutlined />,                   
+      '运动': <ThunderboltOutlined />,       
+      '自然风光': <EnvironmentOutlined />,        
+      '文化艺术': <PictureOutlined />,          
+      '亲子休闲': <TeamOutlined />,             
+      '小众探险': <CompassOutlined />,      
+      '艺术': <PictureOutlined />,              
+      '文化': <BookOutlined />,               
+      '旅游': <StarOutlined />                   
+    };
+    return iconMap[categoryName] || <StarOutlined />;
+  };
+
   const toggleTag = (tagId) => {
     setSelectedTags(prev => 
       prev.includes(tagId) 
@@ -118,6 +132,9 @@ function InterestSelection() {
       setSubmitting(true);
       await setUserTags(selectedTags);
       message.success('兴趣标签设置成功！');
+      
+      // 滚动到页面顶部
+      window.scrollTo(0, 0);
       navigate('/');
     } catch (error) {
       console.error('设置标签失败:', error);
@@ -128,6 +145,8 @@ function InterestSelection() {
   };
 
   const handleSkip = () => {
+    // 滚动到页面顶部
+    window.scrollTo(0, 0);
     navigate('/');
   };
 
@@ -159,26 +178,16 @@ function InterestSelection() {
 
         {/* Categories */}
         <div className="interest-selection-content">
-          <Collapse
-            activeKey={expandedCategories}
-            onChange={setExpandedCategories}
-            expandIcon={({ isActive }) => isActive ? <UpOutlined /> : <DownOutlined />}
-            className="interest-categories"
-          >
+          <div className="categories-container">
             {Object.entries(organizedTags).map(([categoryName, categoryTags]) => (
-              <Panel 
-                header={
-                  <div className="category-header">
-                    <Text strong style={{ fontSize: 18 }}>{categoryName}</Text>
-                    <Text type="secondary" style={{ marginLeft: 8 }}>
-                      ({categoryTags.length} 个标签)
-                    </Text>
+              <div key={categoryName} className="category-section">
+                <div className="category-title">
+                  <div className="category-title-content">
+                    {getCategoryIcon(categoryName)}
+                    <Text strong style={{ fontSize: 18, marginLeft: 8 }}>{categoryName}</Text>
                   </div>
-                } 
-                key={categoryName}
-                className="category-panel"
-              >
-                <div className="tags-container">
+                </div>
+                <div className="tags-grid">
                   {categoryTags.map(tag => {
                     const isSelected = selectedTags.includes(tag.id);
                     return (
@@ -193,9 +202,9 @@ function InterestSelection() {
                     );
                   })}
                 </div>
-              </Panel>
+              </div>
             ))}
-          </Collapse>
+          </div>
         </div>
 
         {/* Selected Tags Summary */}

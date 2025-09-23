@@ -5,6 +5,7 @@ import Login from '../pages/Login.jsx';
 import Register from '../pages/Register.jsx';
 import StartPage from '../pages/StartPage.jsx';
 import TravelPlanPage from '../pages/TravelPlanPage.jsx';
+import InterestSelection from '../pages/InterestSelection.jsx';
 // 导入其他页面组件（当需要时取消注释）
 import TripDetailsPage from '../pages/TripDetailsPage';
 // import UserProfile from '../pages/UserProfile';
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
     {
         path: '/register',
         element: <Register/>
+    },
+    {
+        path: '/interests',
+        element: <InterestSelection/>
     },
 
     // 受保护的页面（需要登录）- 根路径作为应用入口
