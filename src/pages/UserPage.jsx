@@ -86,7 +86,13 @@ const UserPage = () => {
             <Card title="Travel History" className="history-card" variant="borderless">
               <div style={{ marginBottom: 16 }}>
                 <Link to="/history">
-                  <Button type="primary" icon={<HistoryOutlined />}>查看行程历史</Button>
+                  <Button
+                    type="primary"
+                    icon={<HistoryOutlined />}
+                    style={{ background: 'linear-gradient(135deg, #4caf50, #388e3c)', border: 'none', borderRadius: 8 }}
+                  >
+                    查看所有行程历史
+                  </Button>
                 </Link>
               </div>
               {/* 最近旅行方案 section directly below the button */}
