@@ -118,7 +118,8 @@
 .cost-comparison {
   margin-top: 24px;
   padding: 16px;
-  background: linear-gradient(135deg, #f6ffed 0%, #d9f7be 100%);
+  background: #f6ffed;
+  border: 1px solid #b7eb8f;
   border-radius: 8px;
 
   h5 {
