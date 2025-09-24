@@ -1,4 +1,4 @@
-import { HomeOutlined, LogoutOutlined, PlusOutlined, UserOutlined, HistoryOutlined } from '@ant-design/icons';
+import { HomeOutlined, LogoutOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import './Navigation.css';
@@ -28,10 +28,6 @@ const Navigation = () => {
                 <PlusOutlined className="nav-icon" />
                 开始规划
               </Link>
-                <Link to="/history" className="nav-link">
-                  <HistoryOutlined className="nav-icon" />
-                  旅行历史
-                </Link>
               <Link to="/user" className="nav-link">
                 <UserOutlined className="nav-icon" />
                 我的
