@@ -9,6 +9,7 @@ import UserPage from '../pages/UserPage.jsx';
 import InterestSelection from '../pages/InterestSelection.jsx';
 import TripDetailsPage from '../pages/TripDetailsPage.js';
 import ProtectedRoute from '../components/ProtectedRoute';
+import TravelHistoryPage from '../pages/TravelHistoryPage.jsx';
 // 导入其他页面组件（当需要时取消注释）
 // import TripDetailsPage from '../pages/TripDetailsPage';
 // import UserProfile from '../pages/UserProfile';
@@ -56,7 +57,7 @@ const router = createBrowserRouter([
               element: <TripDetailsPage />
             },
             {
-                path: 'plan',  // 访问路径：/trip/123
+                path: 'plan', 
                 element: <TravelPlanPage/>
             },
             {
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
               path: 'interests',  // 访问路径：/interests
               element: <InterestSelection/>
             },
+            {
+                path: 'history',  // 访问路径：/history
+                element: <TravelHistoryPage/>
+            }
             // 其他受保护页面示例（当需要时取消注释）：
             // {
             //   path: 'profile',   // 访问路径：/profile
