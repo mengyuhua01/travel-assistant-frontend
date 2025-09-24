@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Tag, Space, message } from 'antd';
 import { FaChild, FaMapMarkerAlt, FaUtensils, FaHiking, FaExchangeAlt, FaSpinner, FaDollarSign } from 'react-icons/fa';
+import PlanComparison from './PlanComparison';
 import './TagSelector.css';
 
 const tagOptions = [
@@ -16,6 +17,10 @@ const TagSelector = ({ dayData, tripId, onRegenerateSuccess }) => {
   const [selectedTags, setSelectedTags] = useState([]);
   const [isRegenerating, setIsRegenerating] = useState(false);
   const [regeneratingProgress, setRegeneratingProgress] = useState('');
+  const [showComparison, setShowComparison] = useState(false);
+  const [originalData, setOriginalData] = useState(null);
+  const [newData, setNewData] = useState(null);
+
 
   const handleTagClick = (tagKey) => {
     setSelectedTags(prev => 
@@ -33,6 +38,8 @@ const TagSelector = ({ dayData, tripId, onRegenerateSuccess }) => {
 
     setIsRegenerating(true);
     setRegeneratingProgress('正在准备重新生成...');
+    // 保存原始数据用于对比
+    setOriginalData({ ...dayData });
 
     try {
       // 使用修改后的重排服务
@@ -54,13 +61,17 @@ const TagSelector = ({ dayData, tripId, onRegenerateSuccess }) => {
 
       console.log('regenerateDayAsync 完成:', { updatedTrip });
 
-      if (updatedTrip && onRegenerateSuccess) {
-        console.log('调用 onRegenerateSuccess');
-        // 传递 null 作为第一个参数（updatedDayData），完整的 updatedTrip 作为第二个参数
-        onRegenerateSuccess(null, updatedTrip);
-        message.success('行程重新生成成功！');
-        setSelectedTags([]); // 清空选择
-        setRegeneratingProgress('重新生成完成！');
+      if (updatedTrip && updatedTrip.dailyPlan) {
+        // 找到对应天数的新数据
+        const updatedDayData = updatedTrip.dailyPlan.find(day => day.day === dayData.day);
+
+        if (updatedDayData) {
+          setNewData(updatedDayData);
+          setShowComparison(true); // 显示对比弹窗
+          setRegeneratingProgress('生成完成，请查看对比结果');
+        } else {
+          throw new Error('未找到对应天数的更新数据');
+        }
       } else {
         console.error('未获取到更新后的行程数据:', { updatedTrip });
         throw new Error('未获取到更新后的行程数据');
@@ -77,6 +88,25 @@ const TagSelector = ({ dayData, tripId, onRegenerateSuccess }) => {
         setRegeneratingProgress('');
       }, 3000);
     }
+  };
+
+  const handleComparisonConfirm = () => {
+    if (newData && onRegenerateSuccess) {
+      // 应用新方案
+      onRegenerateSuccess(newData, null);
+      message.success('新方案已应用！');
+      setSelectedTags([]); // 清空选择
+      setShowComparison(false);
+      setOriginalData(null);
+      setNewData(null);
+    }
+  };
+
+  const handleComparisonCancel = () => {
+    setShowComparison(false);
+    setOriginalData(null);
+    setNewData(null);
+    message.info('已取消应用新方案');
   };
 
   return (
@@ -119,6 +149,17 @@ const TagSelector = ({ dayData, tripId, onRegenerateSuccess }) => {
           </div>
         </div>
       )}
+
+      <PlanComparison
+        visible={showComparison}
+        onCancel={handleComparisonCancel}
+        onConfirm={handleComparisonConfirm}
+        originalData={originalData}
+        newData={newData}
+        selectedTags={selectedTags.map(key =>
+          tagOptions.find(option => option.key === key)?.label
+        ).filter(Boolean)}
+      />
     </div>
   );
 };
