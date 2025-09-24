@@ -10,6 +10,8 @@ import InterestSelection from '../pages/InterestSelection.jsx';
 import TripDetailsPage from '../pages/TripDetailsPage.js';
 import ProtectedRoute from '../components/ProtectedRoute';
 import TravelHistoryPage from '../pages/TravelHistoryPage.jsx';
+import PostListPage from '../pages/PostListPage.jsx';
+import PostDetailPage from '../pages/PostDetailPage.jsx';
 // 导入其他页面组件（当需要时取消注释）
 // import TripDetailsPage from '../pages/TripDetailsPage';
 // import UserProfile from '../pages/UserProfile';
@@ -78,6 +80,14 @@ const router = createBrowserRouter([
             {
                 path: 'history',  // 访问路径：/history
                 element: <TravelHistoryPage/>
+            },
+            {
+                path: 'posts',  // 访问路径：/posts (帖子列表页)
+                element: <PostListPage/>
+            },
+            {
+                path: 'posts/:id',  // 访问路径：/posts/123 (帖子详情页)
+                element: <PostDetailPage/>
             }
             // 其他受保护页面示例（当需要时取消注释）：
             // {
