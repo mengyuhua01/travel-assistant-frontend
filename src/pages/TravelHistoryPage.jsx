@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, Row, Col, Typography, Tag, Space, Button, message, Spin, Empty } from 'antd';
-import { ClockCircleOutlined, DollarOutlined, EyeOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
-import { getUserTravelPlans } from '../apis/travelPlanApi';
+import { Card, Row, Col, Typography, Tag, Space, Button, message, Spin, Empty, Modal } from 'antd';
+import { ClockCircleOutlined, DollarOutlined, EyeOutlined, UserOutlined, CalendarOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { getUserTravelPlans, deleteTravelPlan } from '../apis/travelPlanApi';
 import './TravelHistoryPage.css';
 
 const { Title, Text } = Typography;
@@ -11,6 +11,8 @@ const TravelHistoryPage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [travelPlans, setTravelPlans] = useState([]);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [planToDelete, setPlanToDelete] = useState(null);
 
   const getTypeColor = (type) => {
     const colors = {
@@ -66,6 +68,34 @@ const TravelHistoryPage = () => {
     navigate(`/trip/${planId}`);
   };
 
+  const handleDeletePlan = (planId, planTitle) => {
+    console.log('Delete button clicked:', planId, planTitle); // Debug log
+    setPlanToDelete({ id: planId, title: planTitle });
+    setDeleteModalVisible(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!planToDelete) return;
+    
+    try {
+      await deleteTravelPlan(planToDelete.id);
+      message.success('旅行方案删除成功');
+      // 从本地状态中移除已删除的方案
+      setTravelPlans(prevPlans => prevPlans.filter(plan => plan.id !== planToDelete.id));
+    } catch (error) {
+      console.error('删除旅行方案失败:', error);
+      message.error('删除失败，请稍后重试');
+    } finally {
+      setDeleteModalVisible(false);
+      setPlanToDelete(null);
+    }
+  };
+
+  const cancelDelete = () => {
+    setDeleteModalVisible(false);
+    setPlanToDelete(null);
+  };
+
   const formatDate = (dateString) => {
     if (!dateString) return '';
     const date = new Date(dateString);
@@ -107,7 +137,8 @@ const TravelHistoryPage = () => {
                     overflow: 'hidden',
                     border: '1px solid #054d2e',
                     transition: 'all 0.3s ease',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    position: 'relative'
                   }}
                   bodyStyle={{ padding: 24 }}
                   onClick={() => handleViewPlan(plan.id)}
@@ -134,6 +165,45 @@ const TravelHistoryPage = () => {
                     </Button>
                   ]}
                 >
+                  {/* Delete button in top-right corner */}
+                  <Button
+                    type="text"
+                    icon={<DeleteOutlined />}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      console.log('Button clicked!'); // Debug log
+                      handleDeletePlan(plan.id, plan.title);
+                    }}
+                    style={{
+                      position: 'absolute',
+                      top: 12,
+                      right: 12,
+                      zIndex: 10,
+                      color: '#ff4d4f',
+                      background: 'rgba(255, 255, 255, 0.95)',
+                      borderRadius: '50%',
+                      width: 40,
+                      height: 40,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+                      transition: 'all 0.3s ease',
+                      border: '1px solid rgba(255, 77, 79, 0.2)',
+                      fontSize: '16px'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#ff4d4f';
+                      e.currentTarget.style.color = 'white';
+                      e.currentTarget.style.transform = 'scale(1.1)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.95)';
+                      e.currentTarget.style.color = '#ff4d4f';
+                      e.currentTarget.style.transform = 'scale(1)';
+                    }}
+                  />
                   <div style={{ textAlign: 'center', marginBottom: 20 }}>
                     <div style={{ fontSize: 56, marginBottom: 12 }}>
                       {plan.image}
@@ -222,6 +292,30 @@ const TravelHistoryPage = () => {
           </Empty>
         )}
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        title="确认删除"
+        open={deleteModalVisible}
+        onOk={confirmDelete}
+        onCancel={cancelDelete}
+        okText="确认删除"
+        cancelText="取消"
+        okType="danger"
+        centered
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <ExclamationCircleOutlined style={{ color: '#faad14', fontSize: 22 }} />
+          <div>
+            <p style={{ margin: 0 }}>
+              确定要删除旅行方案 "{planToDelete?.title}" 吗？
+            </p>
+            <p style={{ margin: '8px 0 0 0', color: '#666', fontSize: 14 }}>
+              此操作无法撤销。
+            </p>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
