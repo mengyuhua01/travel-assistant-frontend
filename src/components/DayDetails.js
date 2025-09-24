@@ -61,7 +61,7 @@ const DayDetails = ({ dayData, tripId, onRegenerateSuccess }) => {
         
         <div className="day-cost-section">
           <Text strong style={{ fontSize: 16, color: '#2e7d32' }}>
-            💰 每日费用：¥{dayData.dailyCost}
+            💰 今天费用：¥{dayData.dailyCost}
           </Text>
         </div>
 

@@ -54,7 +54,17 @@ const TripSummary = ({ tripData, budgetBreakdown, tips }) => {
       <Card title="✨ 行程提示" style={{ marginBottom: 24 }}>
         <Space wrap size="middle">
           {highlights.map((highlight, index) => (
-            <Tag key={index} color="green" style={{ padding: '6px 12px', fontSize: 14 }}>
+            <Tag
+              key={index}
+              color="green"
+              style={{
+                padding: '6px 12px',
+                fontSize: 14,
+                whiteSpace: 'normal', // Allow text to wrap
+                wordBreak: 'break-word', // Break long words
+                textAlign: 'center', // Center-align text
+              }}
+            >
               {highlight}
             </Tag>
           ))}
