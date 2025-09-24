@@ -1,18 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Avatar, List, Tag, Typography, Row, Col } from 'antd';
+import { getUserTag } from '../apis/user.js';
 import './UserPage.css';
 
-const { Title, Text, Paragraph } = Typography;
+const { Title, Text } = Typography;
 
 const UserPage = () => {
-  // Mock user data - replace with real data from context or API
-  const user = {
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    avatar: 'https://via.placeholder.com/100',
-    joinDate: 'January 2023',
-    bio: 'Travel enthusiast who loves family adventures and exploring new cultures.',
-  };
+  const [user, setUser] = useState({});
+  const [userTags, setUserTags] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const userDataFromStorage = localStorage.getItem('user');
+    if (userDataFromStorage) {
+      setUser(JSON.parse(userDataFromStorage));
+    }
+
+    const fetchUserTags = async () => {
+      try {
+        const response = await getUserTag();
+        if (response) {
+          console.log("Fetched user tags:", response);
+          setUserTags(response);
+        } else {
+          console.log("Fetched user tags fail:");
+          setUserTags([]);
+        }
+      } catch (error) {
+        console.error("Failed to fetch user tags:", error);
+        setUserTags([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserTags();
+  }, []);
 
   // Mock history planning data
   const historyPlans = [
@@ -20,9 +43,6 @@ const UserPage = () => {
     { id: 2, title: 'Weekend Getaway to Tokyo', date: '2023-09-20', status: 'Completed', description: 'Exploring the vibrant city life.' },
     { id: 3, title: 'Adventure in the Alps', date: '2024-01-10', status: 'Planned', description: 'Skiing and mountain hiking trip.' },
   ];
-
-  // Mock user tags
-  const userTags = ['Family-friendly', 'Adventure', 'Culture', 'Relaxation', 'Budget', 'Nature'];
 
   return (
     <div className="user-page">
@@ -32,24 +52,19 @@ const UserPage = () => {
         <Row gutter={[24, 24]}>
           {/* Personal Information Card */}
           <Col xs={24} md={8}>
-            <Card className="profile-card" bordered={false}>
+            <Card className="profile-card" variant="borderless">
               <div className="profile-header">
-                <Avatar size={80} src={user.avatar} />
-                <div className="profile-info">
-                  <Title level={4}>{user.name}</Title>
-                  <Text type="secondary">{user.email}</Text>
-                  <Text type="secondary" style={{ fontSize: '12px' }}>
-                    Member since {user.joinDate}
-                  </Text>
-                </div>
+                <Avatar size={330} src={user.avatar || 'https://placehold.co/100'} />
               </div>
-              <Paragraph className="bio">{user.bio}</Paragraph>
+              <div className="profile-info">
+                  <Title level={4}>{user.username || user.email}</Title>
+                </div>
             </Card>
           </Col>
 
           {/* History Planning Card */}
           <Col xs={24} md={16}>
-            <Card title="Travel History" className="history-card" bordered={false}>
+            <Card title="Travel History" className="history-card" variant="borderless">
               <List
                 dataSource={historyPlans}
                 renderItem={(item) => (
@@ -77,14 +92,22 @@ const UserPage = () => {
         <Row gutter={[24, 24]} style={{ marginTop: '24px' }}>
           {/* User Tags Card */}
           <Col xs={24}>
-            <Card title="My Interests" className="tags-card" bordered={false}>
-              <div className="user-tags">
-                {userTags.map((tag, index) => (
-                  <Tag key={index} color="green" className="interest-tag">
-                    {tag}
-                  </Tag>
-                ))}
-              </div>
+            <Card title="My Interests" className="tags-card" variant="borderless">
+              {loading ? (
+                <p>Loading tags...</p>
+              ) : (
+                <div className="user-tags">
+                  {userTags.length > 0 ? (
+                    userTags.map((tag) => (
+                      <Tag key={tag.id} color="green" className="interest-tag">
+                        {tag.name}
+                      </Tag>
+                    ))
+                  ) : (
+                    <Text type="secondary">No tags selected yet.</Text>
+                  )}
+                </div>
+              )}
             </Card>
           </Col>
         </Row>

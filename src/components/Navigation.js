@@ -38,12 +38,12 @@ const Navigation = () => {
 
         <div className="nav-auth">
           {isAuthenticated ? (
-            <button onClick={logout} className="login-btn">
-              <LogoutOutlined />
-            </button>
+            <Link to="/login"  onClick={logout} className="login-btn">
+              <LogoutOutlined />  登出
+            </Link>
           ) : (
             <Link to="/login" className="login-btn">
-              <UserOutlined />
+              <UserOutlined />  登入
             </Link>
           )}
         </div>
