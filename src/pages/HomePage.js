@@ -1,13 +1,13 @@
-import { Button, Typography, Modal } from 'antd';
+import { Button, Modal, Typography } from 'antd';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { getRecommendations, getUserTag } from '../apis/user.js';
 import '../components/CustomCard.css';
 import Section from '../components/Section';
 import '../components/Section.css';
-import './HomePage.css';
-import hotPlacesData from '../data/hotPlacesData';
-import familyHotelsData from '../data/familyHotelsData';
-import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { useState } from 'react';
+import hotPlacesData from '../data/hotPlacesData';
+import './HomePage.css';
 
 const { Title, Paragraph } = Typography;
 
@@ -15,59 +15,57 @@ const HomePage = () => {
   const { isAuthenticated } = useAuth();
   const [modalVisible, setModalVisible] = useState(false);
   const navigate = useNavigate();
+  const [recommendations, setRecommendations] = useState([]);
+
+  useEffect(() => {
+    const fetchAndSetRecommendations = async () => {
+      if (isAuthenticated) {
+        try {
+          const tags = await getUserTag();
+          if (tags && Array.isArray(tags)) {
+            const tagIds = tags.map(tag => tag.id);
+            console.log('User Tag IDs:', tagIds);
+
+            if (tagIds.length > 0) {
+              const recommendedData = await getRecommendations(tagIds);
+              setRecommendations(recommendedData);
+              console.log('Fetched Recommendations:', recommendedData);
+            }
+          }
+        } catch (error) {
+          console.error('Failed to fetch user tags or recommendations on HomePage:', error);
+        }
+      }
+    };
+
+    fetchAndSetRecommendations();
+  }, [isAuthenticated]);
 
   // Features data
   const featuresData = [
     {
-      icon: '🗓️',
-      title: 'Easy Planning',
-      description: 'Intuitive tools that make trip planning a breeze, not a burden.',
-      link: '/previous-plans'
-    },
-    {
-      icon: '👶',
-      title: 'Kid-Friendly Focus',
-      description: 'Find destinations and activities perfect for children of all ages.',
-      link: '/previous-plans'
-    },
-    {
-      icon: '💰',
-      title: 'Budget Management',
-      description: 'Keep track of expenses and find family-friendly deals and discounts.',
-      link: '/previous-plans'
-    },
-    {
-      icon: '📱',
-      title: 'Mobile Ready',
-      description: 'Access your plans anywhere, anytime - perfect for busy parents.',
-      link: '/previous-plans'
-    }
+    icon: '🗓️',
+    title: 'AI智能行程规划',
+    description: '由AI驱动，能深度理解您的偏好与需求，一键生成完全个人化的专属行程。',
+  },
+  {
+    icon: '👶',
+    title: '弹性动态行程调整',
+    description: '旅途中最懂应变，可随时根据突发状况，实时推荐替代方案。',
+  },
+  {
+    icon: '💰',
+    title: '直观化预算管理',
+    description: ' 以清晰图表实时追踪与预测花费，让您对整体支出一目了然，轻松掌控旅游预算。',
+  },
+  {
+    icon: '📱',
+    title: '个人化旅游动态推送',
+    description: ' 在主页主动提供您可能感兴趣的当地活动与秘境景点，让惊喜不间断。',
+  }
   ];
 
-  // Testimonials data
-  const testimonialsData = [
-    {
-      icon: '💬',
-      title: 'Sarah M.',
-      description: '"This app saved me hours of planning time!"',
-      author: 'Mom of 3',
-      link: '/previous-plans'
-    },
-    {
-      icon: '💬',
-      title: 'Jessica L.',
-      description: '"Finally, a travel planner that gets families."',
-      author: 'Working Mom',
-      link: '/previous-plans'
-    },
-    {
-      icon: '💬',
-      title: 'Maria R.',
-      description: '"Our best family vacation yet, thanks to this tool!"',
-      author: 'Adventure Mom',
-      link: '/previous-plans'
-    }
-  ];
+
 
   return (
     <div className="homepage">
@@ -80,7 +78,7 @@ const HomePage = () => {
             </h1>
             
             <p className="hero-subtitle">
-              无论是挑选亲子胜地，还是管理出行预算，我们统统为您搞定！
+              无论是挑选旅游胜地，还是管理出行预算，我们统统为您搞定！
             </p>
             <div className="hero-buttons">
               <Link 
@@ -97,7 +95,7 @@ const HomePage = () => {
             </div>
             <Modal
         title="请先登录"
-        visible={modalVisible}
+        open={modalVisible}
         onOk={() => { setModalVisible(false); navigate('/login'); }}
         onCancel={() => setModalVisible(false)}
       >
@@ -123,31 +121,31 @@ const HomePage = () => {
 
       {/* Hot Places Section */}
       <Section
-        title="热门地点"
-        cards={hotPlacesData}
+        title="为你精选"
+        cards={recommendations}
         backgroundColor="#e8f5e9"
       />
 
       {/* Hot Places Section */}
       <Section
-        title="小眾地点"
+        title="过往计划"
         cards={hotPlacesData}
         backgroundColor="white"
       />
 
       {/* Family Friendly Hotels Section */}
-      <Section
+      {/* <Section
         title="家庭友好型酒店"
         cards={familyHotelsData}
         backgroundColor="#e8f5e9"
-      />
+      /> */}
 
       {/* Testimonials Section */}
-      <Section
+      {/* <Section
         title="用户口碑"
         cards={testimonialsData}
         backgroundColor="white"
-      />
+      /> */}
 
       {/* CTA Section */}
       <section className="cta-section">
