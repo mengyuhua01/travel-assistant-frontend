@@ -106,7 +106,7 @@ const TagSelector = ({ dayData, tripId, onRegenerateSuccess }) => {
           disabled={selectedTags.length === 0 || isRegenerating}
           loading={isRegenerating}
           icon={isRegenerating ? <FaSpinner /> : null}
-          className="regenerate-button"
+          className={`regenerate-button${selectedTags.length > 0 && !isRegenerating ? ' selected' : ''}`}
         >
           {isRegenerating ? '重新生成中...' : '重新生成该天行程'}
         </Button>

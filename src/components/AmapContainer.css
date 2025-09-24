@@ -1,0 +1,163 @@
+/* 地图容器样式 */
+.amap-container {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 加载状态样式 */
+.map-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 自定义标记样式 */
+.custom-marker {
+  position: relative;
+}
+
+.marker-content {
+  background: var(--day-color, #4caf50);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 16px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+  font-size: 12px;
+  white-space: nowrap;
+  position: relative;
+  min-width: 120px;
+  text-align: center;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+}
+
+.marker-content::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--day-color, #4caf50);
+}
+
+.day-badge {
+  background: rgba(255, 255, 255, 0.25);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  margin-bottom: 4px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.marker-title {
+  font-weight: 600;
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+.marker-date {
+  font-size: 9px;
+  opacity: 0.9;
+  font-weight: 400;
+}
+
+/* 不同日期的特定样式 */
+.marker-content.day-1 {
+  background: linear-gradient(135deg, #ff7875, #ff4d4f);
+}
+
+.marker-content.day-2 {
+  background: linear-gradient(135deg, #40a9ff, #1890ff);
+}
+
+.marker-content.day-3 {
+  background: linear-gradient(135deg, #73d13d, #52c41a);
+}
+
+.marker-content.day-4 {
+  background: linear-gradient(135deg, #fadb14, #faad14);
+}
+
+.marker-content.day-5 {
+  background: linear-gradient(135deg, #b37feb, #9254de);
+}
+
+.marker-content.day-6 {
+  background: linear-gradient(135deg, #52c41a, #389e0d);
+}
+
+/* 对应的箭头颜色 */
+.marker-content.day-1::after {
+  border-top-color: #ff7875;
+}
+
+.marker-content.day-2::after {
+  border-top-color: #40a9ff;
+}
+
+.marker-content.day-3::after {
+  border-top-color: #73d13d;
+}
+
+.marker-content.day-4::after {
+  border-top-color: #fadb14;
+}
+
+.marker-content.day-5::after {
+  border-top-color: #b37feb;
+}
+
+.marker-content.day-6::after {
+  border-top-color: #52c41a;
+}
+
+/* 高德地图信息窗口自定义样式 */
+.amap-info-content {
+  border-radius: 8px !important;
+}
+
+.amap-info-content h4 {
+  color: #2e7d32 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .amap-container {
+    height: 300px !important;
+  }
+  
+  .marker-content {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+  
+  .marker-title {
+    font-size: 10px;
+  }
+}
+
+/* 地图控件样式优化 */
+.amap-toolbar {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-radius: 6px !important;
+}
+
+.amap-scale {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-radius: 4px !important;
+  padding: 4px 8px !important;
+}
