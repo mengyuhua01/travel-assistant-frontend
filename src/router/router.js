@@ -21,6 +21,16 @@ import TravelHistoryPage from '../pages/TravelHistoryPage.jsx';
 const router = createBrowserRouter([
     // 公开页面（不需要登录）
     {
+        path: '/',
+        element: <TravelLayout />,
+        children: [
+            {
+                index: true,
+                element: <HomePage/>
+            }
+        ]
+    },
+    {
         path: '/start',
         element: <StartPage/>
     },
@@ -42,10 +52,7 @@ const router = createBrowserRouter([
             </ProtectedRoute>
         ),
         children: [
-            {
-                index: true,
-                element: <HomePage/>
-            },
+            
             // 在这里添加其他受保护的页面路由
             // 示例：
             // {
