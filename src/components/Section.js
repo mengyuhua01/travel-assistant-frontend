@@ -13,7 +13,7 @@ const Section = ({ title, cards, backgroundColor = "white" }) => {
         <Title level={2} className="section-title">{title}</Title>
         <Row gutter={[24, 24]} justify="center">
           {cards.map((card, index) => (
-            <Col xs={20} sm={12} lg={6} key={index}>
+            <Col xs={24} sm={12} lg={6} key={index}>
               <CustomCard card={card} />
             </Col>
           ))}

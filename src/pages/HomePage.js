@@ -122,7 +122,7 @@ const HomePage = () => {
       {/* Hot Places Section */}
       <Section
         title="为你精选"
-        cards={recommendations.length > 0 ? recommendations : hotPlacesData}
+        cards={recommendations}
         backgroundColor="#e8f5e9"
       />
 

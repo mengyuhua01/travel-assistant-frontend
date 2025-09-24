@@ -25,9 +25,7 @@ export const getUserTag = async () => {
   return apiClient.get('/user/tags');
 };
 
-// 获取推荐内容
+
 export const getRecommendations = async (tagIds) => {
   return apiClient.get('/recommendations', { params: { tagIds } });
 };
-
-
