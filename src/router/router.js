@@ -8,6 +8,7 @@ import TravelPlanPage from '../pages/TravelPlanPage.jsx';
 import UserPage from '../pages/UserPage.jsx';
 import InterestSelection from '../pages/InterestSelection.jsx';
 import TripDetailsPage from '../pages/TripDetailsPage.js';
+import ProtectedRoute from '../components/ProtectedRoute';
 // 导入其他页面组件（当需要时取消注释）
 // import TripDetailsPage from '../pages/TripDetailsPage';
 // import UserProfile from '../pages/UserProfile';
