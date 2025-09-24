@@ -205,8 +205,8 @@ const TravelPlanPage = () => {
 
     // 跳转到方案详情
     const handleViewPlan = (planId) => {
-        // 直接使用数据库返回的ID进行跳转，不传递其他数据
-        navigate(`/trip/${planId}`);
+        // 直接使用数据库返回的ID进行跳转，传递来源信息
+        navigate(`/trip/${planId}`, { state: { from: 'plan' } });
     };
 
     // 获取方案类型对应的颜色

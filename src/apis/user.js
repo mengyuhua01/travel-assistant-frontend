@@ -19,3 +19,8 @@ export const getTags = async () => {
 export const setUserTags = async (tagIds) => {
   return apiClient.put('/user/tags', { tagIds });
 };
+
+// 获取用户标签
+export const getUserTag = async () => {
+  return apiClient.get('/user/tags');
+};

@@ -22,15 +22,15 @@ const Navigation = () => {
             <>
               <Link to="/" className="nav-link">
                 <HomeOutlined className="nav-icon" />
-                Home
+                首页
               </Link>
               <Link to="/plan" className="nav-link">
                 <PlusOutlined className="nav-icon" />
-                Start Plan
+                开始规划
               </Link>
-              <Link to="/" className="nav-link">
+              <Link to="/user" className="nav-link">
                 <UserOutlined className="nav-icon" />
-                User Page
+                我的
               </Link>
             </>
           )}
@@ -38,12 +38,12 @@ const Navigation = () => {
 
         <div className="nav-auth">
           {isAuthenticated ? (
-            <button onClick={logout} className="login-btn">
-              <LogoutOutlined />
-            </button>
+            <Link to="/login"  onClick={logout} className="login-btn">
+              <LogoutOutlined />  登出
+            </Link>
           ) : (
             <Link to="/login" className="login-btn">
-              <UserOutlined />
+              <UserOutlined />  登入
             </Link>
           )}
         </div>

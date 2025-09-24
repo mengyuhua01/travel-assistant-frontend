@@ -7,7 +7,7 @@ import { FaSun, FaCloudSun, FaMoon, FaBed, FaBus } from 'react-icons/fa';
 
 const { Title, Text } = Typography;
 
-const DayDetails = ({ dayData, originalTrip, onRegenerateSuccess }) => {
+const DayDetails = ({ dayData, tripId, onRegenerateSuccess }) => {
   return (
     <div className="day-details-modern">
       <div style={{ paddingBottom: 20 }}>
@@ -61,14 +61,14 @@ const DayDetails = ({ dayData, originalTrip, onRegenerateSuccess }) => {
         
         <div className="day-cost-section">
           <Text strong style={{ fontSize: 16, color: '#2e7d32' }}>
-            💰 每日费用：¥{dayData.dailyCost}
+            💰 今天费用：¥{dayData.dailyCost}
           </Text>
         </div>
 
         {/* 添加TagSelector用于重新生成该天行程 */}
         <TagSelector 
           dayData={dayData}
-          originalTrip={originalTrip}
+          tripId={tripId}
           onRegenerateSuccess={onRegenerateSuccess}
         />
       </div>

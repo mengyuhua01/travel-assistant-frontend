@@ -1,0 +1,185 @@
+.plan-comparison-modal {
+  .ant-modal-content {
+    border-radius: 12px;
+  }
+
+  .ant-modal-header {
+    border-radius: 12px 12px 0 0;
+  }
+}
+
+.comparison-modal-title {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+.comparison-container {
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.theme-comparison {
+  margin-bottom: 24px;
+
+  .theme-card {
+    text-align: center;
+
+    &.updated {
+      background: #f6ffed;
+      border-color: #b7eb8f;
+    }
+
+    .ant-card-head {
+      background: #fafafa;
+    }
+
+    &.updated .ant-card-head {
+      background: #f6ffed;
+      border-bottom-color: #b7eb8f;
+    }
+  }
+}
+
+.comparison-section {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: #fafafa;
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+
+  .section-icon {
+    margin-right: 8px;
+    color: #52c41a;
+    font-size: 16px;
+  }
+
+  .section-title {
+    margin: 0 !important;
+    flex: 1;
+    color: #2e7d32;
+  }
+
+  .details-toggle {
+    margin-left: auto;
+    color: #52c41a;
+
+    &:hover {
+      color: #389e0d;
+      background: #f6ffed;
+    }
+  }
+}
+
+.comparison-content {
+  margin-top: 12px;
+}
+
+.comparison-card {
+  height: 100%;
+
+  &.unchanged {
+    opacity: 0.8;
+  }
+
+  &.updated {
+    background: #f6ffed;
+    border-color: #b7eb8f;
+    box-shadow: 0 2px 8px rgba(82, 196, 26, 0.15);
+  }
+}
+
+.plan-content {
+  .activity-info, .meal-info, .cost-info {
+    margin-bottom: 8px;
+
+    strong {
+      color: #595959;
+      display: inline-block;
+      width: 50px;
+      font-size: 12px;
+    }
+  }
+
+  .cost-info {
+    padding-top: 4px;
+    border-top: 1px solid #f0f0f0;
+  }
+}
+
+.cost-comparison {
+  margin-top: 24px;
+  padding: 16px;
+  background: #f6ffed;
+  border: 1px solid #b7eb8f;
+  border-radius: 8px;
+
+  h5 {
+    color: #2e7d32;
+    text-align: center;
+    margin-bottom: 16px !important;
+  }
+}
+
+.cost-item {
+  text-align: center;
+  padding: 8px;
+
+  .cost-value {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 4px;
+
+    &.increase {
+      color: #ff4d4f;
+    }
+
+    &.decrease {
+      color: #52c41a;
+    }
+  }
+}
+
+.confirm-button {
+  background: #52c41a !important;
+  border-color: #52c41a !important;
+
+  &:hover {
+    background: #389e0d !important;
+    border-color: #389e0d !important;
+  }
+
+  &:focus {
+    background: #389e0d !important;
+    border-color: #389e0d !important;
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .plan-comparison-modal {
+    .ant-modal {
+      margin: 0;
+      max-width: 100vw;
+    }
+  }
+
+  .comparison-content {
+    .ant-col {
+      margin-bottom: 12px;
+    }
+  }
+
+  .cost-comparison .ant-row .ant-col {
+    margin-bottom: 8px;
+  }
+}
+
