@@ -116,7 +116,7 @@ const TravelForm = ({ onSubmit, loading: externalLoading }) => {
       <div className="travel-form-content">
         <div className="travel-form-header">
           <Title level={1} className="travel-form-title">
-            ✈️ Family Travel Planner
+                Family Travel Planner
           </Title>
           <Text className="travel-form-subtitle">
             填写您的出行需求，AI将为您生成专属的个性化旅行方案
@@ -267,7 +267,7 @@ const TravelForm = ({ onSubmit, loading: externalLoading }) => {
                   size="large"
                   className="travel-form-submit-button"
                 >
-                  {externalLoading ? '正在生成方案...' : '🚀 生成旅行方案'}
+                  {externalLoading ? '正在生成方案...' : '生成旅行方案'}
                 </Button>
               </Col>
             </Row>
