@@ -30,6 +30,10 @@ const HomePage = () => {
               const recommendedData = await getRecommendations(tagIds);
               setRecommendations(recommendedData);
               console.log('Fetched Recommendations:', recommendedData);
+            } else {
+              const recommendedData = await getRecommendations();
+              setRecommendations(recommendedData);
+              console.log('Fetched Recommendations:', recommendedData);
             }
           }
         } catch (error) {
