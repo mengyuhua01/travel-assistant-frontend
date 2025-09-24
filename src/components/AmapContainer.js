@@ -21,17 +21,17 @@ const AmapContainer = ({ tripData, style }) => {
   const mainMarkersRef = useRef([]);
   const mainMarkersMovedRef = useRef(false);
 
-  // 验证数值是否安全（不是 NaN, Infinity 等）
-  const isValidNumber = (num) => {
+  // 验证数值是否安全（不是 NaN, Infinity 等） - 使用 useCallback 保持引用稳定以便作为 effect 依赖
+  const isValidNumber = React.useCallback((num) => {
     return typeof num === 'number' && isFinite(num) && !isNaN(num);
-  };
+  }, []);
 
-  // 验证坐标是否有效
-  const isValidCoordinate = (lng, lat) => {
+  // 验证坐标是否有效 - 依赖 isValidNumber
+  const isValidCoordinate = React.useCallback((lng, lat) => {
     return isValidNumber(lng) && isValidNumber(lat) &&
            lng >= -180 && lng <= 180 &&
            lat >= -90 && lat <= 90;
-  };
+  }, [isValidNumber]);
 
   // 防御性检查：确保 tripData 是有效的
   const safeTripData = React.useMemo(() => {
@@ -67,7 +67,7 @@ const AmapContainer = ({ tripData, style }) => {
       ...tripData,
       dailyPlan: cleanDailyPlan
     };
-  }, [tripData]);
+  }, [tripData, isValidCoordinate, isValidNumber]);
 
   useEffect(() => {
     let mapInstance = null;
@@ -506,7 +506,7 @@ const AmapContainer = ({ tripData, style }) => {
         }
       }
     };
-  }, [safeTripData]); // 使用 safeTripData 作为依赖
+  }, [safeTripData, isValidCoordinate, isValidNumber]); // 使用 safeTripData 与 isValidCoordinate, isValidNumber 作为依赖
   
   // 初始化 Modal 内的放大地图
   useEffect(() => {
@@ -557,7 +557,6 @@ const AmapContainer = ({ tripData, style }) => {
           // 按 day 分组，以便绘制连线
           const grouped = {};
           stored.forEach(item => {
-            const pos = item.position;
             const dayKey = item.day != null ? String(item.day) : '0';
             if (!grouped[dayKey]) grouped[dayKey] = [];
             grouped[dayKey].push(item);
@@ -571,9 +570,9 @@ const AmapContainer = ({ tripData, style }) => {
             const dayMarkersPositions = [];
 
             items.forEach(item => {
-              const pos = item.position;
-              if (!(Array.isArray(pos) && pos.length === 2 && isValidCoordinate(pos[0], pos[1]))) return;
-              try {
+              const positionArr = item.position;
+              if (!(Array.isArray(positionArr) && positionArr.length === 2 && isValidCoordinate(positionArr[0], positionArr[1]))) return;
+               try {
                 // 创建与主地图一致的自定义内容
                 const content = `
                   <div class="custom-marker" style="--day-color: ${color}">
@@ -584,7 +583,7 @@ const AmapContainer = ({ tripData, style }) => {
                     </div>
                   </div>
                 `;
-                const marker = new AMap.Marker({ position: pos, title: item.name || '地点', content, offset: new AMap.Pixel(0,0) });
+                const marker = new AMap.Marker({ position: positionArr, title: item.name || '地点', content, offset: new AMap.Pixel(0,0) });
                 marker.on('click', () => {
                   const infoContent = `
                     <div style="padding: 16px; min-width: 220px;">
@@ -609,12 +608,12 @@ const AmapContainer = ({ tripData, style }) => {
                 });
                 marker.setMap(modalMapInstance);
                 markers.push(marker);
-                dayMarkersPositions.push(pos);
-                try { bounds.extend(pos); } catch (err) {}
-              } catch (err) {
-                console.warn('modal 添加标记失败:', err, pos);
-              }
-            });
+                dayMarkersPositions.push(positionArr);
+                try { bounds.extend(positionArr); } catch (err) {}
+               } catch (err) {
+                console.warn('modal 添加标记失败:', err, positionArr);
+               }
+             });
 
             // 绘制连线
             if (dayMarkersPositions.length > 1) {
@@ -714,7 +713,7 @@ const AmapContainer = ({ tripData, style }) => {
         console.warn('销毁 modal 地图失败:', e);
       }
     };
-  }, [modalVisible, safeTripData]);
+  }, [modalVisible, safeTripData, isValidCoordinate]);
   
   // 关闭 modal 时销毁地图实例
   const handleCloseModal = () => {
