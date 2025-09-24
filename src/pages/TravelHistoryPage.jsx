@@ -85,7 +85,7 @@ const TravelHistoryPage = () => {
   }
 
   return (
-    <div style={{ background: '#f5f5f5', minHeight: '100vh', padding: '40px 24px' }}>
+    <div style={{ background: 'linear-gradient(to bottom, #e8f5e9, #ffffff)', minHeight: '100vh', padding: '40px 24px' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 40 }}>
           <Title level={2} style={{ marginBottom: 16, color: '#1f2937' }}>
