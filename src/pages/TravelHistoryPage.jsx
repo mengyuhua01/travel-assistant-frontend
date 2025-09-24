@@ -65,7 +65,7 @@ const TravelHistoryPage = () => {
   };
 
   const handleViewPlan = (planId) => {
-    navigate(`/trip/${planId}`);
+    navigate(`/trip/${planId}`, { state: { from: 'history' } });
   };
 
   const handleDeletePlan = (planId, planTitle) => {

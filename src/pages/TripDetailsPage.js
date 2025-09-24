@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import {
   Card,
   Typography,
@@ -23,8 +23,12 @@ const { Title } = Typography;
 const TripDetailsPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const [tripData, setTripData] = useState(null);
   const [loading, setLoading] = useState(true);
+  
+  // Check if navigation came from TravelPlanPage
+  const isFromPlanPage = location.state?.from === 'plan';
 
   useEffect(() => {
     const fetchTripData = async () => {
@@ -113,15 +117,17 @@ const TripDetailsPage = () => {
   return (
     <div style={{ background: 'linear-gradient(135deg, #e8f5e9, #f0fff4)', minHeight: '100vh', padding: '24px' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        {/* 返回按钮 */}
-        <Button
-          icon={<ArrowLeftOutlined />}
-          onClick={handleBackClick}
-          style={{ marginBottom: 24, color: '#2e7d32', borderColor: '#81c784' }}
-          size="large"
-        >
-          返回生成方案頁面
-        </Button>
+        {/* 返回按钮 - 只在从旅行方案页面跳转时显示 */}
+        {isFromPlanPage && (
+          <Button
+            icon={<ArrowLeftOutlined />}
+            onClick={handleBackClick}
+            style={{ marginBottom: 24, color: '#2e7d32', borderColor: '#81c784' }}
+            size="large"
+          >
+            返回生成方案頁面
+          </Button>
+        )}
 
         {/* 方案头部信息 */}
         <TripHeader tripData={tripData} />
