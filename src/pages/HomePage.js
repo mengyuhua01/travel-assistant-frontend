@@ -1,13 +1,13 @@
-import { Button, Typography, Modal } from 'antd';
+import { Button, Modal, Typography } from 'antd';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { getRecommendations, getUserTag } from '../apis/user.js';
 import '../components/CustomCard.css';
 import Section from '../components/Section';
 import '../components/Section.css';
-import './HomePage.css';
-import hotPlacesData from '../data/hotPlacesData';
-import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { useState, useEffect } from 'react';
-import { getUserTag, getRecommendations } from '../apis/user.js';
+import hotPlacesData from '../data/hotPlacesData';
+import './HomePage.css';
 
 const { Title, Paragraph } = Typography;
 
@@ -15,7 +15,6 @@ const HomePage = () => {
   const { isAuthenticated } = useAuth();
   const [modalVisible, setModalVisible] = useState(false);
   const navigate = useNavigate();
-  const [userTagIds, setUserTagIds] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
 
   useEffect(() => {
@@ -25,8 +24,7 @@ const HomePage = () => {
           const tags = await getUserTag();
           if (tags && Array.isArray(tags)) {
             const tagIds = tags.map(tag => tag.id);
-            setUserTagIds(tagIds);
-            console.log('Stored User Tag IDs:', tagIds);
+            console.log('User Tag IDs:', tagIds);
 
             if (tagIds.length > 0) {
               const recommendedData = await getRecommendations(tagIds);
