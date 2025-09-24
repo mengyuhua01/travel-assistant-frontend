@@ -155,8 +155,8 @@ const HomePage = () => {
       <section className="cta-section">
         <div className="container">
           <div className="cta-content">
-            <Title level={2}>准备好开启您的家庭之旅了吗？</Title>
-            <Paragraph>携手万千家庭，一同圆旅行之梦。</Paragraph>
+            <Title level={2} style={{ color: 'white' }}>准备好开启您的家庭之旅了吗？</Title>
+            <Paragraph style={{ color: 'white' }}>携手万千家庭，一同圆旅行之梦。</Paragraph>
           </div>
         </div>
       </section>

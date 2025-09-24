@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Avatar, List, Tag, Typography, Row, Col, Button, Empty } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
-import { HistoryOutlined } from '@ant-design/icons';
+import { HistoryOutlined, HeartOutlined } from '@ant-design/icons';
 import { getUserTag } from '../apis/user.js';
 import { getUserTravelPlans } from '../apis/travelPlanApi';
 import './UserPage.css';
@@ -155,8 +155,23 @@ const UserPage = () => {
           {/* User Tags Card */}
           <Col xs={24}>
             <Card title="My Interests" className="tags-card" variant="borderless">
+              <div style={{ marginBottom: 16 }}>
+                <Link to="/interests">
+                  <Button
+                    type="primary"
+                    icon={<HeartOutlined />}
+                    style={{ 
+                      background: 'linear-gradient(135deg, #4caf50, #388e3c)', 
+                      border: 'none', 
+                      borderRadius: 8 
+                    }}
+                  >
+                    更新我的兴趣偏好
+                  </Button>
+                </Link>
+              </div>
               {loading ? (
-                <p>Loading tags...</p>
+                <p>正在加载标签...</p>
               ) : (
                 <div className="user-tags">
                   {userTags.length > 0 ? (
@@ -166,7 +181,7 @@ const UserPage = () => {
                       </Tag>
                     ))
                   ) : (
-                    <Text type="secondary">No tags selected yet.</Text>
+                    <Text type="secondary">尚未选择任何标签。</Text>
                   )}
                 </div>
               )}
