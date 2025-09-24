@@ -15,3 +15,32 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* 全局覆盖 Ant Design Paragraph 展开/收起按钮颜色为绿色 */
+.ant-typography .ant-typography-expand,
+.ant-typography .ant-typography-collapse {
+  color: #52c41a !important;
+}
+
+.ant-typography .ant-typography-expand:hover,
+.ant-typography .ant-typography-collapse:hover {
+  color: #389e0d !important;
+}
+
+.ant-typography .ant-typography-expand:active,
+.ant-typography .ant-typography-collapse:active {
+  color: #237804 !important;
+}
+
+/* 全局设置其他可能的蓝色链接为绿色 */
+.ant-typography a {
+  color: #52c41a !important;
+}
+
+.ant-typography a:hover {
+  color: #389e0d !important;
+}
+
+.ant-typography a:active {
+  color: #237804 !important;
+}
