@@ -1,0 +1,171 @@
+.comment-item {
+  background: white;
+  padding: 16px 0 !important;
+}
+
+.comment-content {
+  width: 100%;
+}
+
+.comment-header {
+  margin-bottom: 8px;
+}
+
+.comment-avatar {
+  background-color: rgb(5, 77, 46);
+}
+
+.comment-author {
+  color: #262626;
+  font-size: 14px;
+}
+
+.comment-time {
+  font-size: 12px;
+  color: #8c8c8c;
+}
+
+.comment-text {
+  margin-left: 32px;
+  padding: 12px 0;
+  color: #595959;
+  line-height: 1.6;
+  font-size: 14px;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+/* 响应式设计 */
+@media (max-width: 576px) {
+  .comment-text {
+    margin-left: 24px;
+    font-size: 13px;
+  }
+  
+  .comment-author {
+    font-size: 13px;
+  }
+  
+  .comment-time {
+    font-size: 11px;
+  }
+}
+
+/* 评论操作按钮 */
+.comment-actions {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.reply-button {
+  color: #8c8c8c;
+  font-size: 13px;
+  padding: 0;
+  height: auto;
+}
+
+.reply-button:hover {
+  color: #1890ff;
+}
+
+/* 回复表单容器 */
+.reply-form-container {
+  margin-top: 12px;
+  margin-left: 24px;
+  padding: 12px;
+  background-color: #fafafa;
+  border-radius: 6px;
+  border-left: 3px solid #1890ff;
+}
+
+.reply-form-container .comment-form-actions {
+  justify-content: flex-end;
+}
+
+.reply-form-container .ant-form-item {
+  margin-bottom: 12px;
+}
+
+.reply-form-container .ant-form-item:last-child {
+  margin-bottom: 0;
+}
+
+/* 子评论展开按钮 */
+.expand-replies-button {
+  color: #2A6F6B;
+  font-size: 13px;
+  padding: 0 4px;
+  height: auto;
+}
+
+.expand-replies-button:hover {
+  color: #3A7F7B;
+}
+
+/* 子评论容器 */
+.child-comments-container {
+  margin-top: 12px;
+  margin-left: 24px;
+  padding-left: 16px;
+  border-left: 2px solid #f0f0f0;
+  background-color: #fafafa;
+  border-radius: 0 8px 8px 0;
+}
+
+/* 子评论加载状态 */
+.loading-child-comments {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  color: #8c8c8c;
+  font-size: 13px;
+}
+
+/* 子评论列表 */
+.child-comments-list {
+  padding: 8px 0;
+}
+
+/* 子评论项目 */
+.child-comment-item {
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  background-color: white;
+  border-radius: 6px;
+  border: 1px solid #f0f0f0;
+}
+
+.child-comment-item:last-child {
+  margin-bottom: 0;
+}
+
+/* 子评论头部 */
+.child-comment-header {
+  margin-bottom: 4px;
+}
+
+.child-comment-avatar {
+  background-color: #2A6F6B;
+  width: 20px !important;
+  height: 20px !important;
+  font-size: 10px;
+}
+
+.child-comment-author {
+  color: #2A6F6B;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.child-comment-time {
+  color: #8c8c8c;
+  font-size: 12px;
+}
+
+/* 子评论内容 */
+.child-comment-content {
+  color: #262626;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-left: 28px;
+}

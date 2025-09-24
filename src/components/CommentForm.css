@@ -1,0 +1,51 @@
+.comment-form {
+  background: white;
+}
+
+.comment-form .ant-form-item {
+  margin-bottom: 16px;
+}
+
+.comment-form .ant-form-item:last-child {
+  margin-bottom: 0;
+}
+
+.comment-form-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submit-comment-btn {
+  background-color: #2A6F6B !important;
+  border-color: #2A6F6B !important;
+}
+
+.submit-comment-btn:hover {
+  background-color: #3A7F7B !important;
+  border-color: #3A7F7B !important;
+}
+
+.comment-form .ant-input:focus,
+.comment-form .ant-input-focused {
+  border-color: rgb(5, 77, 46);
+  box-shadow: 0 0 0 2px rgba(5, 77, 46, 0.2);
+}
+
+/* 响应式设计 */
+@media (max-width: 576px) {
+  .comment-form-actions {
+    justify-content: stretch;
+  }
+  
+  .comment-form-actions .ant-space {
+    width: 100%;
+  }
+  
+  .comment-form-actions .ant-space .ant-space-item {
+    flex: 1;
+  }
+  
+  .comment-form-actions .ant-btn {
+    width: 100%;
+  }
+}

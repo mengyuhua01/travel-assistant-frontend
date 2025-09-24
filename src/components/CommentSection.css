@@ -1,0 +1,110 @@
+.comment-section {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.comment-list-container {
+  flex: 1;
+  min-height: 300px;
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 8px;
+  margin-bottom: 16px;
+}
+
+/* 滚动条样式 */
+.comment-list-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.comment-list-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.comment-list-container::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.comment-list-container::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* 评论输入框容器 - 固定在底部 */
+.comment-input-container {
+  padding: 16px 0;
+  border-top: 1px solid #f0f0f0;
+  background: white;
+  position: sticky;
+  bottom: 0;
+}
+
+.comment-list .ant-list-item {
+  padding: 16px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.comment-list .ant-list-item:last-child {
+  border-bottom: none;
+}
+
+/* 加载更多指示器 */
+.loading-more {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  color: #8c8c8c;
+  font-size: 14px;
+}
+
+/* 输入框样式优化 */
+.comment-input-container .ant-input {
+  border-radius: 20px;
+  padding: 8px 16px;
+  height: 40px;
+}
+
+.comment-input-container .ant-btn {
+  border-radius: 20px;
+  margin-left: -1px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  background-color: #2A6F6B !important;
+  border-color: #2A6F6B !important;
+}
+
+.comment-input-container .ant-btn:hover {
+  background-color: #3A7F7B !important;
+  border-color: #3A7F7B !important;
+}
+
+/* 确保Space.Compact内的元素高度一致 */
+.comment-input-container .ant-space-compact {
+  width: 100%;
+}
+
+.comment-input-container .ant-space-compact .ant-input {
+  flex: 1;
+}
+
+.comment-input-container .ant-space-compact .ant-btn {
+  flex-shrink: 0;
+}
+
+/* Empty状态样式 */
+.comment-section .ant-empty {
+  padding: 40px 0;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .comment-form-container {
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+}
