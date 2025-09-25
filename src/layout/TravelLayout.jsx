@@ -67,10 +67,10 @@ export function TravelLayout() {
           }}
         >
           <Outlet />
-        </div>
+        </div> 
       </Content>
       <Footer style={{ textAlign: "center" }}>
-        智能旅行助手 ©{new Date().getFullYear()} 为您的每一次出行提供贴心服务
+        Togother ©{new Date().getFullYear()} 为您的每一次出行提供贴心服务
       </Footer>
     </Layout>
   );

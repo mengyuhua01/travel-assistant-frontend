@@ -18,6 +18,7 @@ const HomePage = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const navigate = useNavigate();
   const [recommendations, setRecommendations] = useState([]);
+  const RECOMMENDATIONS_PER_PAGE = 8;
   const [recentPlanCards, setRecentPlanCards] = useState([]);
   useEffect(() => {
     // Fetch recent travel plans and convert to card format for the "过往计划" section
@@ -47,10 +48,13 @@ const HomePage = () => {
           const tags = await getUserTag();
           if (tags && Array.isArray(tags)) {
             const tagIds = tags.map(tag => tag.id);
-            console.log('User Tag IDs:', tagIds);
 
             if (tagIds.length > 0) {
               const recommendedData = await getRecommendations(tagIds);
+              setRecommendations(recommendedData);
+              console.log('Fetched Recommendations:', recommendedData);
+            } else {
+              const recommendedData = await getRecommendations();
               setRecommendations(recommendedData);
               console.log('Fetched Recommendations:', recommendedData);
             }
@@ -58,7 +62,12 @@ const HomePage = () => {
         } catch (error) {
           console.error('Failed to fetch user tags or recommendations on HomePage:', error);
         }
+        return;
       }
+      const recommendedData = await getRecommendations();
+              setRecommendations(recommendedData);
+              console.log('Fetched Recommendations:', recommendedData);
+
     };
 
     fetchAndSetRecommendations();
@@ -87,8 +96,6 @@ const HomePage = () => {
     description: ' 在主页主动提供您可能感兴趣的当地活动与秘境景点，让惊喜不间断。',
   }
   ];
-
-
 
   return (
     <div className="homepage">
@@ -126,14 +133,13 @@ const HomePage = () => {
       </Modal>
           </div>
           <div className="hero-image">
-            <div className="family-illustration">
-              <span className="family-emoji">👨‍👩‍👧‍👦</span>
-              <div className="travel-icons">
-                <span>✈️</span>
-                <span>🏖️</span>
-                <span>🎪</span>
-                <span>🚗</span>
-              </div>
+            <div className="family-illustration"></div>
+            <span className="family-emoji">👨‍👩‍👧‍👦</span>
+            <div className="travel-icons">
+              <span>✈️</span>
+              <span>🏖️</span>
+              <span>🎪</span>
+              <span>🚗</span>
             </div>
           </div>
         </div>
@@ -142,11 +148,12 @@ const HomePage = () => {
       {/* Features Section */}
       <Section title="揭秘：大家为啥都超爱我们的行程规划？" cards={featuresData} />
 
-      {/* Hot Places Section */}
+      {/* Recommendations Section with Pagination */}
       <Section
         title="为你精选"
-        cards={recommendations.length > 0 ? recommendations : hotPlacesData}
+        cards={recommendations}
         backgroundColor="#e8f5e9"
+        pageSize={RECOMMENDATIONS_PER_PAGE}
       />
 
       {/* Hot Places Section */}
@@ -154,6 +161,7 @@ const HomePage = () => {
         title="过往计划"
         cards={recentPlanCards.length > 0 ? recentPlanCards : hotPlacesData}
         backgroundColor="white"
+        pageSize={8}
         cardComponent={PlanCard}
       />
 
@@ -175,8 +183,8 @@ const HomePage = () => {
       <section className="cta-section">
         <div className="container">
           <div className="cta-content">
-            <Title level={2}>准备好开启您的家庭之旅了吗？</Title>
-            <Paragraph>携手万千家庭，一同圆旅行之梦。</Paragraph>
+            <Title level={2} style={{ color: 'white' }}>准备好开启您的家庭之旅了吗？</Title>
+            <Paragraph style={{ color: 'white' }}>携手万千家庭，一同圆旅行之梦。</Paragraph>
           </div>
         </div>
       </section>

@@ -79,67 +79,23 @@ function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4" style={{ 
-      background: 'linear-gradient(135deg, #0f766e 0%, #059669 25%, #10b981 50%, #22c55e 75%, #4ade80 100%)',
+      background: '#EAF4EB',
       position: 'relative',
       overflow: 'hidden'
     }}>
-      {/* 动态背景装饰 */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: `
-          radial-gradient(circle at 20% 30%, rgba(34, 197, 94, 0.2) 0%, transparent 50%),
-          radial-gradient(circle at 80% 70%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
-          radial-gradient(circle at 40% 80%, rgba(74, 222, 128, 0.1) 0%, transparent 50%)
-        `,
-        animation: 'float 8s ease-in-out infinite'
-      }}>
-        <style>
-          {`
-            @keyframes float {
-              0%, 100% { transform: translateY(0px) rotate(0deg); }
-              50% { transform: translateY(-10px) rotate(1deg); }
-            }
-            @keyframes slideInUp {
-              from { opacity: 0; transform: translateY(30px); }
-              to { opacity: 1; transform: translateY(0); }
-            }
-            @keyframes fadeIn {
-              from { opacity: 0; }
-              to { opacity: 1; }
-            }
-            @keyframes shimmer {
-              0% { background-position: -200% 0; }
-              100% { background-position: 200% 0; }
-            }
-          `}
-        </style>
-      </div>
+      <style>
+        {`
+          @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+        `}
+      </style>
 
-      {/* 背景几何图形 */}
-      <div style={{
-        position: 'absolute',
-        top: '10%',
-        left: '10%',
-        width: '100px',
-        height: '100px',
-        background: 'linear-gradient(45deg, rgba(34, 197, 94, 0.1), rgba(16, 185, 129, 0.1))',
-        borderRadius: '50%',
-        animation: 'float 6s ease-in-out infinite reverse'
-      }} />
-      <div style={{
-        position: 'absolute',
-        bottom: '20%',
-        right: '15%',
-        width: '80px',
-        height: '80px',
-        background: 'linear-gradient(135deg, rgba(74, 222, 128, 0.1), rgba(34, 197, 94, 0.1))',
-        borderRadius: '20px',
-        animation: 'float 8s ease-in-out infinite'
-      }} />
 
       <div className="w-full max-w-md" style={{ 
         position: 'relative', 
@@ -147,19 +103,17 @@ function Login() {
         animation: 'slideInUp 0.8s ease-out'
       }}>
         <Card 
-          className="shadow-2xl border-0 rounded-3xl"
+          className="border-0 rounded-3xl"
           style={{ 
-            background: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(20px)',
-            boxShadow: '0 30px 80px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.2)',
-            border: '1px solid rgba(255, 255, 255, 0.3)'
+            background: '#ffffff',
+            border: '1px solid #e5e7eb'
           }}
         >
           <div className="text-center mb-8" style={{ animation: 'fadeIn 1s ease-out 0.3s both' }}>
             <div 
               className="inline-flex items-center justify-center w-20 h-20 rounded-full mb-6"
               style={{ 
-                background: 'linear-gradient(135deg, #22c55e, #10b981, #059669)',
+                background: '#2A6F6B',
                 boxShadow: '0 10px 30px rgba(34, 197, 94, 0.3)',
                 animation: 'pulse 3s ease-in-out infinite'
               }}
@@ -167,12 +121,9 @@ function Login() {
               <span className="text-3xl">✈️</span>
             </div>
             <Title level={1} style={{ 
-              color: '#047857', 
+              color: '#2A6F6B', 
               marginBottom: '16px',
               fontWeight: '700',
-              background: 'linear-gradient(135deg, #047857, #059669, #10b981)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
               fontSize: '2.5rem'
             }}>
               欢迎回来
@@ -220,7 +171,7 @@ function Login() {
               ]}
             >
               <Input
-                prefix={<UserOutlined style={{ color: '#10b981' }} />}
+                prefix={<UserOutlined style={{ color: '#2A6F6B' }} />}
                 placeholder="请输入用户名或邮箱"
                 style={{ 
                   padding: '14px 16px', 
@@ -232,8 +183,8 @@ function Login() {
                   background: 'rgba(255, 255, 255, 0.8)'
                 }}
                 onFocus={(e) => {
-                  e.target.style.borderColor = '#22c55e';
-                  e.target.style.boxShadow = '0 0 0 4px rgba(34, 197, 94, 0.1)';
+                  e.target.style.borderColor = '#2A6F6B';
+                  e.target.style.boxShadow = '0 0 0 4px rgba(42, 111, 107, 0.1)';
                   e.target.style.transform = 'translateY(-2px)';
                 }}
                 onBlur={(e) => {
@@ -252,7 +203,7 @@ function Login() {
               ]}
             >
               <Input.Password
-                prefix={<LockOutlined style={{ color: '#10b981' }} />}
+                prefix={<LockOutlined style={{ color: '#2A6F6B' }} />}
                 placeholder="请输入密码"
                 style={{ 
                   padding: '14px 16px', 
@@ -264,8 +215,8 @@ function Login() {
                   background: 'rgba(255, 255, 255, 0.8)'
                 }}
                 onFocus={(e) => {
-                  e.target.style.borderColor = '#22c55e';
-                  e.target.style.boxShadow = '0 0 0 4px rgba(34, 197, 94, 0.1)';
+                  e.target.style.borderColor = '#2A6F6B';
+                  e.target.style.boxShadow = '0 0 0 4px rgba(42, 111, 107, 0.1)';
                   e.target.style.transform = 'translateY(-2px)';
                 }}
                 onBlur={(e) => {
@@ -285,12 +236,12 @@ function Login() {
                 size="large"
                 style={{
                   height: '56px',
-                  background: loading ? '#6b7280' : 'linear-gradient(135deg, #22c55e, #10b981)',
+                  background: loading ? '#6b7280' : '#2A6F6B',
                   border: '0',
                   borderRadius: '14px',
                   fontWeight: '600',
                   fontSize: '16px',
-                  boxShadow: '0 8px 25px rgba(34, 197, 94, 0.3)',
+                  boxShadow: '0 8px 25px rgba(42, 111, 107, 0.3)',
                   transition: 'all 0.3s ease',
                   display: 'flex',
                   alignItems: 'center',
@@ -299,15 +250,15 @@ function Login() {
                 }}
                 onMouseEnter={(e) => {
                   if (!loading) {
-                    e.target.style.background = 'linear-gradient(135deg, #16a34a, #059669)';
-                    e.target.style.boxShadow = '0 12px 35px rgba(34, 197, 94, 0.4)';
+                    e.target.style.background = '#1f5f5b';
+                    e.target.style.boxShadow = '0 12px 35px rgba(42, 111, 107, 0.4)';
                     e.target.style.transform = 'translateY(-2px)';
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (!loading) {
-                    e.target.style.background = 'linear-gradient(135deg, #22c55e, #10b981)';
-                    e.target.style.boxShadow = '0 8px 25px rgba(34, 197, 94, 0.3)';
+                    e.target.style.background = '#2A6F6B';
+                    e.target.style.boxShadow = '0 8px 25px rgba(42, 111, 107, 0.3)';
                     e.target.style.transform = 'translateY(0)';
                   }
                 }}
@@ -335,7 +286,7 @@ function Login() {
               <Link 
                 to="/register" 
                 style={{ 
-                  color: '#22c55e',
+                  color: '#2A6F6B',
                   textDecoration: 'none',
                   transition: 'all 0.3s ease',
                   marginLeft: '8px',
@@ -343,11 +294,11 @@ function Login() {
                   fontSize: '15px'
                 }}
                 onMouseEnter={(e) => {
-                  e.target.style.color = '#16a34a';
+                  e.target.style.color = '#1f5f5b';
                   e.target.style.textDecoration = 'underline';
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.color = '#22c55e';
+                  e.target.style.color = '#2A6F6B';
                   e.target.style.textDecoration = 'none';
                 }}
               >
@@ -365,7 +316,7 @@ function Login() {
                   transition: 'all 0.3s ease'
                 }}
                 onMouseEnter={(e) => {
-                  e.target.style.color = '#22c55e';
+                  e.target.style.color = '#2A6F6B';
                   e.target.style.transform = 'translateY(-1px)';
                 }}
                 onMouseLeave={(e) => {
