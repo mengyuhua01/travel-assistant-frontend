@@ -308,7 +308,7 @@ const TravelPlanPage = () => {
             cultural: 'blue',
             leisure: 'green',
             adventure: 'orange',
-            'ai-generated': 'purple',
+            'ai-generated': '#EBADE',
             classic: 'blue'
         };
         return colors[type] || 'default';
@@ -500,7 +500,12 @@ const TravelPlanPage = () => {
                                                     </span>
                                                 </Title>
                                                 <Tag color={getTypeColor(plan.type)}
-                                                     style={{fontSize: 12, padding: '4px 12px', borderRadius: 16}}>
+                                                     style={{
+                                                        fontSize: 12,
+                                                        padding: '4px 12px',
+                                                        borderRadius: 16,
+                                                        color: plan.type === 'ai-generated' ? '#000000' : undefined
+                                                     }}>
                                                     {plan.type === 'ai-generated' && '✨ AI定制'}
                                                     {plan.type === 'cultural' && '🏛️ 文化旅游'}
                                                     {plan.type === 'leisure' && '🏖️ 休闲度假'}

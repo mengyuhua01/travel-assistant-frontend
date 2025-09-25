@@ -19,7 +19,7 @@ const TravelHistoryPage = () => {
       cultural: 'blue',
       leisure: 'green',
       adventure: 'orange',
-      'ai-generated': 'purple',
+      'ai-generated': '#EBADE',
       classic: 'blue'
     };
     return colors[type] || 'default';
@@ -140,7 +140,7 @@ const TravelHistoryPage = () => {
                     cursor: 'pointer',
                     position: 'relative'
                   }}
-                  bodyStyle={{ padding: 24 }}
+                  styles={{ body: { padding: 24 } }}
                   onClick={() => handleViewPlan(plan.id)}
                   actions={[
                     <Button
@@ -205,15 +205,34 @@ const TravelHistoryPage = () => {
                     }}
                   />
                   <div style={{ textAlign: 'center', marginBottom: 20 }}>
-                    <div style={{ fontSize: 56, marginBottom: 12 }}>
-                      {plan.image}
+                    <div style={{ fontSize: 56, marginBottom: 12, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      {plan.type === 'ai-generated' ? (
+                        <img
+                          src="/image/history.svg"
+                          alt="历史方案"
+                          style={{
+                            width: 56,
+                            height: 56,
+                            objectFit: 'contain'
+                          }}
+                        />
+                      ) : (
+                        <div style={{ fontSize: 56 }}>
+                          {plan.image}
+                        </div>
+                      )}
                     </div>
                     <Title level={4} style={{ marginBottom: 12, color: '#1f1f1f' }}>
                       {plan.title}
                     </Title>
                     <Tag 
                       color={getTypeColor(plan.type)}
-                      style={{ fontSize: 12, padding: '4px 12px', borderRadius: 16 }}
+                      style={{
+                        fontSize: 12,
+                        padding: '4px 12px',
+                        borderRadius: 16,
+                        color: plan.type === 'ai-generated' ? '#000000' : undefined
+                      }}
                     >
                       {plan.type === 'ai-generated' && '✨ AI定制'}
                       {plan.type === 'cultural' && '🏛️ 文化旅游'}
