@@ -113,7 +113,7 @@ const HomePage = () => {
         <div className="hero-content">
           <div className="hero-text">
             <h1 className="hero-title">
-              规划您的完美家庭之旅 <p className="highlight">缔造无忧难忘回忆！</p>
+              懂你所想 行你所愿 <p className="highlight">旅行规划从未如此简单</p>
             </h1>
             
             <p className="hero-subtitle">
