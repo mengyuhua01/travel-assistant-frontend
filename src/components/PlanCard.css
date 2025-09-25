@@ -44,13 +44,103 @@
   cursor: pointer;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .section-card {
-    padding: 2rem 1.5rem;
-  }
+/* 强制统一卡片高度，确保对齐 */
+.plan-card-link .section-card {
+  height: 280px; /* 固定高度 */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* 改为顶部对齐，确保内容从顶部开始排列 */
+  padding: 1.5rem 1.5rem 1.5rem 1.5rem; /* 确保所有边的内边距一致 */
+  text-align: left; /* 统一左对齐 */
+  box-sizing: border-box; /* 确保内边距包含在总高度内 */
+}
 
-  .card-image {
-    height: 150px;
+.plan-card-link .section-card .ant-card-body {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* 内容顶部对齐 */
+  height: 100%;
+  text-align: left; /* 确保内容左对齐 */
+}
+
+/* 限制标题和描述的高度，防止过长内容影响对齐 */
+.plan-card-link .section-card h4 {
+  height: 3rem; /* 固定高度确保所有标题占用相同空间 */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  margin-bottom: 1rem;
+  margin-top: 0; /* 统一顶部边距 */
+  line-height: 1.5; /* 统一行高 */
+  padding: 0; /* 移除内边距，使用固定高度 */
+  text-align: left; /* 标题左对齐 */
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 1.1rem; /* 统一字体大小 */
+  box-sizing: border-box;
+}
+
+.plan-card-link .section-card p {
+  height: 4.5rem; /* 固定高度确保所有描述占用相同空间 */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  margin: 0; /* 统一边距 */
+  padding: 0; /* 移除内边距，使用固定高度 */
+  line-height: 1.5; /* 统一行高 */
+  text-align: left; /* 描述左对齐 */
+  color: #6b7280;
+  font-size: 0.95rem; /* 统一字体大小 */
+  box-sizing: border-box;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .plan-card-link .section-card {
+    height: 250px;
+    padding: 1.2rem 1.2rem 1.2rem 1.2rem; /* 确保所有边距一致 */
+  }
+  
+  .plan-card-link .section-card h4 {
+    height: 2.8rem; /* 固定高度 */
+    font-size: 1.05rem;
+  }
+  
+  .plan-card-link .section-card p {
+    height: 4rem; /* 固定高度 */
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .plan-card-link .section-card {
+    height: 220px;
+    padding: 1rem 1rem 1rem 1rem; /* 确保所有边距一致 */
+  }
+  
+  .plan-card-link .section-card h4 {
+    height: 2.4rem; /* 固定高度 */
+    font-size: 1rem;
+    line-height: 1.3;
+    padding: 0; /* 移除内边距 */
+    margin-top: 0;
+    margin-bottom: 0.8rem;
+    text-align: left;
+    box-sizing: border-box;
+  }
+  
+  .plan-card-link .section-card p {
+    height: 3.2rem; /* 固定高度 */
+    font-size: 0.85rem;
+    line-height: 1.4;
+    padding: 0; /* 移除内边距 */
+    margin: 0;
+    text-align: left;
+    box-sizing: border-box;
   }
 }

@@ -150,7 +150,7 @@ const HomePage = () => {
 
       {/* Hot Places Section */}
       <Section
-        title="过往计划"
+        title="规划展示"
         cards={recentPlanCards.length > 0 ? recentPlanCards : hotPlacesData}
         backgroundColor="white"
         pageSize={4}
