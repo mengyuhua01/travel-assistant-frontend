@@ -9,11 +9,9 @@
 .day-cost-section {
   margin-top: 24px;
   padding: 16px;
-  background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
-  border-radius: 8px;
   text-align: center;
-  border: 1px solid #81c784;
-  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.1);
+  border: 1px solid #2A6F6B;
+  border-radius: 8px;
 }
 
 .session {
