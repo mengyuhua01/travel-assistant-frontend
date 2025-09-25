@@ -79,48 +79,55 @@ const TravelPlanPage = () => {
         setProgress(0);
         setCurrentStatusMessage('🤖 正在向AI发起旅行规划请求...');
 
-        // 状态消息数组 - 重新调整进度分布，让速度更均匀
+        // 状态消息数组 - 重新调整进度分布，前面更快，后面更平缓
         const statusMessages = [
-            { progress: 15, message: '正在向AI发起旅行规划请求...', emoji: '🤖' },
-            { progress: 25, message: 'AI正在分析您的需求...', emoji: '🧠' },
-            { progress: 35, message: '正在搜索目的地信息...', emoji: '🗺️' },
-            { progress: 45, message: '正在匹配合适的住宿...', emoji: '🏨' },
-            { progress: 55, message: '正在规划行程路线...', emoji: '🎯' },
-            { progress: 65, message: '正在优化旅行建议...', emoji: '💡' },
-            { progress: 75, message: 'AI正在深度思考中...', emoji: '⚡' },
-            { progress: 82, message: '正在完善方案细节...', emoji: '🔍' },
+            { progress: 18, message: '正在向AI发起旅行规划请求...', emoji: '🤖' },
+            { progress: 30, message: 'AI正在分析您的需求...', emoji: '🧠' },
+            { progress: 42, message: '正在搜索目的地信息...', emoji: '🗺️' },
+            { progress: 54, message: '正在匹配合适的住宿...', emoji: '🏨' },
+            { progress: 66, message: '正在规划行程路线...', emoji: '🎯' },
+            { progress: 75, message: '正在优化旅行建议...', emoji: '💡' },
+            { progress: 80, message: 'AI正在深度思考中...', emoji: '⚡' },
+            { progress: 84, message: '正在完善方案细节...', emoji: '🔍' },
         ];
 
         let currentMessageIndex = 0;
         let progressUpdater = null;
 
-        // 创建自动进度推进器 - 优化为更均匀更快的增长
+        // 创建自动进度推进器 - 前期快速，后期平缓
         const createProgressUpdater = (maxProgress = 85) => {
-            const updateInterval = setInterval(() => {
+            return setInterval(() => {
                 setProgress(prev => {
                     // 如果还有预设消息未显示
                     if (currentMessageIndex < statusMessages.length) {
                         const currentStatus = statusMessages[currentMessageIndex];
 
                         // 检查是否应该显示下一个状态消息
-                        if (prev >= currentStatus.progress - 3) { // 提前3%开始显示消息
+                        if (prev >= currentStatus.progress - 2) { // 提前2%开始显示消息
                             message.info(currentStatus.message);
                             setCurrentStatusMessage(currentStatus.message);
                             currentMessageIndex++;
                         }
                     }
 
-                    // 均匀快速增长逻辑 - 固定较大的增长速度
+                    // 动态增长逻辑 - 前期快，后期慢
                     if (prev < maxProgress) {
-                        const increment = 1.2; // 每次固定增长1.2%，更快更均匀
+                        let increment;
+                        if (prev < 30) {
+                            increment = 2.0; // 0-30%: 快速增长
+                        } else if (prev < 60) {
+                            increment = 1.5; // 30-60%: 中等增长
+                        } else if (prev < 75) {
+                            increment = 0.8; // 60-75%: 较慢增长
+                        } else {
+                            increment = 0.4; // 75-85%: 缓慢增长
+                        }
                         return Math.min(prev + increment, maxProgress);
                     }
 
                     return prev;
                 });
-            }, 1200); // 每1.2秒更新一次，更快的更新频率
-
-            return updateInterval;
+            }, 1000); // 每1秒更新一次，更频繁的更新
         };
 
         try {
@@ -151,15 +158,35 @@ const TravelPlanPage = () => {
             }
 
             // 第3步：获取完整的消息列表（占85%-95%）
-            setProgress(90);
-            message.info('📄 正在获取AI生成的完整方案...');
+            // 平滑增长到90%
             setCurrentStatusMessage('📄 正在获取AI生成的完整方案...');
+            message.info('📄 正在获取AI生成的完整方案...');
+
+            const step3Progress = setInterval(() => {
+                setProgress(prev => {
+                    if (prev < 90) {
+                        return Math.min(prev + 0.8, 90);
+                    }
+                    clearInterval(step3Progress);
+                    return prev;
+                });
+            }, 200);
 
             const messageList = await getChatMessageList(conversationId, chatId);
+            clearInterval(step3Progress);
 
-            // 第4步：解析AI回复并生成前端显示的方案（占95%-100%）
-            setProgress(95);
+            // 第4步：解析AI回复并生成前端显示的方案（占90%-100%）
             setCurrentStatusMessage('🎨 正在生成方案预览...');
+
+            const step4Progress = setInterval(() => {
+                setProgress(prev => {
+                    if (prev < 100) {
+                        return Math.min(prev + 0.5, 100);
+                    }
+                    clearInterval(step4Progress);
+                    return prev;
+                });
+            }, 150);
 
             const aiGeneratedPlans = await parseAIResponseToPlans(messageList);
 
@@ -170,7 +197,8 @@ const TravelPlanPage = () => {
             // 保存所有方案到缓存（包含新旧方案）
             savePlansToCache(updatedPlans, travelData);
 
-            // 完成
+            // 确保进度到达100%
+            clearInterval(step4Progress);
             setProgress(100);
             setCurrentStatusMessage('✅ 生成个性化方案完成！');
 
