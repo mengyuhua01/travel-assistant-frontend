@@ -56,7 +56,7 @@ const DayDetails = ({ dayData, tripId, onRegenerateSuccess, showEdit }) => {
         </div>
         <div className="day-cost-section">
           <Text strong style={{ fontSize: 16, color: '#2e7d32' }}>
-            💰 今天费用：¥{dayData.dailyCost}
+            💰 今日预计费用：¥{dayData.dailyCost}
           </Text>
         </div>
         {/* 仅在 showEdit 为 true 时显示 TagSelector */}

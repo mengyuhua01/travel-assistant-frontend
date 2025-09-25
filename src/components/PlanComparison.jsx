@@ -97,17 +97,14 @@ const PlanComparison = ({
     };
 
     return (
-      <div className="comparison-section">
-        <div className="section-header">
-          <span className="section-icon">{icon}</span>
-          <Title level={5} className="section-title">
-            {title}
-          </Title>
-          {hasChanged && (
-            <Tag color="orange" size="small">
-              已更新
-            </Tag>
-          )}
+      <div className={`comparison-section ${hasChanged ? 'section-updated' : ''}`}>
+        <div className={`section-header ${hasChanged ? 'updated-section' : ''}`}>
+          <div className="section-left">
+            <span className="section-icon">{icon}</span>
+            <Title level={5} className="section-title">
+              {title}
+            </Title>
+          </div>
           <Button
             type="text"
             size="small"
