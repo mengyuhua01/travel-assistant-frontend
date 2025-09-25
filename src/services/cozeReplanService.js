@@ -18,7 +18,7 @@ if (!token) {
 
 if (!botId) {
   console.error(
-    "Available env vars:",
+    "Available .env vars:",
     Object.keys(process.env).filter((key) => key.startsWith("REACT_APP"))
   );
   throw new Error("REACT_APP_COZE_BOT_ID is not set in environment variables.");
