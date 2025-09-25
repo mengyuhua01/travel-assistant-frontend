@@ -159,21 +159,7 @@ const UserPage = () => {
                         您还没有创建过旅行方案
                       </span>
                     }
-                  >
-                    <Button
-                      type="primary"
-                      onClick={() => navigate('/plan')}
-                      style={{
-                        background: '#2A6F6B',
-                        border: 'none',
-                        borderRadius: 8,
-                        height: 40,
-                        padding: '0 24px'
-                      }}
-                    >
-                      创建第一个方案
-                    </Button>
-                  </Empty>
+                  />
                 )}
               </div>
             </Card>
