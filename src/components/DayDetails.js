@@ -12,7 +12,7 @@ const DayDetails = ({ dayData, tripId, onRegenerateSuccess, showEdit }) => {
   return (
     <div className="day-details-modern">
       <div style={{ paddingBottom: 20 }}>
-        <Title level={4} style={{ marginBottom: 12, color: '#2e7d32' }}>
+        <Title level={4} style={{ marginBottom: 12, color: 'black' }}>
           {dayData.theme}
         </Title>
         <div className="day-activities">
