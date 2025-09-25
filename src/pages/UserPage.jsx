@@ -65,7 +65,6 @@ const UserPage = () => {
   return (
     <div className="user-page">
       <div className="container">
-        <Title level={2} className="page-title">My Profile</Title>
 
         <Row gutter={[24, 24]}>
           {/* Personal Information Card */}
@@ -75,7 +74,40 @@ const UserPage = () => {
                 <img src="/image/user.png" alt="User Logo" className="user-logo" />
               </div>
               <div className="profile-info">
-                  <Title level={2}>{user.username || user.email}</Title>
+                  <Title level={2} className='profile-name'>{user.username || user.email}</Title>
+                </div>
+                <div> 
+                    <div> 
+                        <Button
+                    type="primary"
+                    icon={<HeartOutlined />}
+                    style={{ 
+                      background: '#2A6F6B', 
+                      border: 'none', 
+                      borderRadius: 8 
+                    }}
+                    className='update-tags-button'
+                  >
+                    更新我的兴趣偏好
+                  </Button>
+                    </div>
+                    
+                    {loading ? (
+                <p>正在加载标签...</p>
+              ) : (
+                <div className="user-tags">
+                  {userTags.length > 0 ? (
+                    userTags.map((tag) => (
+                      <Tag key={tag.id} color="green" className="interest-tag">
+                        {tag.name}
+                      </Tag>
+                    ))
+                  ) : (
+                    <Text type="secondary">尚未选择任何标签。</Text>
+                  )}
+                </div>
+              )}
+
                 </div>
             </Card>
           </Col>
@@ -83,7 +115,7 @@ const UserPage = () => {
 
           {/* History Planning Card */}
           <Col xs={24} md={16}>
-            <Card title="Travel History" className="history-card" variant="borderless">
+            <Card title="旅行历史" className="history-card" variant="borderless">
               <div style={{ marginBottom: 16 }}>
                 <Link to="/history">
                   <Button
@@ -147,43 +179,6 @@ const UserPage = () => {
           </Col>
         </Row>
 
-        <Row gutter={[24, 24]} style={{ marginTop: '24px' }}>
-          {/* User Tags Card */}
-          <Col xs={24}>
-            <Card title="My Interests" className="tags-card" variant="borderless">
-              <div style={{ marginBottom: 16 }}>
-                <Link to="/interests">
-                  <Button
-                    type="primary"
-                    icon={<HeartOutlined />}
-                    style={{ 
-                      background: '#2A6F6B', 
-                      border: 'none', 
-                      borderRadius: 8 
-                    }}
-                  >
-                    更新我的兴趣偏好
-                  </Button>
-                </Link>
-              </div>
-              {loading ? (
-                <p>正在加载标签...</p>
-              ) : (
-                <div className="user-tags">
-                  {userTags.length > 0 ? (
-                    userTags.map((tag) => (
-                      <Tag key={tag.id} color="green" className="interest-tag">
-                        {tag.name}
-                      </Tag>
-                    ))
-                  ) : (
-                    <Text type="secondary">尚未选择任何标签。</Text>
-                  )}
-                </div>
-              )}
-            </Card>
-          </Col>
-        </Row>
       </div>
     </div>
   );

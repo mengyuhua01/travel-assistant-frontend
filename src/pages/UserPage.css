@@ -40,8 +40,18 @@
   margin: 0 auto;
 }
 
+.profile-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .profile-info h4 {
   margin-bottom: 0.25rem;
+}
+
+.profile-name {
+  text-align: center;
 }
 
 .bio {
@@ -63,6 +73,11 @@
   border: 1px solid #22c55e;
   color: #16a34a;
 }
+
+.update-tags-button {
+    margin-bottom: 1rem;
+}
+
 
 /* Responsive */
 @media (max-width: 768px) {

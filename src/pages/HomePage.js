@@ -2,7 +2,6 @@ import PlanCard from '../components/PlanCard';
 import { Button, Modal, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { HeartOutlined, UserOutlined } from '@ant-design/icons';
 import { getRecommendations, getUserTag } from '../apis/user.js';
 import { getRecentTravelPlans } from '../apis/travelPlanApi';
 import '../components/CustomCard.css';
@@ -128,9 +127,20 @@ const HomePage = () => {
                   开始规划
                 </Button>
               </Link>
-              {/* <Button size="large" className="cta-secondary">
-                观看演示
-              </Button> */}
+              {!isAuthenticated && (
+                <Link to="/login">
+                  <Button type="primary" size="large" className="cta-primary" style={{ marginLeft: 12 }}>
+                    登录以获取个性化内容
+                  </Button>
+                </Link>
+              )}
+              {isAuthenticated && recommendations.length === 0 && (
+                <Link to="/interests">
+                  <Button type="primary" size="large" className="cta-primary" style={{ marginLeft: 12 }}>
+                    选择兴趣标签
+                  </Button>
+                </Link>
+              )}
             </div>
             <Modal
         title="请先登录"
@@ -146,61 +156,26 @@ const HomePage = () => {
       </section>
 
       {/* Personalized Recommendations Section */}
-      <Section
-        title="为你精选"
-        cards={recommendations}
-        backgroundColor="white"
-        pageSize={RECOMMENDATIONS_PER_PAGE}
-        emptyContent={
-          isAuthenticated ? (
-            <div style={{ textAlign: 'center', padding: '20px' }}>
-              <p style={{ marginBottom: '20px' }}>您还没有选择兴趣偏好，无法为您提供个性化推荐</p>
-              <Link to="/interests">
-                <Button 
-                  type="primary"
-                  icon={<HeartOutlined />}
-                  style={{ 
-                    background: 'linear-gradient(135deg, #4caf50, #388e3c)', 
-                    border: 'none', 
-                    borderRadius: 8 
-                  }}
-                >
-                  设置您的兴趣偏好
-                </Button>
-              </Link>
-            </div>
-          ) : (
-            <div style={{ textAlign: 'center', padding: '20px' }}>
-              <p style={{ marginBottom: '20px' }}>登录后可以获得个性化推荐</p>
-              <Link to="/login">
-                <Button 
-                  type="primary"
-                  icon={<UserOutlined />}
-                  style={{ 
-                    background: 'linear-gradient(135deg, #4caf50, #388e3c)', 
-                    border: 'none', 
-                    borderRadius: 8 
-                  }}
-                >
-                  立即登录
-                </Button>
-              </Link>
-            </div>
-          )
-        }
-      />
+      {isAuthenticated && recommendations.length > 0 && (
+        <Section
+          title="为你精选"
+          cards={recommendations}
+          backgroundColor="white"
+          pageSize={RECOMMENDATIONS_PER_PAGE}
+        />
+      )}
 
       <Section
         title="大众精选"
         cards={publicRecommendations}
-        backgroundColor={"#e8f5e9"}
+        backgroundColor={isAuthenticated && recommendations.length > 0 ? "#e8f5e9" : "white"}
         pageSize={RECOMMENDATIONS_PER_PAGE}
       />
 
       <Section
         title="规划展示"
-        cards={recentPlanCards }
-        backgroundColor="white"
+        cards={recentPlanCards}
+        backgroundColor={isAuthenticated && recommendations.length > 0 ? "white" : "#e8f5e9"}
         pageSize={4}
         cardComponent={PlanCard}
       />
@@ -208,7 +183,7 @@ const HomePage = () => {
       <Section 
         title="为啥大家都超爱我们的行程规划？" 
         cards={featuresData} 
-        backgroundColor="#e8f5e9"
+        backgroundColor={isAuthenticated && recommendations.length > 0 ? "#e8f5e9" : "white"}
       />
 
       <section className="cta-section">
