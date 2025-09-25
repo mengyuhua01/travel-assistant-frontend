@@ -36,7 +36,7 @@
 .tag-option:hover {
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border-color: #52c41a;
+  border-color: transparent;
   background: #f6ffed !important;
 }
 
@@ -44,7 +44,7 @@
   color: #ffffff !important;
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  border-color: #52c41a;
+  border-color: transparent;
 }
 
 /* 强制覆盖 Ant Design 的 color/inline style，使选中标签文字为白色，避免出现蓝色 */

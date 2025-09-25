@@ -1,7 +1,7 @@
 import { CozeAPI, COZE_CN_BASE_URL } from '@coze/api';
 
 
-const token = process.env.COZE_API_TOKEN || 'pat_XzIMnIxCpTLf5EDE0GpdWcvIfE2KzscjuFdUDRwo1gjfOd7Cu603gtUtOipxHGwm'
+const token = process.env.COZE_API_TOKEN || 'pat_bSriNUTTRF8lT3dpYgKF2sUjHfW6GI0qIZp15P4Up9fBt8RpaBg8VNsvNrg8OhW3'
 
 
 const client = new CozeAPI({
@@ -44,7 +44,7 @@ export const generateTravelPlan = async (travelData) => {
 请根据以上信息生成详细的旅行方案，包括行程安排、景点推荐、住宿建议等。`;
 
     const requestData = {
-        bot_id: "7552821142114517055",
+        bot_id: "7553595125264891938",
         user_id: "user_" + Date.now(),
         additional_messages: [
             {
