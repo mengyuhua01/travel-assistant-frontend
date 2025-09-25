@@ -104,10 +104,7 @@ const UserPage = () => {
                   <List
                     dataSource={recentPlans}
                     renderItem={item => (
-                      <List.Item
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => navigate(`/trip/${item.id}`)}
-                      >
+                      <List.Item>
                         <List.Item.Meta
                           title={<Text strong>{item.title || '旅行方案'}</Text>}
                           description={
@@ -118,7 +115,6 @@ const UserPage = () => {
                             </>
                           }
                         />
-                        <Tag color="blue">{item.duration ? `${item.duration}天` : ''}</Tag>
                       </List.Item>
                     )}
                   />
