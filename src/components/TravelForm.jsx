@@ -116,9 +116,9 @@ const TravelForm = ({ onSubmit, loading: externalLoading }) => {
       <div className="travel-form-content">
         <div className="travel-form-header">
           <Title level={1} className="travel-form-title">
-                Family Travel Planner
+                Travel Planner
           </Title>
-          <Text className="travel-form-subtitle">
+          <Text className="travel-form-subtitle" style={{ color: '#bfbfbf' }}>
             填写您的出行需求，AI将为您生成专属的个性化旅行方案
           </Text>
         </div>
