@@ -71,7 +71,7 @@ const UserPage = () => {
           <Col xs={24} md={8}>
             <Card className="profile-card" variant="borderless">
               <div className="profile-header">
-                <img src="/image/user.png" alt="User Logo" className="user-logo" />
+                <img src="/image/Marry.png" alt="User Logo" className="user-logo" />
               </div>
               <div className="profile-info">
                   <Title level={2} className='profile-name'>{user.username || user.email}</Title>
