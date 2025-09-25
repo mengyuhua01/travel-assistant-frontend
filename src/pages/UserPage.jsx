@@ -81,6 +81,7 @@ const UserPage = () => {
                         <Button
                     type="primary"
                     icon={<HeartOutlined />}
+                    onClick={() => navigate('/interests')}
                     style={{ 
                       background: '#2A6F6B', 
                       border: 'none', 
