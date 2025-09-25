@@ -24,7 +24,7 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      # 3. 安装前端依赖
+
       - name: Install frontend dependencies
         run: |
           npm ci
