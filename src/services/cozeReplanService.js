@@ -56,6 +56,13 @@ const extractTextFromMessage = (message) => {
   return JSON.stringify(message.content);
 };
 
+// 状态码映射为中文
+const getStatusText = (status) => {
+  if (status === "created" || status === "in_progress") return "处理中";
+  if (status === "completed") return "已完成";
+  return "失败";
+};
+
 // 异步轮询版本（完整结果读取后渲染）- 主要函数
 export const regenerateDayAsync = async (
   tripId,
@@ -159,10 +166,11 @@ ${JSON.stringify(originalTrip, null, 2)}`;
         }
 
         const status = statusResponse.data.data?.status;
+        const statusText = getStatusText(status);
 
         if (onProgress) {
           onProgress(
-            `AI处理中 (第${attempts}次检查, 状态: ${status}, 已耗时: ${attempts}s)...`
+            `AI处理中 (第${attempts}次检查, 状态: ${statusText}, 已耗时: ${attempts}秒)...`
           );
         }
 

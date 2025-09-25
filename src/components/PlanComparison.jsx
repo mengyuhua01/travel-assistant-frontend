@@ -128,7 +128,7 @@ const PlanComparison = ({
                 <div className="plan-content">
                   <div className="activity-info">
                     <Paragraph
-                      ellipsis={{ rows: 4, expandable: true }}
+                      ellipsis={{ rows: 4, expandable: true, symbol: '展开' }}
                       style={{ whiteSpace: "pre-line", margin: 0 }}
                     >
                       {renderContent(original, true)}
@@ -155,7 +155,7 @@ const PlanComparison = ({
                 <div className="plan-content">
                   <div className="activity-info">
                     <Paragraph
-                      ellipsis={{ rows: 4, expandable: true }}
+                      ellipsis={{ rows: 4, expandable: true, symbol: '展开' }}
                       style={{ whiteSpace: "pre-line", margin: 0 }}
                     >
                       {renderContent(updated, false)}
