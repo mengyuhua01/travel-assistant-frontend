@@ -1,7 +1,9 @@
+import PlanCard from '../components/PlanCard';
 import { Button, Modal, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getRecommendations, getUserTag } from '../apis/user.js';
+import { getRecentTravelPlans } from '../apis/travelPlanApi';
 import '../components/CustomCard.css';
 import Section from '../components/Section';
 import '../components/Section.css';
@@ -16,6 +18,27 @@ const HomePage = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const navigate = useNavigate();
   const [recommendations, setRecommendations] = useState([]);
+  const [recentPlanCards, setRecentPlanCards] = useState([]);
+  useEffect(() => {
+    // Fetch recent travel plans and convert to card format for the "过往计划" section
+    const fetchRecentPlans = async () => {
+      try {
+        const response = await getRecentTravelPlans();
+        const plans = response.data || response;
+        const cards = Array.isArray(plans)
+          ? plans.map(plan => ({
+              title: plan.title || '旅行方案',
+              description: plan.overview || '精心规划的旅行方案',
+              link: `/trip/${plan.id}`
+            }))
+          : [];
+        setRecentPlanCards(cards);
+      } catch (error) {
+        setRecentPlanCards([]);
+      }
+    };
+    fetchRecentPlans();
+  }, []);
 
   useEffect(() => {
     const fetchAndSetRecommendations = async () => {
@@ -129,8 +152,9 @@ const HomePage = () => {
       {/* Hot Places Section */}
       <Section
         title="过往计划"
-        cards={hotPlacesData}
+        cards={recentPlanCards.length > 0 ? recentPlanCards : hotPlacesData}
         backgroundColor="white"
+        cardComponent={PlanCard}
       />
 
       {/* Family Friendly Hotels Section */}

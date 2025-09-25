@@ -7,14 +7,14 @@ import { FaSun, FaCloudSun, FaMoon, FaBed, FaBus } from 'react-icons/fa';
 
 const { Title, Text } = Typography;
 
-const DayDetails = ({ dayData, tripId, onRegenerateSuccess }) => {
+
+const DayDetails = ({ dayData, tripId, onRegenerateSuccess, showEdit }) => {
   return (
     <div className="day-details-modern">
       <div style={{ paddingBottom: 20 }}>
         <Title level={4} style={{ marginBottom: 12, color: '#2e7d32' }}>
           {dayData.theme}
         </Title>
-        
         <div className="day-activities">
           <DetailItem
             title="上午"
@@ -23,7 +23,6 @@ const DayDetails = ({ dayData, tripId, onRegenerateSuccess }) => {
             icon={<FaSun />}
             number="1"
           />
-          
           <DetailItem
             title="下午"
             activity={dayData.afternoon}
@@ -31,7 +30,6 @@ const DayDetails = ({ dayData, tripId, onRegenerateSuccess }) => {
             icon={<FaCloudSun />}
             number="2"
           />
-          
           <DetailItem
             title="晚上"
             activity={dayData.evening}
@@ -39,7 +37,6 @@ const DayDetails = ({ dayData, tripId, onRegenerateSuccess }) => {
             icon={<FaMoon />}
             number="3"
           />
-          
           <DetailItem
             title="住宿"
             description={dayData.accommodation?.name}
@@ -48,7 +45,6 @@ const DayDetails = ({ dayData, tripId, onRegenerateSuccess }) => {
             icon={<FaBed />}
             number="4"
           />
-          
           <DetailItem
             title="交通"
             description={dayData.transportation?.details || '地铁+步行'}
@@ -58,19 +54,19 @@ const DayDetails = ({ dayData, tripId, onRegenerateSuccess }) => {
             number="5"
           />
         </div>
-        
         <div className="day-cost-section">
           <Text strong style={{ fontSize: 16, color: '#2e7d32' }}>
             💰 今天费用：¥{dayData.dailyCost}
           </Text>
         </div>
-
-        {/* 添加TagSelector用于重新生成该天行程 */}
-        <TagSelector 
-          dayData={dayData}
-          tripId={tripId}
-          onRegenerateSuccess={onRegenerateSuccess}
-        />
+        {/* 仅在 showEdit 为 true 时显示 TagSelector */}
+        {showEdit && (
+          <TagSelector 
+            dayData={dayData}
+            tripId={tripId}
+            onRegenerateSuccess={onRegenerateSuccess}
+          />
+        )}
       </div>
     </div>
   );

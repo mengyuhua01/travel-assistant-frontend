@@ -6,7 +6,9 @@ import './CustomCard.css';
 
 const { Title } = Typography;
 
-const Section = ({ title, cards, backgroundColor = "white" }) => {
+
+const Section = ({ title, cards, backgroundColor = "white", cardComponent: CardComponent }) => {
+  const CardToRender = CardComponent || CustomCard;
   return (
     <section className="section" style={{ backgroundColor }}>
       <div className="container">
@@ -14,7 +16,7 @@ const Section = ({ title, cards, backgroundColor = "white" }) => {
         <Row gutter={[24, 24]} justify="center">
           {cards.map((card, index) => (
             <Col xs={20} sm={12} lg={6} key={index}>
-              <CustomCard card={card} />
+              <CardToRender card={card} />
             </Col>
           ))}
         </Row>

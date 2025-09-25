@@ -63,6 +63,22 @@ export const getUserTravelPlans = async () => {
 };
 
 /**
+ * 获取用户的所有旅行方案
+ * @returns {Promise<Array>} 返回方案列表
+ */
+export const getRecentTravelPlans = async () => {
+  try {
+    return await request({
+      url: `${TRAVEL_PLAN_API_BASE}/recent`,
+      method: 'GET'
+    });
+  } catch (error) {
+    console.error('获取旅行方案列表失败:', error);
+    throw new Error(error.message || '获取旅行方案列表失败');
+  }
+};
+
+/**
  * 完整更新旅行方案
  * @param {string} planId - 方案ID
  * @param {Object} planData - 完整的方案数据

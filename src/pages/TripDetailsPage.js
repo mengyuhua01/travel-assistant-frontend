@@ -26,9 +26,11 @@ const TripDetailsPage = () => {
   const location = useLocation();
   const [tripData, setTripData] = useState(null);
   const [loading, setLoading] = useState(true);
-  
-  // Check if navigation came from TravelPlanPage
-  const isFromPlanPage = location.state?.from === 'plan';
+
+  // Only show edit plan component if not from 'home'
+  const showEdit = location.state?.from !== 'home';
+
+  const isFromPlanPage = location.state?.from === '/plan';
 
   useEffect(() => {
     const fetchTripData = async () => {
@@ -149,12 +151,13 @@ const TripDetailsPage = () => {
                       key: String(index),
                       label: `第${day.day}天`,
                       children: (
-                        <DayDetails
-                          dayData={day}
-                          tripId={id}
-                          originalTrip={tripData}
-                          onRegenerateSuccess={handleRegenerateSuccess}
-                        />
+                          <DayDetails
+                            dayData={day}
+                            tripId={id}
+                            originalTrip={tripData}
+                            onRegenerateSuccess={showEdit ? handleRegenerateSuccess : undefined}
+                            showEdit={showEdit}
+                          />
                       )
                     };
                   }).filter(Boolean)}
