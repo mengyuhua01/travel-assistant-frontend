@@ -161,7 +161,7 @@ const HomePage = () => {
         title="过往计划"
         cards={recentPlanCards.length > 0 ? recentPlanCards : hotPlacesData}
         backgroundColor="white"
-        pageSize={8}
+        pageSize={4}
         cardComponent={PlanCard}
       />
 
