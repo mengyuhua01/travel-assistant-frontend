@@ -214,16 +214,8 @@ const TravelPlanPage = () => {
             }
 
             message.error(`生成失败：${error.message}`);
-            setCurrentStatusMessage('❌ 生成失败，正在提供备用方案...');
+            setCurrentStatusMessage('生成未成功，您可以稍后再试');
 
-            // 发生错误时显示备用方案
-            const fallbackPlans = generateFallbackPlans(travelData);
-            const updatedPlans = [...plans, ...fallbackPlans];
-            setPlans(updatedPlans);
-
-            // 保存包含备用方案的所有方案到缓存
-            savePlansToCache(updatedPlans, travelData);
-            message.warning('已为您提供备用方案');
         } finally {
             setIsGenerating(false);
             // 延迟重置进度和状态消息，让用户看到完成状态
@@ -274,22 +266,6 @@ const TravelPlanPage = () => {
         }
     };
 
-    /**
-     * 生成备用方案
-     */
-    const generateFallbackPlans = (travelData) => {
-        return [
-            {
-                id: 'fallback-1',
-                title: `${travelData.destination}经典之旅`,
-                duration: `${travelData.travelDays}天${travelData.travelDays - 1}夜`,
-                budget: `¥${travelData.budget}/人`,
-                description: `为您精心规划的${travelData.destination}${travelData.travelDays}日游，包含热门景点和特色体验，让您深度感受当地文化魅力与自然风光。`,
-                image: '🏛️',
-                type: 'classic'
-            }
-        ];
-    };
 
     // 处理表单提交 - 这是生成方案按钮的点击事件
     const handleFormSubmit = (values) => {
