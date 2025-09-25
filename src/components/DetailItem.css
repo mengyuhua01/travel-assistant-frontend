@@ -3,7 +3,7 @@
   align-items: flex-start;
   margin-bottom: 20px;
   padding: 24px;
-  background: linear-gradient(145deg, #ffffff, #f8fdf8);
+  background: white;
   border: 1px solid #c8e6c9;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(76, 175, 80, 0.1);
@@ -27,7 +27,7 @@
 .detail-item-modern:hover {
   box-shadow: 0 8px 25px rgba(76, 175, 80, 0.18);
   transform: translateY(-4px);
-  background: linear-gradient(145deg, #ffffff, #f1f8e9);
+  background: #ffffff !important;
   border-color: #a5d6a7;
 }
 
@@ -42,7 +42,7 @@
   justify-content: center;
   width: 32px;
   height: 32px;
-  background: linear-gradient(135deg, #4caf50, #388e3c);
+  background: #2A6F6B;
   color: white;
   border-radius: 50%;
   font-size: 14px;

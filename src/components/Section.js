@@ -29,7 +29,7 @@ const Section = ({ title, cards, backgroundColor = "white", pageSize, cardCompon
         <Title level={2} className="section-title">{title}</Title>
         <Row gutter={[24, 24]} justify="center">
           {pagedCards.map((card, index) => (
-            <Col xs={24} sm={12} lg={6} key={index}>
+            <Col xs={20} sm={12} lg={6} key={index}>
               <CardToRender card={card} />
             </Col>
           ))}
