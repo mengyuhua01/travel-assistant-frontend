@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Avatar, List, Tag, Typography, Row, Col, Button, Empty } from 'antd';
+import { useState, useEffect } from 'react';
+import { Card, List, Tag, Typography, Row, Col, Button, Empty } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { HistoryOutlined, HeartOutlined } from '@ant-design/icons';
 import { getUserTag } from '../apis/user.js';
@@ -72,10 +72,10 @@ const UserPage = () => {
           <Col xs={24} md={8}>
             <Card className="profile-card" variant="borderless">
               <div className="profile-header">
-                <Avatar size={330} src={user.avatar || 'https://placehold.co/100'} />
+                <img src="/image/user.png" alt="User Logo" className="user-logo" />
               </div>
               <div className="profile-info">
-                  <Title level={4}>{user.username || user.email}</Title>
+                  <Title level={2}>{user.username || user.email}</Title>
                 </div>
             </Card>
           </Col>
@@ -89,7 +89,7 @@ const UserPage = () => {
                   <Button
                     type="primary"
                     icon={<HistoryOutlined />}
-                    style={{ background: 'linear-gradient(135deg, #4caf50, #388e3c)', border: 'none', borderRadius: 8 }}
+                    style={{ background: '#2A6F6B', border: 'none', borderRadius: 8 }}
                   >
                     查看所有行程历史
                   </Button>
@@ -104,10 +104,7 @@ const UserPage = () => {
                   <List
                     dataSource={recentPlans}
                     renderItem={item => (
-                      <List.Item
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => navigate(`/trip/${item.id}`)}
-                      >
+                      <List.Item>
                         <List.Item.Meta
                           title={<Text strong>{item.title || '旅行方案'}</Text>}
                           description={
@@ -118,7 +115,6 @@ const UserPage = () => {
                             </>
                           }
                         />
-                        <Tag color="blue">{item.duration ? `${item.duration}天` : ''}</Tag>
                       </List.Item>
                     )}
                   />
@@ -135,7 +131,7 @@ const UserPage = () => {
                       type="primary"
                       onClick={() => navigate('/plan')}
                       style={{
-                        background: 'linear-gradient(135deg, #4caf50, #388e3c)',
+                        background: '#2A6F6B',
                         border: 'none',
                         borderRadius: 8,
                         height: 40,
@@ -161,7 +157,7 @@ const UserPage = () => {
                     type="primary"
                     icon={<HeartOutlined />}
                     style={{ 
-                      background: 'linear-gradient(135deg, #4caf50, #388e3c)', 
+                      background: '#2A6F6B', 
                       border: 'none', 
                       borderRadius: 8 
                     }}

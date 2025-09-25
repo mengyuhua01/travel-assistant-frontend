@@ -16,6 +16,37 @@
   margin-bottom: 3rem;
 }
 
+.section-paging {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.section-paging-btn {
+  margin: 8px;
+  margin-top: 20px;
+}
+
+.section-paging-info {
+  color: #388e3c;
+  font-weight: 500;
+  margin-top: 10px;
+}
+
+.section-paging {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+
+}
+
+.section-paging-info {
+  color: #388e3c;
+  font-weight: 500;
+  margin: 0 15px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .section {

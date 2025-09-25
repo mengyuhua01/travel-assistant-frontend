@@ -25,7 +25,7 @@ export const getUserTag = async () => {
   return apiClient.get('/user/tags');
 };
 
-
+// 获取推荐内容，基于标签ID列表（可选）
 export const getRecommendations = async (tagIds) => {
   return apiClient.get('/recommendations', { params: { tagIds } });
 };

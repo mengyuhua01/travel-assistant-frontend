@@ -5,7 +5,6 @@ const token = process.env.REACT_APP_COZE_API_TOKEN?.trim();
 const botId = process.env.REACT_APP_COZE_BOT_ID?.trim();
 
 // 调试信息
-console.log("Environment variables check:");
 console.log("Token exists:", !!token);
 console.log("Bot ID:", botId);
 console.log("Bot ID type:", typeof botId);

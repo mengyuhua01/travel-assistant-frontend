@@ -19,6 +19,8 @@
 .hero {
   padding: 3rem 0 5rem 0;
   background: linear-gradient(135deg, #e8f5e9);
+  position: relative;
+  min-height: 350px;
 }
 
 .hero-content {
@@ -29,38 +31,36 @@
   grid-template-columns: 1fr 1fr;
   gap: 3rem;
   align-items: center;
+  position: relative;
+  z-index: 2;
 }
 
 .hero-title {
-  font-size: 3.5rem;
+  font-size: 2.3rem;
   font-weight: 800;
   line-height: 1.1;
   color: #1f2937;
-  margin-bottom: 1.5rem;
 }
 
 .highlight {
+  font-size: 3rem;
   color: #22c55e;
   position: relative;
+  margin-top: 10px;
 }
 
 .hero-subtitle {
-  font-size: 1.25rem;
-  color: #6b7280;
+  font-size: 1rem;
+  color: #939393;
   line-height: 1.6;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
+  margin-top: -2.2rem;
 }
 
 .hero-buttons {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
-}
-
-.hero-image {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .family-illustration {
@@ -119,7 +119,22 @@
   margin-bottom: 3rem;
 }
 
+.big-logo {
+  width: 800px;
+  height: auto;
+  position: absolute;
+  left: 60%;
+  top: 80px;
+  transform: translateX(-50%);
+  z-index: 1;
+  pointer-events: none;
+}
 
+.hero-text {
+  position: relative;
+  z-index: 2; /* Ensure .hero-text is above the logo */
+  margin-top: 38px;
+}
 
 /* CTA Section */
 .cta-section {

@@ -36,7 +36,7 @@ const TripHeader = ({ tripData }) => {
             <div style={{ fontSize: 72, marginBottom: 16 }}>
               🏖️
             </div>
-            <Title level={2} style={{ marginBottom: 8, color: '#2e7d32' }}>
+            <Title level={2} style={{ marginBottom: 8, color: 'black' }}>
               {tripData.title}
             </Title>
             <Space size="large">

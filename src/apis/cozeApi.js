@@ -1,15 +1,22 @@
 import { CozeAPI, COZE_CN_BASE_URL } from '@coze/api';
 
+const token = process.env.REACT_APP_COZE_API_TOKEN;
+const botId = process.env.REACT_APP_COZE_BOT_ID_MAIN;
+const baseURL = COZE_CN_BASE_URL;
 
-const token = process.env.COZE_API_TOKEN || 'pat_XzIMnIxCpTLf5EDE0GpdWcvIfE2KzscjuFdUDRwo1gjfOd7Cu603gtUtOipxHGwm'
+if (!token) {
+  throw new Error("REACT_APP_COZE_API_TOKEN is not set in environment variables.");
+}
 
+if (!botId) {
+  console.warn('REACT_APP_COZE_BOT_ID_MAIN  未设置，某些接口可能需要 bot_id');
+}
 
 const client = new CozeAPI({
-    baseURL: COZE_CN_BASE_URL,
+    baseURL,
     token: token,
     allowPersonalAccessTokenInBrowser: true
 });
-
 
 export const postChatRequest = async (requestData) => {
     return await client.chat.create(requestData);
@@ -44,7 +51,7 @@ export const generateTravelPlan = async (travelData) => {
 请根据以上信息生成详细的旅行方案，包括行程安排、景点推荐、住宿建议等。`;
 
     const requestData = {
-        bot_id: "7552821142114517055",
+        bot_id: botId,
         user_id: "user_" + Date.now(),
         additional_messages: [
             {
@@ -58,4 +65,3 @@ export const generateTravelPlan = async (travelData) => {
 
     return await postChatRequest(requestData);
 };
-export default client;
