@@ -340,7 +340,7 @@ function Login() {
             fontSize: '14px',
             textShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
           }}>
-            © 2024 智能旅行助手. 为您的每一次出行提供贴心服务
+            Togother ©2025 为您的每一次出行提供贴心服务
           </Text>
         </div>
       </div>

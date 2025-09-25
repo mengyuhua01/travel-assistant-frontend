@@ -492,7 +492,7 @@ function Register() {
 
         <div className="text-center mt-8">
           <Text className="text-gray-500 text-sm">
-            © 2024 智能旅行助手. 为您的每一次出行提供贴心服务
+            Togother ©2025 为您的每一次出行提供贴心服务
           </Text>
         </div>
       </div>
