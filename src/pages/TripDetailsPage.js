@@ -30,7 +30,8 @@ const TripDetailsPage = () => {
   // Only show edit plan component if not from 'home'
   const showEdit = location.state?.from !== 'home';
 
-  const isFromPlanPage = location.state?.from === '/plan';
+  const isFromPlanOrHomeOrHistoryPage = location.state?.from === 'plan' || location.state?.from === 'home' || location.state?.from === 'history';
+
 
   useEffect(() => {
     const fetchTripData = async () => {
@@ -63,8 +64,8 @@ const TripDetailsPage = () => {
   }, [id]);
 
   const handleBackClick = () => {
-    // Navigate back to the travel plan page
-    navigate('/plan');
+    // Navigate back to the previous page
+    navigate(-1);
   };
 
   const handleRegenerateSuccess = (updatedDayData, updatedTripData) => {
@@ -120,14 +121,14 @@ const TripDetailsPage = () => {
     <div style={{ background: 'linear-gradient(135deg, #e8f5e9, #f0fff4)', minHeight: '100vh', padding: '24px' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         {/* 返回按钮 - 只在从旅行方案页面跳转时显示 */}
-        {isFromPlanPage && (
+        {isFromPlanOrHomeOrHistoryPage && (
           <Button
             icon={<ArrowLeftOutlined />}
             onClick={handleBackClick}
             style={{ marginBottom: 24, color: '#2e7d32', borderColor: '#81c784' }}
             size="large"
           >
-            返回生成方案頁面
+            返回
           </Button>
         )}
 
