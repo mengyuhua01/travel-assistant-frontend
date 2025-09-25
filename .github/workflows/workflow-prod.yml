@@ -41,35 +41,24 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
 
-      # 6. 验证Railway CLI版本
-      - name: Check Railway CLI Version
-        run: railway version
+      # 6. 查看可用的Railway命令
+      - name: Check Railway CLI commands
+        run: railway --help
 
-      # 7. 列出可用的项目和服务（调试用）
-        # 注意：新版本的Railway CLI可能使用不同的命令
-      - name: List Railway projects and services
-        run: |
-          echo "可用的项目："
-          railway project list
-          echo "当前项目的服务："
-          railway service list
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
-
-      # 8. 链接到Railway项目
+      # 7. 链接到Railway项目
       - name: Link to Railway project
         run: railway link --project "${{ secrets.RAILWAY_PROJECT_ID }}"
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
 
-      # 9. 部署到 Railway 生产环境
-      - name: Deploy to Railway Production
+      # 8. 部署到 Railway 生产环境
+      - name: Deploy to Railway
         run: railway up --service "${{ secrets.RAILWAY_FRONTEND_SERVICE_ID }}"
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
 
-      # 10. 通知部署结果（可选）
+      # 9. 通知部署结果（可选）
       - name: Notify deployment status
         if: always()
         run: |
