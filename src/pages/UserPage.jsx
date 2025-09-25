@@ -89,7 +89,7 @@ const UserPage = () => {
                   <Button
                     type="primary"
                     icon={<HistoryOutlined />}
-                    style={{ background: 'linear-gradient(135deg, #4caf50, #388e3c)', border: 'none', borderRadius: 8 }}
+                    style={{ background: '#2A6F6B', border: 'none', borderRadius: 8 }}
                   >
                     查看所有行程历史
                   </Button>
@@ -135,7 +135,7 @@ const UserPage = () => {
                       type="primary"
                       onClick={() => navigate('/plan')}
                       style={{
-                        background: 'linear-gradient(135deg, #4caf50, #388e3c)',
+                        background: '#2A6F6B',
                         border: 'none',
                         borderRadius: 8,
                         height: 40,
@@ -161,7 +161,7 @@ const UserPage = () => {
                     type="primary"
                     icon={<HeartOutlined />}
                     style={{ 
-                      background: 'linear-gradient(135deg, #4caf50, #388e3c)', 
+                      background: '#2A6F6B', 
                       border: 'none', 
                       borderRadius: 8 
                     }}
