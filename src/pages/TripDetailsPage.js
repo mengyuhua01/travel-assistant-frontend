@@ -30,7 +30,7 @@ const TripDetailsPage = () => {
   // Only show edit plan component if not from 'home'
   const showEdit = location.state?.from !== 'home';
 
-  const isFromPlanPage = location.state?.from === '/plan';
+  const isFromPlanPage = location.state?.from === 'plan';
 
   useEffect(() => {
     const fetchTripData = async () => {
