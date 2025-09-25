@@ -45,12 +45,6 @@ jobs:
       - name: Check Railway CLI commands
         run: railway --help
 
-      # 7. 链接到Railway项目
-      - name: Link to Railway project
-        run: railway link --project "${{ secrets.RAILWAY_PROJECT_ID }}"
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-
       # 8. 部署到 Railway 生产环境
       - name: Deploy to Railway
         run: railway up --service "${{ secrets.RAILWAY_FRONTEND_SERVICE_ID }}"
