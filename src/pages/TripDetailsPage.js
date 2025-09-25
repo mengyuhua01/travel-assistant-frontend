@@ -128,7 +128,7 @@ const TripDetailsPage = () => {
             style={{ marginBottom: 24, color: '#2e7d32', borderColor: '#81c784' }}
             size="large"
           >
-            返回生成方案頁面
+            返回
           </Button>
         )}
 
