@@ -44,6 +44,10 @@ const router = createBrowserRouter([
         path: '/register',
         element: <Register/>
     },
+    {
+        path: 'trip/:id',  // 访问路径：/trip/123
+        element: <TripDetailsPage />
+    },
 
     // 受保护的页面（需要登录）- 根路径作为应用入口
     {
@@ -61,10 +65,6 @@ const router = createBrowserRouter([
             //   path: 'trip/:id',  // 访问路径：/trip/123
             //   element: <TripDetailsPage />
             // }
-            {
-              path: 'trip/:id',  // 访问路径：/trip/123
-              element: <TripDetailsPage />
-            },
             {
                 path: 'plan', 
                 element: <TravelPlanPage/>
