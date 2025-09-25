@@ -12,8 +12,7 @@ const Navigation = () => {
       <div className="nav-container">
         <div className="nav-brand">
           <Link to="/" className="brand-link">
-            <span className="brand-icon">✈️</span>
-            Togother
+            <img src="/image/logo-removebg.png" alt="Travel Assistant Logo" className="brand-logo" />
           </Link>
         </div>
 

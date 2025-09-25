@@ -40,6 +40,14 @@
   margin-top: 1rem;
 }
 
+.feature-icon {
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 8px auto;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .section-card {

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Avatar, List, Tag, Typography, Row, Col, Button, Empty } from 'antd';
+import { useState, useEffect } from 'react';
+import { Card, List, Tag, Typography, Row, Col, Button, Empty } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { HistoryOutlined, HeartOutlined } from '@ant-design/icons';
 import { getUserTag } from '../apis/user.js';
@@ -72,10 +72,10 @@ const UserPage = () => {
           <Col xs={24} md={8}>
             <Card className="profile-card" variant="borderless">
               <div className="profile-header">
-                <Avatar size={330} src={user.avatar || 'https://placehold.co/100'} />
+                <img src="/image/user.png" alt="User Logo" className="user-logo" />
               </div>
               <div className="profile-info">
-                  <Title level={4}>{user.username || user.email}</Title>
+                  <Title level={2}>{user.username || user.email}</Title>
                 </div>
             </Card>
           </Col>

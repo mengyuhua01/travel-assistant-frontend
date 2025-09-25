@@ -67,8 +67,9 @@ const HomePage = () => {
       const recommendedData = await getRecommendations();
               setRecommendations(recommendedData);
               console.log('Fetched Recommendations:', recommendedData);
-
-    };
+            };
+            
+      
 
     fetchAndSetRecommendations();
   }, [isAuthenticated]);
@@ -76,25 +77,25 @@ const HomePage = () => {
   // Features data
   const featuresData = [
     {
-    icon: '🗓️',
-    title: 'AI智能行程规划',
-    description: '由AI驱动，能深度理解您的偏好与需求，一键生成完全个人化的专属行程。',
-  },
-  {
-    icon: '👶',
-    title: '弹性动态行程调整',
-    description: '旅途中最懂应变，可随时根据突发状况，实时推荐替代方案。',
-  },
-  {
-    icon: '💰',
-    title: '直观化预算管理',
-    description: ' 以清晰图表实时追踪与预测花费，让您对整体支出一目了然，轻松掌控旅游预算。',
-  },
-  {
-    icon: '📱',
-    title: '个人化旅游动态推送',
-    description: ' 在主页主动提供您可能感兴趣的当地活动与秘境景点，让惊喜不间断。',
-  }
+      icon: <img src="/image/task.png" alt="Task Icon" className="feature-icon" />,
+      title: 'AI智能行程规划',
+      description: '由AI驱动，能深度理解您的偏好与需求，一键生成完全个人化的专属行程。',
+    },
+    {
+      icon: <img src="/image/mother.png" alt="Mother Icon" className="feature-icon" />,
+      title: '弹性动态行程调整',
+      description: '旅途中最懂应变，可随时根据突发状况，实时推荐替代方案。',
+    },
+    {
+      icon: <img src="/image/meeting.png" alt="Meeting Icon" className="feature-icon" />,
+      title: '直观化预算管理',
+      description: ' 以清晰图表实时追踪与预测花费，让您对整体支出一目了然，轻松掌控旅游预算。',
+    },
+    {
+      icon: <img src="/image/tools.png" alt="Tools Icon" className="feature-icon" />,
+      title: '个人化旅游动态推送',
+      description: ' 在主页主动提供您可能感兴趣的当地活动与秘境景点，让惊喜不间断。',
+    }
   ];
 
   return (
@@ -119,9 +120,9 @@ const HomePage = () => {
                   开始规划
                 </Button>
               </Link>
-              <Button size="large" className="cta-secondary">
+              {/* <Button size="large" className="cta-secondary">
                 观看演示
-              </Button>
+              </Button> */}
             </div>
             <Modal
         title="请先登录"
@@ -132,21 +133,12 @@ const HomePage = () => {
         您需要登录哦，马上开始规划您的旅行吧！
       </Modal>
           </div>
-          <div className="hero-image">
-            <div className="family-illustration"></div>
-            <span className="family-emoji">👨‍👩‍👧‍👦</span>
-            <div className="travel-icons">
-              <span>✈️</span>
-              <span>🏖️</span>
-              <span>🎪</span>
-              <span>🚗</span>
-            </div>
-          </div>
         </div>
+        <img src="/image/together_clean_white.svg" alt="Big Logo" className="big-logo" />
       </section>
 
       {/* Features Section */}
-      <Section title="揭秘：大家为啥都超爱我们的行程规划？" cards={featuresData} />
+      <Section title="为啥大家都超爱我们的行程规划？" cards={featuresData} />
 
       {/* Recommendations Section with Pagination */}
       <Section
