@@ -275,10 +275,32 @@ const TravelPlanPage = () => {
         }
     };
 
+    // 提取第一个完整的顶层JSON字符串（括号计数法）
+    function extractFirstJsonObject(str) {
+        const start = str.indexOf('{');
+        if (start === -1) return null;
+        let level = 0;
+        let end = -1;
+        for (let i = start; i < str.length; i++) {
+            if (str[i] === '{') level++;
+            if (str[i] === '}') level--;
+            if (level === 0) {
+                end = i;
+                break;
+            }
+        }
+        if (end === -1) return null;
+        return str.slice(start, end + 1);
+    }
+
     /**
      * 解析AI消息列表，转换为前端显示的方案格式
      */
     const parseAIResponseToPlans = async (messageList) => {
+        const aiMessage = messageList.find(msg => msg.type === 'answer');
+        const jsonString = extractFirstJsonObject(aiMessage.content);
+        // const jsonString = aiMessage.content.substring(aiMessage.content.indexOf('{'));
+        const aiContent = JSON.parse(jsonString);
         try {
 
             const aiMessage = messageList.find(msg => msg.type === 'answer');
