@@ -7,7 +7,7 @@ const CustomCard = ({ card }) => {
   const CardContent = () => (
     <>
       {card.icon && <div className="card-icon">{card.icon}</div>}
-      {card.image && <img src={card.imageUrl} alt={card.name} className="card-image" />}
+      {card.imageUrl && <img src={card.imageUrl} alt={card.name} className="card-image" />}
       <Title level={4} className="card-name">{card.name}</Title>
       <Paragraph>{card.description}</Paragraph>
       {card.author && <div className="author">{card.author}</div>}
