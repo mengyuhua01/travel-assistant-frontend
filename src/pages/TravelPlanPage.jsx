@@ -297,14 +297,11 @@ const TravelPlanPage = () => {
      * 解析AI消息列表，转换为前端显示的方案格式
      */
     const parseAIResponseToPlans = async (messageList) => {
-        const aiMessage = messageList.find(msg => msg.type === 'answer');
-        const jsonString = extractFirstJsonObject(aiMessage.content);
-        // const jsonString = aiMessage.content.substring(aiMessage.content.indexOf('{'));
-        const aiContent = JSON.parse(jsonString);
         try {
 
             const aiMessage = messageList.find(msg => msg.type === 'answer');
-            const jsonString = aiMessage.content.substring(aiMessage.content.indexOf('{'));
+            const jsonString = extractFirstJsonObject(aiMessage.content);
+            // const jsonString = aiMessage.content.substring(aiMessage.content.indexOf('{'));
             const aiContent = JSON.parse(jsonString);
 
             try {
