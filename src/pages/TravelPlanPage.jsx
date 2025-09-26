@@ -21,28 +21,65 @@ const TravelPlanPage = () => {
     const [formData, setFormData] = useState(null);
     const [currentStatusMessage, setCurrentStatusMessage] = useState('');
 
-    // SessionStorage键名
-    const STORAGE_KEY = 'travel_plans_session';
+    // 获取当前用户信息，用于创建用户专属的缓存键
+    const getCurrentUser = () => {
+        try {
+            const userDataString = localStorage.getItem('user');
+            if (userDataString) {
+                const userData = JSON.parse(userDataString);
+                return userData.id || userData.email || userData.username || 'anonymous';
+            }
+        } catch (error) {
+            console.error('获取用户信息失败:', error);
+        }
+        return 'anonymous';
+    };
 
-    // 保存方案到SessionStorage
+    // 生成用户专属的SessionStorage键名
+    const getStorageKey = () => {
+        const userId = getCurrentUser();
+        return `travel_plans_session_${userId}`;
+    };
+
+    // 保存方案到localStorage
     const savePlansToCache = (plansData, formValues) => {
         try {
             const cacheData = {
                 plans: plansData,
-                formData: formValues
+                formData: formValues,
+                timestamp: Date.now(), // 添加时间戳，方便后续清理过期缓存
+                userId: getCurrentUser() // 添加用户ID验证
             };
-            sessionStorage.setItem(STORAGE_KEY, JSON.stringify(cacheData));
+            localStorage.setItem(getStorageKey(), JSON.stringify(cacheData));
         } catch (error) {
             console.error('保存方案缓存失败:', error);
         }
     };
 
-    // 从SessionStorage加载方案
+    // 从localStorage加载方案
     const loadPlansFromCache = () => {
         try {
-            const cached = sessionStorage.getItem(STORAGE_KEY);
+            const cached = localStorage.getItem(getStorageKey());
             if (!cached) return null;
-            return JSON.parse(cached);
+
+            const cacheData = JSON.parse(cached);
+
+            // 验证缓存是否属于当前用户
+            if (cacheData.userId && cacheData.userId !== getCurrentUser()) {
+                console.warn('缓存用户不匹配，清除缓存');
+                localStorage.removeItem(getStorageKey());
+                return null;
+            }
+
+            // 检查缓存是否过期（可选：设置24小时过期）
+            const isExpired = Date.now() - cacheData.timestamp > 24 * 60 * 60 * 1000; // 24小时
+            if (isExpired) {
+                console.warn('缓存已过期，清除缓存');
+                localStorage.removeItem(getStorageKey());
+                return null;
+            }
+
+            return cacheData;
         } catch (error) {
             console.error('加载方案缓存失败:', error);
             return null;
@@ -52,7 +89,7 @@ const TravelPlanPage = () => {
     // 清除方案缓存
     const clearPlansCache = () => {
         try {
-            sessionStorage.removeItem(STORAGE_KEY);
+            localStorage.removeItem(getStorageKey());
         } catch (error) {
             console.error('清除方案缓存失败:', error);
         }
@@ -213,8 +250,20 @@ const TravelPlanPage = () => {
                 clearInterval(progressUpdater);
             }
 
-            message.error(`生成失败：${error.message}`);
-            setCurrentStatusMessage('生成未成功，您可以稍后再试');
+            console.error('AI方案生成失败:', error); // 添加调试日志
+
+            // 设置错误状态消息
+            setCurrentStatusMessage('💭 生成未成功，您可以稍后再试');
+
+            // 立即显示错误消息，不使用延迟
+            message.error({
+                content: `生成失败，请稍后重试`,
+                duration: 5, // 增加显示时间到5秒
+                style: {
+                    marginTop: '50px',
+                    zIndex: 9999,
+                }
+            });
 
         } finally {
             setIsGenerating(false);
@@ -222,7 +271,7 @@ const TravelPlanPage = () => {
             setTimeout(() => {
                 setProgress(0);
                 setCurrentStatusMessage('');
-            }, 1000);
+            }, 2000); // 增加重置时间到2秒
         }
     };
 
@@ -230,39 +279,46 @@ const TravelPlanPage = () => {
      * 解析AI消息列表，转换为前端显示的方案格式
      */
     const parseAIResponseToPlans = async (messageList) => {
-        const aiMessage = messageList.find(msg => msg.type === 'answer');
-        const jsonString = aiMessage.content.substring(aiMessage.content.indexOf('{'));
-        const aiContent = JSON.parse(jsonString);
-
         try {
-            const insertResult = await insertTravelPlan(aiContent);
-            const planId = insertResult.data?.id || insertResult.id;
-            return [
-                {
-                    id: planId, // 使用数据库返回的真实ID
-                    title: aiContent.title || '定制旅行方案',
-                    duration: `${aiContent.duration || 3}天`, // 前端显示时添加"天"字
-                    budget: `¥${aiContent.totalBudget || 2000}`,
-                    description: aiContent.overview || '为您定制的专属旅行方案',
-                    image: '🤖',
-                    type: 'ai-generated',
-                    dailyPlan: aiContent.dailyPlan || []
-                }
-            ];
-        } catch (error) {
-            console.error('插入旅行方案到数据库失败:', error);
-            return [
-                {
-                    id: 'ai-generated-temp-' + Date.now(),
-                    title: aiContent.title || '定制旅行方案',
-                    duration: `${aiContent.duration || 3}天`, // 前端显示时添加"天"字
-                    budget: `¥${aiContent.totalBudget || 2000}`,
-                    description: aiContent.overview || '为您定制的专属旅行方案',
-                    image: '🤖',
-                    type: 'ai-generated',
-                    dailyPlan: aiContent.dailyPlan || []
-                }
-            ];
+
+            const aiMessage = messageList.find(msg => msg.type === 'answer');
+            const jsonString = aiMessage.content.substring(aiMessage.content.indexOf('{'));
+            const aiContent = JSON.parse(jsonString);
+
+            try {
+                const insertResult = await insertTravelPlan(aiContent);
+                const planId = insertResult.data?.id || insertResult.id;
+                return [
+                    {
+                        id: planId, // 使用数据库返回的真实ID
+                        title: aiContent.title || '定制旅行方案',
+                        duration: `${aiContent.duration || 3}天`, // 前端显示时添加"天"字
+                        budget: `¥${aiContent.totalBudget || 2000}`,
+                        description: aiContent.overview || '为您定制的专属旅行方案',
+                        image: '🤖',
+                        type: 'ai-generated',
+                        dailyPlan: aiContent.dailyPlan || []
+                    }
+                ];
+            } catch (dbError) {
+                console.error('插入旅行方案到数据库失败:', dbError);
+                return [
+                    {
+                        id: 'ai-generated-temp-' + Date.now(),
+                        title: aiContent.title || '定制旅行方案',
+                        duration: `${aiContent.duration || 3}天`, // 前端显示时添加"天"字
+                        budget: `¥${aiContent.totalBudget || 2000}`,
+                        description: aiContent.overview || '为您定制的专属旅行方案',
+                        image: '🤖',
+                        type: 'ai-generated',
+                        dailyPlan: aiContent.dailyPlan || []
+                    }
+                ];
+            }
+        } catch (parseError) {
+            console.error('解析AI回复失败:', parseError);
+            // 重新抛出错误，让外层catch捕获
+            throw new Error(`AI方案解析失败: ${parseError.message}`);
         }
     };
 
@@ -338,7 +394,7 @@ const TravelPlanPage = () => {
                                                 objectFit: 'contain'
                                             }}
                                             onError={(e) => {
-                                                // 如果图片加载失败，显示默认emoji
+                                                // 如果图��加载失败，显示默认emoji
                                                 e.target.style.display = 'none';
                                                 e.target.nextSibling.style.display = 'block';
                                             }}
